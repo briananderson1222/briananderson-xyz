@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { --ba-accent: 34 197 94; }
+
+.ba-gradient {
+  background: radial-gradient(1200px 600px at 20% -10%, rgba(16,185,129,0.25), transparent 60%),
+              radial-gradient(1000px 500px at 120% 10%, rgba(59,130,246,0.25), transparent 60%);
+}
+.prose pre { overflow: auto; }
