@@ -9,7 +9,7 @@ resource "google_artifact_registry_repository" "containers" {
 resource "google_storage_bucket" "site" {
   name          = var.bucket_name
   location      = "US"
-  force_destroy = true
+  force_destroy = false
 
   website {
     main_page_suffix = "index.html"
@@ -28,8 +28,8 @@ resource "google_storage_bucket" "site" {
 
 # Public read for objects (so CDN can cache)
 resource "google_storage_bucket_iam_binding" "public_read" {
-  bucket = google_storage_bucket.site.name
-  role   = "roles/storage.objectViewer"
+  bucket  = google_storage_bucket.site.name
+  role    = "roles/storage.objectViewer"
   members = ["allUsers"]
 }
 
@@ -48,7 +48,10 @@ resource "google_cloud_run_v2_service" "auth_proxy" {
     service_account = google_service_account.auth_proxy.email
     containers {
       image = length(var.auth_proxy_image) > 0 ? var.auth_proxy_image : "us-docker.pkg.dev/cloudrun/container/hello"
-      env { name = "BASE_URL", value = "https://${var.auth_proxy_domain}" }
+      env {
+        name  = "BASE_URL"
+        value = "https://${var.auth_proxy_domain}"
+      }
       # Set GITHUB_CLIENT_ID / GITHUB_CLIENT_SECRET via console or secret manager (managed outside TF)
     }
   }
@@ -76,11 +79,14 @@ resource "google_iam_workload_identity_pool_provider" "provider" {
   display_name                       = "GitHub OIDC Provider"
 
   attribute_mapping = {
-    "google.subject"         = "assertion.sub"
-    "attribute.repository"   = "assertion.repository"
-    "attribute.ref"          = "assertion.ref"
-    "attribute.actor"        = "assertion.actor"
+    "google.subject"       = "assertion.sub"
+    "attribute.repository" = "assertion.repository"
+    "attribute.ref"        = "assertion.ref"
+    "attribute.actor"      = "assertion.actor"
   }
+
+  # Limit which GitHub repo/branch can assume this identity
+  attribute_condition = "attribute.repository == \"${var.github_org}/${var.github_repo}\" && attribute.ref == \"refs/heads/${var.github_branch}\""
 
   oidc { issuer_uri = "https://token.actions.githubusercontent.com" }
 }
@@ -116,8 +122,8 @@ resource "google_project_iam_member" "ci_artifact_writer" {
   member  = "serviceAccount:${google_service_account.github_ci.email}"
 }
 
-output "wif_pool_name"      { value = google_iam_workload_identity_pool.pool.name }
-output "wif_provider_name"  { value = google_iam_workload_identity_pool_provider.provider.name }
+output "wif_pool_name" { value = google_iam_workload_identity_pool.pool.name }
+output "wif_provider_name" { value = google_iam_workload_identity_pool_provider.provider.name }
 output "ci_service_account" { value = google_service_account.github_ci.email }
-output "auth_proxy_url"     { value = google_cloud_run_v2_service.auth_proxy.uri }
-output "site_bucket"        { value = google_storage_bucket.site.url }
+output "auth_proxy_url" { value = google_cloud_run_v2_service.auth_proxy.uri }
+output "site_bucket" { value = google_storage_bucket.site.url }
