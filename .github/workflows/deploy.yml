@@ -4,6 +4,11 @@ on:
   push:
     branches: [ "main" ]
 
+permissions:
+    contents: read
+    id-token: write
+environment: prod
+
 jobs:
   build-site:
     runs-on: ubuntu-latest
