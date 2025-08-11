@@ -49,4 +49,4 @@ jobs:
       - name: Terraform Apply
         working-directory: infra/terraform
         run: |
-          terraform apply -auto-approve             -var="auth_proxy_image=${{ env.IMAGE }}"
+          terraform apply -auto-approve -var="region=${{ secrets.GCP_REGION }}"          -var="auth_proxy_image=${{ env.IMAGE }}"
