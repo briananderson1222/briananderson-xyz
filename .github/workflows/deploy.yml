@@ -24,12 +24,15 @@ jobs:
       - name: Build
         working-directory: site
         run: pnpm build
+      - name: Authenticate to Google Cloud (WIF)
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WIF_PROVIDER }}
+          service_account: ${{ secrets.GCP_WIF_SA_EMAIL }}
+
       - name: Setup gcloud
         uses: google-github-actions/setup-gcloud@v2
-        with:
-          project_id: ${{ secrets.GCP_PROJECT_ID }}
-          service_account_key: ${{ secrets.GCP_SA_KEY }}
-          export_default_credentials: true
+
       - name: Upload to GCS
         run: |
           gsutil -m rsync -r site/build gs://${{ secrets.GCS_BUCKET }}
