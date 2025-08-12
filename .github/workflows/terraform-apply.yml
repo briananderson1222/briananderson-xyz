@@ -7,11 +7,11 @@ on:
 permissions:
   id-token: write
   contents: read
-environment: prod
 
 jobs:
   apply:
     runs-on: ubuntu-latest
+    environment: prod
     env:
       TF_IN_AUTOMATION: "true"
     steps:
