@@ -4,14 +4,13 @@ on:
   push:
     branches: [ "main" ]
 
-permissions:
-    contents: read
-    id-token: write
-environment: prod
-
 jobs:
   build-site:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    environment: prod
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -46,6 +45,10 @@ jobs:
 
   deploy-auth-proxy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    environment: prod
     needs: build-site
     steps:
       - uses: actions/checkout@v4
