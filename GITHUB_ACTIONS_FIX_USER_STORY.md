@@ -10,6 +10,7 @@ The repository contains three GitHub Actions workflow files that had several for
 - Long, unreadable single-line commands
 - Inconsistent formatting across similar commands
 - A critical syntax error in variable references
+- CI pipeline failures when running on forks due to missing secrets
 
 ## Acceptance Criteria
 
@@ -17,6 +18,11 @@ The repository contains three GitHub Actions workflow files that had several for
 - **RESOLVED**: Fixed missing `$` prefix in `terraform-apply.yml` line 53
 - **Before**: `{{ secrets.GCP_PROJECT_ID }}`
 - **After**: `${{ secrets.GCP_PROJECT_ID }}`
+
+### ✅ Fixed Fork CI Pipeline Issues
+- **RESOLVED**: Added conditional checks to prevent authentication steps from running on forks
+- **Added**: `if: github.event.pull_request.head.repo.full_name == github.repository` to steps requiring secrets
+- **Modified**: `terraform validate` to use `-backend=false` for fork compatibility
 
 ### ✅ Improved Command Readability
 - **deploy.yml**: Reformatted 200+ character `gcloud run deploy` command into readable multi-line format
@@ -45,13 +51,16 @@ The repository contains three GitHub Actions workflow files that had several for
    - Fixed critical syntax error and terraform apply formatting (lines 52-58)
 
 3. **`.github/workflows/terraform-pr.yml`**
-   - Fixed terraform init command formatting (lines 31-36)
-   - Fixed terraform plan command formatting (lines 46-57)
+   - Added fork protection with conditional checks
+   - Fixed terraform init command formatting (lines 32-38)
+   - Fixed terraform plan command formatting (lines 48-60)
+   - Modified terraform validate to work without backend (line 46)
 
 ### Benefits Achieved
 - **Maintainability**: Commands are now easy to read and modify
 - **Consistency**: Similar operations follow identical formatting patterns
 - **Reliability**: Fixed syntax error prevents workflow execution failures
+- **Fork Compatibility**: CI pipeline now works correctly for external contributors
 - **Developer Experience**: Improved code review and debugging capabilities
 
 ## Definition of Done
@@ -60,7 +69,8 @@ The repository contains three GitHub Actions workflow files that had several for
 - [x] Long single-line commands are broken into readable multi-line format
 - [x] Consistent formatting applied across all three workflow files
 - [x] All existing functionality and parameters preserved
+- [x] Fork CI pipeline failures resolved with conditional checks
 - [x] Documentation created explaining the changes made
 
 ## Impact
-This fix ensures that the CI/CD pipelines for site deployment, auth-proxy deployment, and Terraform infrastructure management will execute reliably while being much easier for developers to maintain and modify in the future.
+This fix ensures that the CI/CD pipelines for site deployment, auth-proxy deployment, and Terraform infrastructure management will execute reliably while being much easier for developers to maintain and modify in the future. External contributors can now submit PRs without encountering authentication failures in the CI pipeline.
