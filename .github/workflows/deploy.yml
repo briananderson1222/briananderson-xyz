@@ -62,4 +62,9 @@ jobs:
           gcloud builds submit auth-proxy --tag gcr.io/${{ secrets.GCP_PROJECT_ID }}/decap-auth-proxy:latest
       - name: Deploy to Cloud Run
         run: |
-          gcloud run deploy decap-auth-proxy             --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/decap-auth-proxy:latest             --region ${{ secrets.GCP_REGION }}             --platform managed             --allow-unauthenticated             --update-env-vars GITHUB_CLIENT_ID=${{ secrets.GITHUB_CLIENT_ID }},GITHUB_CLIENT_SECRET=${{ secrets.GITHUB_CLIENT_SECRET }},BASE_URL=${{ secrets.AUTH_PROXY_BASE_URL }}
+          gcloud run deploy decap-auth-proxy \
+            --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/decap-auth-proxy:latest \
+            --region ${{ secrets.GCP_REGION }} \
+            --platform managed \
+            --allow-unauthenticated \
+            --update-env-vars GITHUB_CLIENT_ID=${{ secrets.GITHUB_CLIENT_ID }},GITHUB_CLIENT_SECRET=${{ secrets.GITHUB_CLIENT_SECRET }},BASE_URL=${{ secrets.AUTH_PROXY_BASE_URL }}
