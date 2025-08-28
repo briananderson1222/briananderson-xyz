@@ -31,7 +31,9 @@ jobs:
       - name: Terraform Init (GCS backend)
         working-directory: infra/terraform
         run: |
-          terraform init             -backend-config="bucket=${{ secrets.TF_STATE_BUCKET }}"             -backend-config="prefix=gcp/infra"
+          terraform init \
+            -backend-config="bucket=${{ secrets.TF_STATE_BUCKET }}" \
+            -backend-config="prefix=gcp/infra"
 
       - name: Terraform Format
         working-directory: infra/terraform
@@ -45,7 +47,14 @@ jobs:
         id: plan
         working-directory: infra/terraform
         run: |
-          terraform plan             -var="project_id=${{ secrets.GCP_PROJECT_ID }}"             -var="region=${{ secrets.GCP_REGION }}"             -var="github_org=${{ secrets.GH_ORG }}"             -var="github_repo=${{ secrets.GH_REPO }}"             -var="bucket_name=${{ secrets.SITE_BUCKET_NAME }}"             -var="auth_proxy_domain=${{ secrets.AUTH_PROXY_DOMAIN }}"             -out=tfplan.out
+          terraform plan \
+            -var="project_id=${{ secrets.GCP_PROJECT_ID }}" \
+            -var="region=${{ secrets.GCP_REGION }}" \
+            -var="github_org=${{ secrets.GH_ORG }}" \
+            -var="github_repo=${{ secrets.GH_REPO }}" \
+            -var="bucket_name=${{ secrets.SITE_BUCKET_NAME }}" \
+            -var="auth_proxy_domain=${{ secrets.AUTH_PROXY_DOMAIN }}" \
+            -out=tfplan.out
       - name: Show Plan
         working-directory: infra/terraform
         run: terraform show -no-color tfplan.out
