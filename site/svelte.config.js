@@ -22,6 +22,7 @@ const config = {
     // Crawl all pages, but ignore 404s for the Decap CMS admin which is served from static/admin/
     prerender: {
       entries: ['*'],
+      handleMissingId: 'warn',
       handleHttpError: ({ path }) => {
         if (path === '/admin/' || path === '/admin') return;
       }

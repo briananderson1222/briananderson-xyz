@@ -2,10 +2,63 @@
 @tailwind components;
 @tailwind utilities;
 
-:root { --ba-accent: 34 197 94; }
+:root {
+  --ba-accent: 74 246 38; /* Terminal Green RGB */
+}
+
+/* Custom Selection Color */
+::selection {
+  background-color: rgba(74, 246, 38, 0.3);
+  color: #ffffff;
+}
+
+body {
+  @apply bg-zinc-50 text-zinc-900 dark:bg-black dark:text-gray-300;
+}
+
+/* Terminal Scanline Effect */
+.scanlines {
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 0) 50%,
+    rgba(0, 0, 0, 0.1) 50%,
+    rgba(0, 0, 0, 0.1)
+  );
+  background-size: 100% 4px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 50;
+  opacity: 0.15;
+}
+
+/* Subtle CRT Flicker (Optional, keep subtle) */
+@keyframes flicker {
+  0% { opacity: 0.97; }
+  5% { opacity: 0.95; }
+  10% { opacity: 0.9; }
+  15% { opacity: 0.95; }
+  20% { opacity: 0.99; }
+  50% { opacity: 0.95; }
+  80% { opacity: 0.9; }
+  100% { opacity: 0.97; }
+}
+
+.crt-flicker {
+  animation: flicker 0.15s infinite;
+}
 
 .ba-gradient {
-  background: radial-gradient(1200px 600px at 20% -10%, rgba(16,185,129,0.25), transparent 60%),
-              radial-gradient(1000px 500px at 120% 10%, rgba(59,130,246,0.25), transparent 60%);
+  /* Muted background for day mode, deep black for night */
 }
-.prose pre { overflow: auto; }
+
+/* Typography Overrides */
+h1, h2, h3, h4, h5, h6 {
+  @apply font-mono tracking-tight;
+}
+
+.prose pre { overflow: auto; border: 1px solid #333; }

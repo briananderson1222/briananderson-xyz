@@ -1,11 +1,16 @@
-<footer class="border-t bg-white/60 dark:bg-zinc-900/60 border-zinc-200 dark:border-zinc-800">
-  <div class="mx-auto max-w-6xl px-4 py-8 text-sm text-gray-600 dark:text-gray-300 flex flex-col md:flex-row items-center justify-between gap-4">
-    <p>© {new Date().getFullYear()} Brian Anderson</p>
+<footer class="border-t border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-black mt-auto font-mono text-xs">
+  <div class="mx-auto max-w-6xl px-4 py-4 flex flex-col md:flex-row items-center justify-between gap-4 text-zinc-500 dark:text-zinc-500">
+    <div class="flex items-center gap-2">
+      <span class="text-terminal-green">●</span>
+      <span>SYSTEM: ONLINE</span>
+      <span class="mx-2">|</span>
+      <span>v1.0.0</span>
+    </div>
+    
     <div class="flex gap-4">
-      <a href="mailto:hello@briananderson.xyz" class="hover:text-emerald-600">Email</a>
-      <a href="https://www.linkedin.com/in/briandanderson" class="hover:text-emerald-600" target="_blank" rel="noreferrer">LinkedIn</a>
-      <a href="https://github.com/" class="hover:text-emerald-600" target="_blank" rel="noreferrer">GitHub</a>
-      <a href="/rss.xml" class="hover:text-emerald-600">RSS</a>
+      <a href="https://github.com/briandanderson" target="_blank" rel="noreferrer" class="hover:text-terminal-green transition-colors">[ github ]</a>
+      <a href="https://linkedin.com/in/briandanderson" target="_blank" rel="noreferrer" class="hover:text-terminal-green transition-colors">[ linkedin ]</a>
+      <a href="mailto:brian@briananderson.xyz" class="hover:text-terminal-green transition-colors">[ email ]</a>
     </div>
   </div>
 </footer>

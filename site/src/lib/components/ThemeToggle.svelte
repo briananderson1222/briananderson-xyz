@@ -11,6 +11,6 @@
     localStorage.setItem('theme', dark ? 'dark' : 'light');
   }
 </script>
-<button class="p-2 rounded-xl border hover:bg-gray-50 dark:hover:bg-gray-800" on:click={toggle} aria-label="Toggle theme">
+<button class="p-2 hover:text-terminal-green transition-colors" on:click={toggle} aria-label="Toggle theme">
   {#if dark}<Sun size={18} />{:else}<Moon size={18} />{/if}
 </button>
