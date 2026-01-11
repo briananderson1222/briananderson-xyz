@@ -8,8 +8,8 @@
     </div>
     
     <div class="flex gap-4">
-      <a href="https://github.com/briandanderson" target="_blank" rel="noreferrer" class="hover:text-terminal-green transition-colors">[ github ]</a>
-      <a href="https://linkedin.com/in/briandanderson" target="_blank" rel="noreferrer" class="hover:text-terminal-green transition-colors">[ linkedin ]</a>
+      <a href="https://github.com/briananderson1222" target="_blank" rel="noreferrer" class="hover:text-terminal-green transition-colors">[ github ]</a>
+      <a href="https://www.linkedin.com/in/brian--anderson/" target="_blank" rel="noreferrer" class="hover:text-terminal-green transition-colors">[ linkedin ]</a>
       <a href="mailto:brian@briananderson.xyz" class="hover:text-terminal-green transition-colors">[ email ]</a>
     </div>
   </div>
