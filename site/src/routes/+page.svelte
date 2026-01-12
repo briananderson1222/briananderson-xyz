@@ -3,41 +3,11 @@
   import Badge from '$lib/components/ui/badge.svelte';
   import { onMount } from 'svelte';
 
+  export let data;
+  const { resume } = data;
+
   let mounted = false;
   onMount(() => mounted = true);
-
-  const skills = [
-    "AWS", "Google Cloud", "Kubernetes", "Terraform",
-    "GenAI (Bedrock/Agentcore)", "Python", "Java (Spring Boot)", 
-    "Node.js/TypeScript", "Postgres", "Kafka", "CI/CD (GitHub/GitLab)"
-  ];
-
-  const experience = [
-    {
-      role: "Enterprise Solutions Architect",
-      company: "Amazon Web Services",
-      period: "Sept 2024 - Present",
-      desc: "Specializing in GenAI integration, Cloud Native transformation, and Logistics Control Towers."
-    },
-    {
-      role: "Technical Director",
-      company: "Valtech | Kin + Carta",
-      period: "Mar 2024 - Sept 2024",
-      desc: "Led cloud modernization for a mission-critical credit card portfolio to OpenShift."
-    },
-    {
-      role: "Senior Technical Principal",
-      company: "Kin + Carta",
-      period: "Nov 2021 - Mar 2024",
-      desc: "Designed 'Golden Path' for cloud adoption and standardized CI/CD templates."
-    },
-    {
-      role: "Technical Principal",
-      company: "Solstice | Kin + Carta",
-      period: "Jan 2017 - Nov 2021",
-      desc: "Architected high-concurrency ordering platforms on GKE and mobile architecture for agriculture."
-    }
-  ];
 </script>
 
 <section class="py-12 md:py-20 px-4">
@@ -57,15 +27,13 @@
         <div class="flex-1">
           <div class="mb-4 text-emerald-500">$ whoami</div>
           <h1 class="text-2xl md:text-3xl font-bold text-white mb-4 block">
-            Enterprise Solutions Architect & Technical Leader
+            {resume.title}
           </h1>
           <p class="mb-2">
-            > Specializing in GenAI integration, Cloud Native transformation, and DevOps at scale.
+            > {resume.summary.split('.')[0]}.
           </p>
           <p class="mb-6 opacity-80">
-            Proven track record of leading multi-team deliveries for Fortune 500 companies. 
-            Expert in AWS/GCP architecture and implementing AI-driven automation. 
-            Currently focused on pioneering Agentic AI at scale.
+            {resume.summary}
           </p>
 
           <div class="mb-4 text-emerald-500">$ cat mission.txt</div>
@@ -115,10 +83,17 @@
       <h2 class="text-xl font-bold text-zinc-900 dark:text-white">SYSTEM_MODULES_LOADED</h2>
     </div>
     
-    <div class="grid grid-cols-2 md:grid-cols-3 gap-4 font-mono text-sm">
-      {#each skills as skill}
-        <div class="flex items-center gap-2 text-zinc-600 dark:text-zinc-400">
-          <span class="text-emerald-700 dark:text-terminal-green">[OK]</span> {skill}
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 font-mono text-sm">
+      {#each Object.entries(resume.skills) as [category, items]}
+        <div>
+          <h3 class="text-zinc-500 dark:text-zinc-500 mb-3 uppercase tracking-wider text-xs border-b border-zinc-200 dark:border-zinc-800 pb-1">{category}</h3>
+          <div class="grid grid-cols-1 gap-2">
+            {#each items as skill}
+              <div class="flex items-center gap-2 text-zinc-600 dark:text-zinc-400">
+                <span class="text-emerald-700 dark:text-terminal-green">[OK]</span> {skill}
+              </div>
+            {/each}
+          </div>
         </div>
       {/each}
     </div>
@@ -133,16 +108,18 @@
       <h2 class="text-xl font-bold text-zinc-900 dark:text-white">WORK_HISTORY_LOG</h2>
     </div>
 
-    <div class="space-y-6 font-mono border-l-2 border-zinc-300 dark:border-zinc-800 ml-2 pl-6 relative">
-      {#each experience as job}
+    <div class="space-y-8 font-mono border-l-2 border-zinc-300 dark:border-zinc-800 ml-2 pl-6 relative">
+      {#each resume.experience as job}
         <div class="relative">
           <div class="absolute -left-[31px] top-1.5 w-3 h-3 bg-zinc-200 dark:bg-zinc-800 border border-emerald-600 dark:border-terminal-green rounded-full"></div>
           <div class="text-xs text-zinc-500 mb-1">{job.period}</div>
           <h3 class="text-lg text-zinc-900 dark:text-zinc-100 font-bold">{job.role}</h3>
           <div class="text-emerald-700 dark:text-terminal-green text-sm mb-2">@ {job.company}</div>
-          <p class="text-zinc-600 dark:text-zinc-400 text-sm leading-relaxed max-w-2xl">
-            {job.desc}
-          </p>
+          <ul class="list-disc list-outside ml-4 space-y-2 text-zinc-600 dark:text-zinc-400 text-sm leading-relaxed max-w-3xl">
+            {#each job.highlights as highlight}
+               <li class="pl-1 marker:text-zinc-400 dark:marker:text-zinc-600">{highlight}</li>
+            {/each}
+          </ul>
         </div>
       {/each}
     </div>

@@ -17,6 +17,7 @@
     <nav class="hidden md:flex gap-6 text-sm items-center">
       <a class="hover:text-terminal-green transition-colors {activeRoute === '/projects' ? 'text-terminal-green' : ''}" href="/projects">./projects</a>
       <a class="hover:text-terminal-green transition-colors {activeRoute.startsWith('/blog') ? 'text-terminal-green' : ''}" href="/blog">./blog</a>
+      <a class="hover:text-terminal-green transition-colors {activeRoute === '/resume' ? 'text-terminal-green' : ''}" href="/resume">./resume</a>
       <a class="hover:text-terminal-green transition-colors" href="/#about">./about</a>
       <a class="hover:text-terminal-green transition-colors" href="/#contact">./contact</a>
       <ThemeToggle />
