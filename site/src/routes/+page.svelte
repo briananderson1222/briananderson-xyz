@@ -3,8 +3,9 @@
   import Badge from '$lib/components/ui/badge.svelte';
   import { onMount } from 'svelte';
   import { slide } from 'svelte/transition';
+  import type { PageData } from './$types';
 
-  export let data;
+  export let data: PageData;
   const { resume } = data;
 
   let mounted = false;

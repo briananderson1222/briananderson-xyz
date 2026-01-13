@@ -1,6 +1,7 @@
 import fs from 'fs';
 import yaml from 'js-yaml';
 import path from 'path';
+import type { Resume } from '$lib/types';
 
 export const prerender = true;
 
@@ -8,10 +9,11 @@ export const load = async () => {
   try {
     const filePath = path.resolve('content/resume.yaml');
     const fileContents = fs.readFileSync(filePath, 'utf8');
-    const resume = yaml.load(fileContents);
+    const resume = yaml.load(fileContents) as Resume;
     return { resume };
   } catch (e) {
     console.error('Error loading resume.yaml:', e);
-    return { resume: null };
+    // Return a partial or null resume to satisfy the type, or handle error better
+    return { resume: {} as Resume }; 
   }
 };
