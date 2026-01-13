@@ -78,7 +78,7 @@
   <section class="mb-10 print:mb-4">
     <div class="flex items-center gap-2 mb-4 text-skin-accent text-sm uppercase tracking-wider print:text-black print:font-bold print:mb-2 print:text-xs">
       <span class="print:hidden">></span>
-      <h2>Experience</h2>
+      <h2 class="print:font-serif">Experience</h2>
     </div>
 
     <div class="space-y-6 print:space-y-3">
@@ -87,15 +87,15 @@
           <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-skin-page border-2 border-skin-border print:hidden"></div>
           
           <div class="flex flex-col md:flex-row md:items-baseline justify-between mb-0">
-            <h3 class="text-xl font-bold text-skin-base print:text-black print:text-sm">{job.role}</h3>
-            <span class="font-mono text-sm text-skin-muted print:text-black print:text-[10px]">{job.period}</span>
+            <h3 class="text-xl font-bold text-skin-base print:text-black print:text-sm print:font-serif">{job.role}</h3>
+            <span class="font-mono text-sm text-skin-muted print:text-black print:text-[10px] print:font-serif">{job.period}</span>
           </div>
           
-          <div class="text-skin-accent mb-2 font-semibold print:text-black print:text-xs print:mb-0.5 print:font-bold">
+          <div class="text-skin-accent mb-2 font-semibold print:text-black print:text-xs print:mb-0.5 print:font-bold print:font-serif">
             {job.company} <span class="text-skin-muted font-normal text-sm mx-1 print:text-black">|</span> {job.location}
           </div>
 
-          <ul class="space-y-1 text-skin-muted leading-relaxed print:text-black print:text-[10px] print:space-y-0.5">
+          <ul class="space-y-1 text-skin-muted leading-relaxed print:text-black print:text-[10px] print:space-y-0.5 print:font-serif">
             {#each job.highlights as highlight}
               <li class="relative pl-4 before:content-['-'] before:absolute before:left-0 before:text-skin-muted print:before:text-black">
                 {highlight}
@@ -112,11 +112,11 @@
     <section>
       <div class="flex items-center gap-2 mb-4 text-skin-accent text-sm uppercase tracking-wider print:text-black print:font-bold print:mb-2 print:text-xs">
         <span class="print:hidden">></span>
-        <h2>Education & Early Career</h2>
+        <h2 class="print:font-serif">Education & Early Career</h2>
       </div>
       <div class="space-y-4 print:space-y-2">
         {#each resume.education as edu}
-          <div>
+          <div class="print:font-serif">
             <h3 class="font-bold text-skin-base print:text-black print:text-xs">{edu.school}</h3>
             <p class="text-skin-muted text-sm print:text-black print:text-[10px]">{edu.degree}</p>
             <p class="text-skin-muted text-xs mt-1 print:text-black print:text-[9px]">{edu.period}</p>
@@ -124,7 +124,7 @@
         {/each}
         {#if resume['early-career']}
           {#each resume['early-career'] as career}
-            <div>
+            <div class="print:font-serif">
               <h3 class="font-bold text-skin-base print:text-black print:text-xs">{career.company}</h3>
               <p class="text-skin-muted text-sm print:text-black print:text-[10px]">{career.role}</p>
               <p class="text-skin-muted text-xs mt-1 print:text-black print:text-[9px]">{career.period}</p>
@@ -137,11 +137,11 @@
     <section>
       <div class="flex items-center gap-2 mb-4 text-skin-accent text-sm uppercase tracking-wider print:text-black print:font-bold print:mb-2 print:text-xs">
         <span class="print:hidden">></span>
-        <h2>Certifications</h2>
+        <h2 class="print:font-serif">Certifications</h2>
       </div>
       <div class="space-y-3 print:space-y-1">
         {#each resume.certificates as cert}
-          <div class="flex justify-between items-start border-b border-skin-border pb-2 last:border-0 print:border-black print:pb-1">
+          <div class="flex justify-between items-start border-b border-skin-border pb-2 last:border-0 print:border-black print:pb-1 print:font-serif">
             <div class="flex-1">
               {#if cert.url}
                 <a href={cert.url} target="_blank" rel="noreferrer" class="text-skin-base hover:text-skin-accent transition-colors print:text-black print:text-[10px] hover:underline decoration-dashed underline-offset-4 block">
