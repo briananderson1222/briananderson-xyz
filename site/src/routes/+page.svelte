@@ -2,12 +2,19 @@
   import Button from '$lib/components/ui/button.svelte';
   import Badge from '$lib/components/ui/badge.svelte';
   import { onMount } from 'svelte';
+  import { slide } from 'svelte/transition';
 
   export let data;
   const { resume } = data;
 
   let mounted = false;
+  let openCategories: Record<string, boolean> = {};
+
   onMount(() => mounted = true);
+
+  function toggleCategory(category: string) {
+    openCategories[category] = !openCategories[category];
+  }
 
   function getDuration(period: string) {
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -48,7 +55,7 @@
 <section class="py-12 md:py-20 px-4">
   <div class="max-w-4xl mx-auto">
     <!-- Terminal Window -->
-    <div class="bg-zinc-900 border border-zinc-700 shadow-2xl overflow-hidden rounded-t-lg">
+    <div class="bg-terminal-black border border-zinc-700 shadow-2xl overflow-hidden rounded-t-lg">
       <!-- Window Header -->
       <div class="bg-zinc-800 px-4 py-2 flex items-center gap-2 border-b border-zinc-700">
         <div class="w-3 h-3 rounded-full bg-red-500"></div>
@@ -75,7 +82,7 @@
 
           <div class="mb-4 text-terminal-green">$ list-actions</div>
           <div class="flex flex-wrap gap-4 mt-2">
-            <Button href="/resume" class="bg-terminal-green text-terminal-black border-terminal-green hover:bg-terminal-green/90 shadow-[0_0_10px_rgba(74,246,38,0.3)]">./view_resume.pdf</Button>
+            <Button href="/resume" class="bg-terminal-green text-terminal-black border-terminal-green hover:bg-terminal-green/90 shadow-[0_0_10px_rgba(var(--color-terminal-accent),0.3)]">./view_resume.pdf</Button>
             <Button href="/projects" variant="outline" class="text-terminal-green border-terminal-green hover:bg-terminal-green hover:text-terminal-black">./view_projects.sh</Button>
             <Button href="/blog" variant="outline" class="text-terminal-green border-terminal-green hover:bg-terminal-green hover:text-terminal-black">./read_blog.md</Button>
           </div>
@@ -101,7 +108,7 @@
               <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black/20 pointer-events-none bg-[length:100%_4px]"></div>
             </div>
           </div>
-          <span class="mt-3 text-xs text-zinc-500 font-mono">[IMG_ID: B_ANDERSON]</span>
+          <span class="mt-3 text-xs text-skin-muted font-mono">[IMG_ID: B_ANDERSON]</span>
         </div>
       </div>
     </div>
@@ -118,19 +125,28 @@
     
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-start font-mono text-sm">
       {#each Object.entries(resume.skills) as [category, items]}
-        <details class="group bg-skin-page border border-skin-border rounded open:bg-skin-page shadow-sm">
-          <summary class="cursor-pointer p-3 font-bold text-skin-muted uppercase text-xs tracking-wider hover:text-skin-accent flex justify-between items-center select-none">
+        <div class="group bg-skin-page border border-skin-border rounded shadow-sm overflow-hidden">
+          <button 
+            type="button"
+            class="w-full cursor-pointer p-3 font-bold text-skin-muted uppercase text-xs tracking-wider hover:text-skin-accent flex justify-between items-center select-none text-left"
+            on:click={() => toggleCategory(category)}
+          >
             {category}
-            <span class="text-skin-muted group-open:rotate-180 transition-transform">▼</span>
-          </summary>
-          <div class="p-3 pt-0 grid grid-cols-1 gap-2 border-t border-skin-border mt-2">
-            {#each items as skill}
-              <div class="flex items-center gap-2 text-skin-muted">
-                <span class="text-skin-accent">[OK]</span> {skill}
+            <span class="text-skin-muted transition-transform {openCategories[category] ? 'rotate-180' : ''}">▼</span>
+          </button>
+          
+          {#if openCategories[category]}
+            <div transition:slide={{ duration: 300 }} class="border-t border-skin-border">
+              <div class="p-3 grid grid-cols-1 gap-2">
+                {#each items as skill}
+                  <div class="flex items-center gap-2 text-skin-muted">
+                    <span class="text-skin-accent">[OK]</span> {skill}
+                  </div>
+                {/each}
               </div>
-            {/each}
-          </div>
-        </details>
+            </div>
+          {/if}
+        </div>
       {/each}
     </div>
   </div>

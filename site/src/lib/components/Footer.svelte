@@ -1,8 +1,16 @@
+<script lang="ts">
+  import { page } from '$app/stores';
+  
+  $: isError = $page.status >= 400;
+</script>
+
 <footer class="border-t border-skin-border bg-skin-page mt-auto font-mono text-xs transition-colors duration-300">
   <div class="mx-auto max-w-6xl px-4 py-4 flex flex-col md:flex-row items-center justify-between gap-4 text-skin-muted">
     <div class="flex items-center gap-2">
-      <span class="text-skin-accent">●</span>
-      <span>SYSTEM: ONLINE</span>
+      <span class={isError ? "text-red-500 animate-pulse" : "text-skin-accent"}>●</span>
+      <span class={isError ? "text-red-500 font-bold" : ""}>
+        {isError ? `SYSTEM: OFFLINE (${$page.status})` : 'SYSTEM: ONLINE'}
+      </span>
       <span class="mx-2">|</span>
       <span>v1.0.0</span>
     </div>

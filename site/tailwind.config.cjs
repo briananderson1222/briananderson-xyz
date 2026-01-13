@@ -19,9 +19,9 @@ module.exports = {
       },
       colors: {
         terminal: {
-          black: '#0c0c0c',
+          black: withOpacity('--color-terminal-black'),
           dark: '#1e1e1e',
-          green: '#4af626',
+          green: withOpacity('--color-terminal-accent'),
           dim: '#2d2d2d',
           text: '#cccccc'
         },
