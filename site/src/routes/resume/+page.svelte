@@ -7,7 +7,7 @@
 <div class="max-w-4xl mx-auto px-4 py-12 md:py-16 font-mono print:font-serif print:p-0 print:max-w-none print:leading-tight">
   
   <!-- Header -->
-  <header class="border-b-2 border-skin-border pb-8 mb-10 print:mb-6 print:pb-4 print:border-black">
+  <header class="border-b-2 border-skin-border pb-8 mb-10 print:mb-4 print:pb-4 print:border-black">
     <div class="flex flex-col-reverse md:flex-row justify-between items-start gap-6 print:flex-row">
       <div class="flex-1">
         <h1 class="text-4xl md:text-5xl font-bold tracking-tight text-skin-base mb-2 print:text-black print:text-3xl print:font-serif">
@@ -36,7 +36,7 @@
   </header>
 
   <!-- Summary -->
-  <section class="mb-10 print:mb-4">
+  <section class="mb-10 print:mb-2">
     <div class="flex items-center gap-2 mb-3 text-skin-accent text-sm uppercase tracking-wider print:text-black print:font-bold print:mb-1 print:text-xs">
       <span class="print:hidden">></span>
       <h2 class="print:font-serif">Professional Summary</h2>
@@ -47,7 +47,7 @@
   </section>
 
   <!-- Skills -->
-  <section class="mb-10 print:mb-4 break-inside-avoid">
+  <section class="mb-10 print:mb-2 break-inside-avoid">
     <div class="flex items-center gap-2 mb-3 text-skin-accent text-sm uppercase tracking-wider print:text-black print:font-bold print:mb-1 print:text-xs">
       <span class="print:hidden">></span>
       <h2 class="print:font-serif">Skills</h2>
@@ -75,7 +75,7 @@
   </section>
 
   <!-- Experience -->
-  <section class="mb-10 print:mb-4">
+  <section class="mb-10 print:mb-2">
     <div class="flex items-center gap-2 mb-4 text-skin-accent text-sm uppercase tracking-wider print:text-black print:font-bold print:mb-2 print:text-xs">
       <span class="print:hidden">></span>
       <h2 class="print:font-serif">Experience</h2>
@@ -86,9 +86,9 @@
         <article class="relative pl-6 border-l-2 border-skin-border print:border-black print:pl-3">
           <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-skin-page border-2 border-skin-border print:hidden"></div>
           
-          <div class="flex flex-col md:flex-row md:items-baseline justify-between mb-0">
+          <div class="flex flex-col md:flex-row md:items-baseline justify-between mb-0 items-start print:flex-row print:items-baseline">
             <h3 class="text-xl font-bold text-skin-base print:text-black print:text-sm print:font-serif">{job.role}</h3>
-            <span class="font-mono text-sm text-skin-muted print:text-black print:text-[10px] print:font-serif">{job.period}</span>
+            <span class="font-mono text-sm text-skin-muted print:text-black print:text-[10px] print:font-serif md:text-right">{job.period}</span>
           </div>
           
           <div class="text-skin-accent mb-2 font-semibold print:text-black print:text-xs print:mb-0.5 print:font-bold print:font-serif">
@@ -108,7 +108,7 @@
   </section>
 
   <!-- Education & Certs -->
-  <div class="grid md:grid-cols-2 gap-10 print:grid-cols-2 print:gap-6 break-inside-avoid print:mb-0">
+  <div class="grid md:grid-cols-2 gap-10 print:grid-cols-2 print:gap-6 print:mb-0">
     <section>
       <div class="flex items-center gap-2 mb-4 text-skin-accent text-sm uppercase tracking-wider print:text-black print:font-bold print:mb-2 print:text-xs">
         <span class="print:hidden">></span>
@@ -141,7 +141,7 @@
       </div>
       <div class="space-y-3 print:space-y-1">
         {#each resume.certificates as cert}
-          <div class="flex justify-between items-start border-b border-skin-border pb-2 last:border-0 print:border-black print:pb-1 print:font-serif">
+          <div class="flex justify-between items-baseline border-b border-skin-border pb-2 last:border-0 print:border-0 print:pb-1 print:font-serif">
             <div class="flex-1">
               {#if cert.url}
                 <a href={cert.url} target="_blank" rel="noreferrer" class="text-skin-base hover:text-skin-accent transition-colors print:text-black print:text-[10px] hover:underline decoration-dashed underline-offset-4 block">
@@ -179,8 +179,9 @@
       height: auto !important;
       min-height: 0 !important;
       overflow: visible !important;
+      font-family: 'Lato', sans-serif !important; /* Apply Lato font */
     }
-    /* Hide the site Navbar (nav), Footer, and Scanlines */
+    /* Hide the siteNavbar (nav), Footer, and Scanlines */
     :global(nav), :global(footer), :global(.scanlines) {
       display: none !important;
     }
@@ -192,6 +193,17 @@
       margin: 0 !important;
       flex: none !important;
       height: auto !important;
+    }
+    /* Specific overrides for elements that might still be mono */
+    h1, h2, h3, h4, h5, h6, p, span, li, a, div, section, article {
+      font-family: 'Lato', sans-serif !important; /* Ensure Lato font */
+    }
+    /* Prevent elements from creating extra blank pages */
+    section, article {
+      break-after: auto !important; /* Allow content to break naturally */
+    }
+    div[role="list"], ul { /* Example: If list items are causing issues */
+      break-after: auto !important;
     }
   }
 </style>

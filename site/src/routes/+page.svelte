@@ -165,12 +165,12 @@
       {#each resume.experience as job}
         <div class="relative group">
           <div class="absolute -left-[31px] top-1.5 w-3 h-3 bg-skin-page border border-skin-accent rounded-full group-hover:bg-skin-accent transition-colors"></div>
-          <div class="flex flex-row justify-between items-start gap-4">
+          <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1 sm:gap-4">
             <div class="min-w-0 flex-1">
               <h3 class="text-base text-skin-base font-bold leading-snug">{job.role}</h3>
               <div class="text-skin-accent text-sm">@ {job.company}</div>
             </div>
-            <div class="text-xs text-skin-muted whitespace-nowrap text-right shrink-0 mt-0.5">
+            <div class="text-xs text-skin-muted whitespace-nowrap text-left sm:text-right shrink-0 mt-1 sm:mt-0.5">
               <div>{job.period}</div>
               <div class="text-skin-muted">[{getDuration(job.period)}]</div>
             </div>
