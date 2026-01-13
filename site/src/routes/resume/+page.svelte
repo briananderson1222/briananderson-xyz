@@ -23,7 +23,7 @@
       </div>
       
       <div class="flex flex-col items-center md:items-end gap-2">
-        <div class="w-32 h-32 rounded-full overflow-hidden border-2 border-skin-border grayscale hover:grayscale-0 transition-all print:w-24 print:h-24 print:border-black">
+        <div class="w-32 h-32 rounded-full overflow-hidden border-2 border-skin-border grayscale hover:grayscale-0 transition-all print:w-24 print:h-24 print:border-black print:grayscale-0">
             <img src="/me.jpg" alt={resume.name} class="w-full h-full object-cover" />
         </div>
         <div class="hidden md:block text-right text-xs text-skin-muted mt-1 print:hidden">
