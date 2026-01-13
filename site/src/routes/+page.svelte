@@ -61,7 +61,7 @@
         <div class="w-3 h-3 rounded-full bg-red-500"></div>
         <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
         <div class="w-3 h-3 rounded-full bg-green-500"></div>
-        <span class="ml-2 text-xs text-zinc-400 font-mono">user@briananderson: ~ (zsh)</span>
+        <span class="ml-2 text-xs text-zinc-300 font-mono">user@briananderson: ~ (zsh)</span>
       </div>
       
       <!-- Window Content -->
