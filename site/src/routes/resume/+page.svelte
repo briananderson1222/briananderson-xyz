@@ -178,8 +178,8 @@
       height: auto !important;
       overflow: visible !important;
     }
-    /* Hide the site Navbar (header), Footer, and Scanlines */
-    :global(nav), :global(footer), :global(.scanlines), :global(header) {
+    /* Hide the Footer and Scanlines (Navbar is hidden via utility class) */
+    :global(nav), :global(footer), :global(.scanlines) {
       display: none !important;
     }
     /* Ensure the main layout container doesn't force height */

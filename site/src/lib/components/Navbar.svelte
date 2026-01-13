@@ -7,7 +7,7 @@
   $: activeRoute = $page.url.pathname;
 </script>
 
-<header class="sticky top-0 z-40 bg-skin-page/90 backdrop-blur border-b border-skin-border font-mono transition-colors duration-300">
+<header class="sticky top-0 z-40 bg-skin-page/90 backdrop-blur border-b border-skin-border font-mono transition-colors duration-300 print:hidden">
   <div class="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between gap-4">
     <a href="/" class="text-sm md:text-base font-bold tracking-tight text-skin-base flex items-center gap-2 group">
       <span class="text-skin-accent group-hover:animate-pulse">guest@briananderson:~$</span>
