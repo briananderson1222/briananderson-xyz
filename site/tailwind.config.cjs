@@ -1,4 +1,13 @@
 /** @type {import('tailwindcss').Config} */
+function withOpacity(variableName) {
+  return ({ opacityValue }) => {
+    if (opacityValue !== undefined) {
+      return `rgba(var(${variableName}), ${opacityValue})`;
+    }
+    return `rgb(var(${variableName}))`;
+  };
+}
+
 module.exports = {
   content: ['./src/**/*.{svelte,ts,js,md,svx}', './content/**/*.{md,svx}', './static/**/*.html'],
   darkMode: ['class'],
@@ -15,6 +24,14 @@ module.exports = {
           green: '#4af626',
           dim: '#2d2d2d',
           text: '#cccccc'
+        },
+        skin: {
+          page: withOpacity('--color-bg-page'),
+          base: withOpacity('--color-text-base'),
+          muted: withOpacity('--color-text-muted'),
+          border: withOpacity('--color-border'),
+          accent: withOpacity('--color-accent'),
+          'accent-contrast': withOpacity('--color-accent-contrast'),
         }
       },
       borderRadius: { xl: '1rem', '2xl': '1.25rem' }

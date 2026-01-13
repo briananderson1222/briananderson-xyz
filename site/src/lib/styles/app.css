@@ -2,21 +2,50 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --ba-accent: 74 246 38; /* Terminal Green RGB */
+@layer base {
+  :root {
+    /* Light Theme (Default) */
+    --color-bg-page: 250 250 250; /* zinc-50 */
+    --color-text-base: 24 24 27; /* zinc-900 */
+    --color-text-muted: 82 82 91; /* zinc-600 */
+    --color-border: 228 228 231; /* zinc-200 */
+    --color-accent: 4 120 87; /* emerald-700 */
+    --color-accent-contrast: 255 255 255;
+  }
+
+  .dark {
+    /* Terminal Theme */
+    --color-bg-page: 12 12 12; /* terminal-black */
+    --color-text-base: 204 204 204; /* terminal-text */
+    --color-text-muted: 113 113 113; /* terminal-dim */
+    --color-border: 30 30 30; /* terminal-dark */
+    --color-accent: 74 246 38; /* terminal-green */
+    --color-accent-contrast: 12 12 12;
+  }
+
+  [data-theme="catppuccin"] {
+    /* Catppuccin Mocha */
+    --color-bg-page: 30 30 46; /* #1e1e2e */
+    --color-text-base: 205 214 244; /* #cdd6f4 */
+    --color-text-muted: 166 173 199; /* #a6adc8 */
+    --color-border: 49 50 68; /* #313244 */
+    --color-accent: 166 227 161; /* #a6e3a1 (Green) */
+    --color-accent-contrast: 30 30 46;
+  }
 }
 
-/* Custom Selection Color */
+/* Custom Selection Color using variables */
 ::selection {
-  background-color: rgba(74, 246, 38, 0.3);
-  color: #ffffff;
+  background-color: rgba(var(--color-accent), 0.3);
+  color: rgb(var(--color-text-base));
 }
 
 body {
-  @apply bg-zinc-50 text-zinc-900 dark:bg-black dark:text-gray-300;
+  @apply bg-skin-page text-skin-base transition-colors duration-300;
 }
 
-/* Terminal Scanline Effect */
+/* Terminal Scanline Effect - Only in .dark and .catppuccin? Or just dark?
+   Let's keep it generally available but maybe subtle in light mode or hidden */
 .scanlines {
   background: linear-gradient(
     to bottom,
@@ -31,29 +60,13 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  pointer-events: none;
+  pointer-events: none !important;
   z-index: 50;
   opacity: 0.15;
 }
-
-/* Subtle CRT Flicker (Optional, keep subtle) */
-@keyframes flicker {
-  0% { opacity: 0.97; }
-  5% { opacity: 0.95; }
-  10% { opacity: 0.9; }
-  15% { opacity: 0.95; }
-  20% { opacity: 0.99; }
-  50% { opacity: 0.95; }
-  80% { opacity: 0.9; }
-  100% { opacity: 0.97; }
-}
-
-.crt-flicker {
-  animation: flicker 0.15s infinite;
-}
-
-.ba-gradient {
-  /* Muted background for day mode, deep black for night */
+/* Hide scanlines in light mode if desired */
+:root:not(.dark):not([data-theme="catppuccin"]) .scanlines {
+  opacity: 0.05;
 }
 
 /* Typography Overrides */
@@ -61,4 +74,4 @@ h1, h2, h3, h4, h5, h6 {
   @apply font-mono tracking-tight;
 }
 
-.prose pre { overflow: auto; border: 1px solid #333; }
+.prose pre { overflow: auto; border: 1px solid rgb(var(--color-border)); }

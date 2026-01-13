@@ -8,6 +8,41 @@
 
   let mounted = false;
   onMount(() => mounted = true);
+
+  function getDuration(period: string) {
+    const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    const parts = period.split(' - ');
+    if (parts.length !== 2) return '';
+
+    const parseDate = (str: string) => {
+      if (str.toUpperCase() === 'PRESENT') return new Date();
+      const [monthStr, yearStr] = str.split(' ');
+      const monthIndex = months.findIndex(m => m.startsWith(monthStr)); // Handles "Sept" vs "September"
+      return new Date(parseInt(yearStr), monthIndex !== -1 ? monthIndex : 0);
+    };
+
+    const start = parseDate(parts[0]);
+    const end = parseDate(parts[1]);
+    
+    let years = end.getFullYear() - start.getFullYear();
+    let m = end.getMonth() - start.getMonth();
+
+    if (m < 0) {
+      years--;
+      m += 12;
+    }
+    // Round up for partial months if needed, or just add 1 to include the starting month fully
+    m++; 
+    if (m === 12) {
+      years++;
+      m = 0;
+    }
+
+    const yStr = years > 0 ? `${years} yr${years > 1 ? 's' : ''}` : '';
+    const mStr = m > 0 ? `${m} mo${m > 1 ? 's' : ''}` : '';
+    
+    return [yStr, mStr].filter(Boolean).join(' ');
+  }
 </script>
 
 <section class="py-12 md:py-20 px-4">
@@ -25,26 +60,24 @@
       <!-- Window Content -->
       <div class="p-6 md:p-8 font-mono text-sm md:text-base leading-relaxed text-zinc-300 min-h-[300px] flex flex-col md:flex-row gap-8">
         <div class="flex-1">
-          <div class="mb-4 text-emerald-500">$ whoami</div>
+          <div class="mb-4 text-terminal-green">$ whoami</div>
           <h1 class="text-2xl md:text-3xl font-bold text-white mb-4 block">
             {resume.title}
           </h1>
-          <p class="mb-2">
-            > {resume.summary.split('.')[0]}.
-          </p>
           <p class="mb-6 opacity-80">
-            {resume.summary}
+            {resume.tagline}
           </p>
 
-          <div class="mb-4 text-emerald-500">$ cat mission.txt</div>
+          <div class="mb-4 text-terminal-green">$ cat mission.txt</div>
           <p class="mb-6 border-l-2 border-zinc-700 pl-4 italic opacity-80">
             "Drive measurable business automation and customer outcomes through Agentic AI and Cloud Native strategies."
           </p>
 
-          <div class="mb-4 text-emerald-500">$ list-actions</div>
-          <div class="flex gap-4 mt-2">
-            <Button href="/projects">./view_projects.sh</Button>
-            <Button href="/blog" variant="outline">./read_blog.md</Button>
+          <div class="mb-4 text-terminal-green">$ list-actions</div>
+          <div class="flex flex-wrap gap-4 mt-2">
+            <Button href="/resume" class="bg-terminal-green text-terminal-black border-terminal-green hover:bg-terminal-green/90 shadow-[0_0_10px_rgba(74,246,38,0.3)]">./view_resume.pdf</Button>
+            <Button href="/projects" variant="outline" class="text-terminal-green border-terminal-green hover:bg-terminal-green hover:text-terminal-black">./view_projects.sh</Button>
+            <Button href="/blog" variant="outline" class="text-terminal-green border-terminal-green hover:bg-terminal-green hover:text-terminal-black">./read_blog.md</Button>
           </div>
         </div>
 
@@ -76,70 +109,84 @@
 </section>
 
 <!-- System Modules (Skills) -->
-<section id="skills" class="py-12 border-t border-dashed border-zinc-300 dark:border-zinc-800">
+<section id="skills" class="py-12 border-t border-dashed border-skin-border">
   <div class="max-w-4xl mx-auto px-4">
-    <div class="flex items-center gap-2 mb-6 text-emerald-700 dark:text-terminal-green font-mono">
+    <div class="flex items-center gap-2 mb-6 text-skin-accent font-mono">
       <span>></span>
-      <h2 class="text-xl font-bold text-zinc-900 dark:text-white">SYSTEM_MODULES_LOADED</h2>
+      <h2 class="text-xl font-bold text-skin-base">SYSTEM_MODULES_LOADED</h2>
     </div>
     
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 font-mono text-sm">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-start font-mono text-sm">
       {#each Object.entries(resume.skills) as [category, items]}
-        <div>
-          <h3 class="text-zinc-500 dark:text-zinc-500 mb-3 uppercase tracking-wider text-xs border-b border-zinc-200 dark:border-zinc-800 pb-1">{category}</h3>
-          <div class="grid grid-cols-1 gap-2">
+        <details class="group bg-skin-page border border-skin-border rounded open:bg-skin-page shadow-sm">
+          <summary class="cursor-pointer p-3 font-bold text-skin-muted uppercase text-xs tracking-wider hover:text-skin-accent flex justify-between items-center select-none">
+            {category}
+            <span class="text-skin-muted group-open:rotate-180 transition-transform">▼</span>
+          </summary>
+          <div class="p-3 pt-0 grid grid-cols-1 gap-2 border-t border-skin-border mt-2">
             {#each items as skill}
-              <div class="flex items-center gap-2 text-zinc-600 dark:text-zinc-400">
-                <span class="text-emerald-700 dark:text-terminal-green">[OK]</span> {skill}
+              <div class="flex items-center gap-2 text-skin-muted">
+                <span class="text-skin-accent">[OK]</span> {skill}
               </div>
             {/each}
           </div>
-        </div>
+        </details>
       {/each}
     </div>
   </div>
 </section>
 
 <!-- Work History Log -->
-<section id="experience" class="py-12 border-t border-dashed border-zinc-300 dark:border-zinc-800">
+<section id="experience" class="py-12 border-t border-dashed border-skin-border">
   <div class="max-w-4xl mx-auto px-4">
-    <div class="flex items-center gap-2 mb-6 text-emerald-700 dark:text-terminal-green font-mono">
+    <div class="flex items-center gap-2 mb-6 text-skin-accent font-mono">
       <span>></span>
-      <h2 class="text-xl font-bold text-zinc-900 dark:text-white">WORK_HISTORY_LOG</h2>
+      <h2 class="text-xl font-bold text-skin-base">WORK_HISTORY_LOG</h2>
     </div>
 
-    <div class="space-y-8 font-mono border-l-2 border-zinc-300 dark:border-zinc-800 ml-2 pl-6 relative">
+    <div class="space-y-6 font-mono border-l-2 border-skin-border ml-2 pl-6 relative">
       {#each resume.experience as job}
-        <div class="relative">
-          <div class="absolute -left-[31px] top-1.5 w-3 h-3 bg-zinc-200 dark:bg-zinc-800 border border-emerald-600 dark:border-terminal-green rounded-full"></div>
-          <div class="text-xs text-zinc-500 mb-1">{job.period}</div>
-          <h3 class="text-lg text-zinc-900 dark:text-zinc-100 font-bold">{job.role}</h3>
-          <div class="text-emerald-700 dark:text-terminal-green text-sm mb-2">@ {job.company}</div>
-          <ul class="list-disc list-outside ml-4 space-y-2 text-zinc-600 dark:text-zinc-400 text-sm leading-relaxed max-w-3xl">
-            {#each job.highlights as highlight}
-               <li class="pl-1 marker:text-zinc-400 dark:marker:text-zinc-600">{highlight}</li>
-            {/each}
-          </ul>
+        <div class="relative group">
+          <div class="absolute -left-[31px] top-1.5 w-3 h-3 bg-skin-page border border-skin-accent rounded-full group-hover:bg-skin-accent transition-colors"></div>
+          <div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1">
+            <div>
+              <h3 class="text-base text-skin-base font-bold">{job.role}</h3>
+              <div class="text-skin-accent text-sm">@ {job.company}</div>
+            </div>
+            <div class="text-xs text-skin-muted whitespace-nowrap text-right">
+              <div>{job.period}</div>
+              <div class="text-skin-muted">[{getDuration(job.period)}]</div>
+            </div>
+          </div>
+          {#if job.description}
+            <p class="text-skin-muted text-sm mt-2 max-w-2xl leading-relaxed">
+              {job.description}
+            </p>
+          {/if}
         </div>
       {/each}
+      <div class="pt-4">
+         <a href="/resume" class="text-sm text-skin-accent hover:underline">View full details in resume -></a>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- Contact/Footer Section -->
-<section id="contact" class="py-12 border-t border-dashed border-zinc-800">
+<section id="contact" class="py-12 border-t border-dashed border-skin-border">
   <div class="max-w-4xl mx-auto px-4">
-    <div class="flex items-center gap-2 mb-6 text-terminal-green font-mono">
+    <div class="flex items-center gap-2 mb-6 text-skin-accent font-mono">
       <span>></span>
       <h2 class="text-xl font-bold">INITIATE_CONTACT</h2>
     </div>
-    <div class="bg-zinc-900/50 p-6 border border-zinc-800 font-mono text-sm">
-      <p class="mb-4 text-zinc-300">
+    <div class="bg-skin-page p-6 border border-skin-border font-mono text-sm">
+      <p class="mb-4 text-skin-base">
         To establish connection, please route traffic to:
       </p>
-      <a href="mailto:brian@briananderson.xyz" class="text-terminal-green hover:underline decoration-dashed underline-offset-4">
+      <a href="mailto:brian@briananderson.xyz" class="text-skin-accent hover:underline decoration-dashed underline-offset-4">
         brian@briananderson.xyz
       </a>
     </div>
   </div>
 </section>
+

@@ -7,12 +7,13 @@ tags: ["SvelteKit", "AI", "Tailwind", "DX"]
 
 ### The Stack
 
-I wanted a personal site that felt like *me*—technical, minimal, and functional. The obvious choice was **SvelteKit**. It provides the perfect balance of static site generation (SSG) for performance and dynamic capabilities when I need them.
+I wanted a personal site that felt like *me*—technical, minimal, and functional. The choice of **SvelteKit** was primarily an exploration using a new technology that I hadn't used before, balancing static site generation (SSG) for performance with dynamic capabilities.
 
 - **Framework:** SvelteKit (Static Adapter)
 - **Styling:** Tailwind CSS + Typography
 - **Content:** Markdown (mdsvex) + YAML (for the resume data)
 - **Hosting:** Google Cloud Storage (Bucket) behind Cloudflare CDN
+- **AI Assistants:** Gemini 3 (Design), OpenCode + Z.AI (SvelteKit Implementation)
 
 ### The Theme
 
