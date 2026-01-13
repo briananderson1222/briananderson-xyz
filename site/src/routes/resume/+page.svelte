@@ -107,6 +107,8 @@
     </div>
   </section>
 
+  <div class="hidden print:block border-t border-black my-4"></div>
+
   <!-- Education & Certs -->
   <div class="grid md:grid-cols-2 gap-10 print:grid-cols-2 print:gap-6 print:mb-0">
     <section>

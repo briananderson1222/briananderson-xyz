@@ -11,11 +11,12 @@
         const saved = localStorage.getItem('theme');
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
         
-        if (saved === 'dark' || (!saved && prefersDark)) {
-          document.documentElement.classList.add('dark');
-        } else if (saved === 'catppuccin') {
+        if (saved === 'catppuccin' || (!saved && prefersDark)) {
           document.documentElement.classList.add('dark');
           document.documentElement.setAttribute('data-theme', 'catppuccin');
+        } else if (saved === 'dark') {
+          document.documentElement.classList.add('dark');
+          document.documentElement.removeAttribute('data-theme');
         } else {
           document.documentElement.classList.remove('dark');
           document.documentElement.removeAttribute('data-theme');

@@ -11,7 +11,7 @@
     if (saved && themes.includes(saved)) {
       currentTheme = saved;
     } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      currentTheme = 'dark';
+      currentTheme = 'catppuccin';
     }
     applyTheme(currentTheme);
   });
