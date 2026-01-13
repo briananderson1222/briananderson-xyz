@@ -183,8 +183,8 @@
       min-height: 0 !important;
       overflow: visible !important;
     }
-    /* Hide the site Navbar (header), Footer, and Scanlines */
-    :global(nav), :global(footer), :global(.scanlines), :global(header) {
+    /* Hide the site Navbar (nav), Footer, and Scanlines */
+    :global(nav), :global(footer), :global(.scanlines) {
       display: none !important;
     }
     /* Ensure the main layout container doesn't force height or padding */
