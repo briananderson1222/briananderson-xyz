@@ -93,21 +93,21 @@
       <h2>Experience</h2>
     </div>
 
-    <div class="space-y-8 print:space-y-4">
+    <div class="space-y-6 print:space-y-3">
       {#each resume.experience as job}
         <article class="relative pl-6 border-l-2 border-skin-border print:border-black print:pl-3 break-inside-avoid">
           <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-skin-page border-2 border-skin-border print:hidden"></div>
           
-          <div class="flex flex-col md:flex-row md:items-baseline justify-between mb-1">
+          <div class="flex flex-col md:flex-row md:items-baseline justify-between mb-0">
             <h3 class="text-xl font-bold text-skin-base print:text-black print:text-sm">{job.role}</h3>
             <span class="font-mono text-sm text-skin-muted print:text-black print:text-[10px]">{job.period}</span>
           </div>
           
-          <div class="text-skin-accent mb-3 font-semibold print:text-black print:text-xs print:mb-1 print:font-bold">
+          <div class="text-skin-accent mb-2 font-semibold print:text-black print:text-xs print:mb-0.5 print:font-bold">
             {job.company} <span class="text-skin-muted font-normal text-sm mx-1 print:text-black">|</span> {job.location}
           </div>
 
-          <ul class="space-y-2 text-skin-muted leading-relaxed print:text-black print:text-[10px] print:space-y-0.5">
+          <ul class="space-y-1 text-skin-muted leading-relaxed print:text-black print:text-[10px] print:space-y-0.5">
             {#each job.highlights as highlight}
               <li class="relative pl-4 before:content-['-'] before:absolute before:left-0 before:text-skin-muted print:before:text-black">
                 {highlight}
@@ -120,7 +120,7 @@
   </section>
 
   <!-- Education & Certs -->
-  <div class="grid md:grid-cols-2 gap-10 print:grid-cols-2 print:gap-6 break-inside-avoid">
+  <div class="grid md:grid-cols-2 gap-10 print:grid-cols-2 print:gap-6 break-inside-avoid print:mb-0">
     <section>
       <div class="flex items-center gap-2 mb-4 text-skin-accent text-sm uppercase tracking-wider print:text-black print:font-bold print:mb-2 print:text-xs">
         <span class="print:hidden">></span>
@@ -172,20 +172,29 @@
 
 <style>
   @media print {
+    @page {
+      margin: 0.5in;
+      size: auto;
+    }
     :global(body), :global(html) {
       background-color: white !important;
       color: black !important;
       height: auto !important;
+      min-height: 0 !important;
       overflow: visible !important;
     }
-    /* Hide the Footer and Scanlines (Navbar is hidden via utility class) */
-    :global(nav), :global(footer), :global(.scanlines) {
+    /* Hide the site Navbar (header), Footer, and Scanlines */
+    :global(nav), :global(footer), :global(.scanlines), :global(header) {
       display: none !important;
     }
-    /* Ensure the main layout container doesn't force height */
-    :global(.min-h-screen) {
+    /* Ensure the main layout container doesn't force height or padding */
+    :global(.min-h-screen), :global(main) {
       min-height: 0 !important;
       display: block !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      flex: none !important;
+      height: auto !important;
     }
   }
 </style>
