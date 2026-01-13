@@ -18,7 +18,7 @@
         > {$page.error?.message ?? 'Unknown Error'}
       </p>
 
-      <div class="flex flex-col gap-2 text-xs text-skin-muted text-left bg-skin-base/10 p-4 rounded mb-8 font-mono">
+      <div class="flex flex-col gap-2 text-xs text-skin-base text-left bg-skin-base/5 p-4 rounded mb-8 font-mono">
         <div>Error: {$page.status}</div>
         <div>Path: {$page.url.pathname}</div>
         <div>Timestamp: {new Date().toISOString()}</div>
