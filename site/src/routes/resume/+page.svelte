@@ -49,30 +49,19 @@
   <section class="mb-10 print:mb-4 break-inside-avoid">
     <div class="flex items-center gap-2 mb-3 text-skin-accent text-sm uppercase tracking-wider print:text-black print:font-bold print:mb-1 print:text-xs">
       <span class="print:hidden">></span>
-      <h2>Technical Arsenal</h2>
+      <h2>Skills</h2>
     </div>
     
-    <!-- Screen: Grid. Print: Table-like structure for dense layout -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 print:block">
-      <div class="hidden print:block print:w-full">
-        {#each Object.entries(resume.skills) as [category, items]}
-          <div class="print:flex print:mb-1 print:break-inside-avoid">
-            <div class="print:w-32 print:shrink-0 print:font-bold print:text-[10px] print:text-black print:pt-0.5">
-              {category}
-            </div>
-            <div class="print:flex-1 print:text-[10px] print:text-black print:leading-tight">
+    <!-- Reduced gap from gap-6 to gap-4 (screen) and gap-2 (print) -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 print:grid-cols-3 print:gap-2">
+      {#each Object.entries(resume.skills) as [category, items]}
+        <div class="bg-skin-base/5 p-3 border border-skin-border print:bg-transparent print:p-0 print:border-0 rounded-lg">
+          <h3 class="text-xs font-bold uppercase text-skin-muted mb-2 print:text-black print:mb-1 print:underline">{category}</h3>
+          <div class="flex flex-wrap gap-2 print:block">
+            <span class="hidden print:inline print:text-xs print:text-black print:leading-tight">
               {items.join(', ')}
-            </div>
-          </div>
-        {/each}
-      </div>
-
-      <!-- Screen View (Cards) -->
-      <div class="contents print:hidden">
-        {#each Object.entries(resume.skills) as [category, items]}
-          <div class="bg-skin-base/5 p-3 border border-skin-border rounded-lg">
-            <h3 class="text-xs font-bold uppercase text-skin-muted mb-2 underline">{category}</h3>
-            <div class="flex flex-wrap gap-2">
+            </span>
+            <div class="print:hidden">
               {#each items as skill}
                 <span class="inline-block px-2 py-0.5 text-xs font-semibold rounded-md border border-skin-border text-skin-base bg-skin-page shadow-sm mr-1 mb-1">
                   {skill}
@@ -80,13 +69,12 @@
               {/each}
             </div>
           </div>
-        {/each}
-      </div>
+        </div>
+      {/each}
     </div>
   </section>
 
   <!-- Experience -->
-  <!-- Removed break-inside-avoid from section to allow breaking between jobs -->
   <section class="mb-10 print:mb-4">
     <div class="flex items-center gap-2 mb-4 text-skin-accent text-sm uppercase tracking-wider print:text-black print:font-bold print:mb-2 print:text-xs">
       <span class="print:hidden">></span>
@@ -95,7 +83,7 @@
 
     <div class="space-y-6 print:space-y-3">
       {#each resume.experience as job}
-        <article class="relative pl-6 border-l-2 border-skin-border print:border-black print:pl-3 break-inside-avoid">
+        <article class="relative pl-6 border-l-2 border-skin-border print:border-black print:pl-3">
           <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-skin-page border-2 border-skin-border print:hidden"></div>
           
           <div class="flex flex-col md:flex-row md:items-baseline justify-between mb-0">
@@ -124,7 +112,7 @@
     <section>
       <div class="flex items-center gap-2 mb-4 text-skin-accent text-sm uppercase tracking-wider print:text-black print:font-bold print:mb-2 print:text-xs">
         <span class="print:hidden">></span>
-        <h2>Education</h2>
+        <h2>Education & Early Career</h2>
       </div>
       <div class="space-y-4 print:space-y-2">
         {#each resume.education as edu}
@@ -134,6 +122,15 @@
             <p class="text-skin-muted text-xs mt-1 print:text-black print:text-[9px]">{edu.period}</p>
           </div>
         {/each}
+        {#if resume['early-career']}
+          {#each resume['early-career'] as career}
+            <div>
+              <h3 class="font-bold text-skin-base print:text-black print:text-xs">{career.company}</h3>
+              <p class="text-skin-muted text-sm print:text-black print:text-[10px]">{career.role}</p>
+              <p class="text-skin-muted text-xs mt-1 print:text-black print:text-[9px]">{career.period}</p>
+            </div>
+          {/each}
+        {/if}
       </div>
     </section>
 
