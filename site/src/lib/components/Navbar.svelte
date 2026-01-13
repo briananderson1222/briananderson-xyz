@@ -11,7 +11,7 @@
   <div class="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between gap-4">
     <a href="/" class="text-sm md:text-base font-bold tracking-tight text-skin-base flex items-center gap-2 group">
       <span class="text-skin-accent group-hover:animate-pulse">guest@briananderson:~$</span>
-      <span class="w-2 h-4 bg-skin-accent animate-[pulse_1s_infinite]"></span>
+      <span class="w-2 h-4 bg-skin-accent animate-terminal-blink"></span>
     </a>
     
     <nav class="hidden md:flex gap-6 text-sm items-center">

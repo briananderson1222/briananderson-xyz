@@ -34,7 +34,16 @@ module.exports = {
           'accent-contrast': withOpacity('--color-accent-contrast'),
         }
       },
-      borderRadius: { xl: '1rem', '2xl': '1.25rem' }
+      borderRadius: { xl: '1rem', '2xl': '1.25rem' },
+      keyframes: {
+        'terminal-blink': {
+          '0%, 100%': { opacity: '1' },
+          '50%': { opacity: '0' },
+        }
+      },
+      animation: {
+        'terminal-blink': 'terminal-blink 1s step-end infinite',
+      }
     }
   },
   plugins: [require('@tailwindcss/typography'), require('tailwindcss-animate')]

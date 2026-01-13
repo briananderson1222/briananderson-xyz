@@ -47,7 +47,7 @@
   </section>
 
   <!-- Skills -->
-  <section class="mb-10 print:mb-2 break-inside-avoid">
+  <section class="mb-10 print:mb-2 print:mt-2 break-inside-avoid">
     <div class="flex items-center gap-2 mb-3 text-skin-accent text-sm uppercase tracking-wider print:text-black print:font-bold print:mb-1 print:text-xs">
       <span class="print:hidden">></span>
       <h2 class="print:font-serif">Skills</h2>
@@ -110,7 +110,7 @@
   <div class="hidden print:block border-t border-black my-4"></div>
 
   <!-- Education & Certs -->
-  <div class="grid md:grid-cols-2 gap-10 print:grid-cols-2 print:gap-6 print:mb-0">
+  <div class="grid md:grid-cols-2 gap-10 print:grid-cols-2 print:gap-6 print:mb-0 print:mt-2">
     <section>
       <div class="flex items-center gap-2 mb-4 text-skin-accent text-sm uppercase tracking-wider print:text-black print:font-bold print:mb-2 print:text-xs">
         <span class="print:hidden">></span>
