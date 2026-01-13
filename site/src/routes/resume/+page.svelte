@@ -148,11 +148,11 @@
             <div class="flex-1">
               {#if cert.url}
                 <a href={cert.url} target="_blank" rel="noreferrer" class="text-skin-base hover:text-skin-accent transition-colors print:text-black print:text-[10px] hover:underline decoration-dashed underline-offset-4 block">
-                  {cert.name} ↗
+                  {cert.name} <span class="print:hidden">↗</span>
                 </a>
               {:else}
                 <span class="text-skin-base print:text-black print:text-[10px] block">{cert.name}</span>
-              {/if}
+              {C/if}
             </div>
             <span class="text-skin-muted text-xs shrink-0 ml-4 print:text-black print:text-[9px]">{cert.period.split('-')[1].trim()}</span>
           </div>
@@ -172,12 +172,20 @@
 
 <style>
   @media print {
-    :global(body) {
+    :global(body), :global(html) {
       background-color: white !important;
       color: black !important;
+      height: auto !important;
+      overflow: visible !important;
     }
-    :global(nav), :global(footer), :global(.scanlines) {
+    /* Hide the site Navbar (header), Footer, and Scanlines */
+    :global(nav), :global(footer), :global(.scanlines), :global(header) {
       display: none !important;
+    }
+    /* Ensure the main layout container doesn't force height */
+    :global(.min-h-screen) {
+      min-height: 0 !important;
+      display: block !important;
     }
   }
 </style>
