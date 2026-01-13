@@ -4,19 +4,19 @@
   const { resume } = data;
 </script>
 
-<div class="max-w-4xl mx-auto px-4 py-12 md:py-16 font-mono print:p-0 print:max-w-none print:leading-tight">
+<div class="max-w-4xl mx-auto px-4 py-12 md:py-16 font-mono print:font-serif print:p-0 print:max-w-none print:leading-tight">
   
   <!-- Header -->
   <header class="border-b-2 border-skin-border pb-8 mb-10 print:mb-6 print:pb-4 print:border-black">
     <div class="flex flex-col-reverse md:flex-row justify-between items-start gap-6 print:flex-row">
       <div class="flex-1">
-        <h1 class="text-4xl md:text-5xl font-bold tracking-tight text-skin-base mb-2 print:text-black print:text-3xl">
+        <h1 class="text-4xl md:text-5xl font-bold tracking-tight text-skin-base mb-2 print:text-black print:text-3xl print:font-serif">
           {resume.name}
         </h1>
-        <p class="text-xl text-skin-accent mb-4 print:text-black print:text-lg print:mb-2 print:font-bold">
+        <p class="text-xl text-skin-accent mb-4 print:text-black print:text-lg print:mb-2 print:font-bold print:font-serif">
           {resume.title}
         </p>
-        <div class="flex flex-col gap-1 text-sm text-skin-muted print:text-black print:text-[10px] print:flex-row print:gap-4">
+        <div class="flex flex-col gap-1 text-sm text-skin-muted print:text-black print:text-[10px] print:flex-row print:gap-4 print:font-serif">
           <p>{resume.location}</p>
           <a href="mailto:{resume.email}" class="hover:text-skin-accent transition-colors print:no-underline print:text-black">{resume.email}</a>
           <a href="https://briananderson.xyz" class="hover:text-skin-accent transition-colors print:no-underline print:text-black">https://briananderson.xyz</a>
@@ -39,9 +39,9 @@
   <section class="mb-10 print:mb-4">
     <div class="flex items-center gap-2 mb-3 text-skin-accent text-sm uppercase tracking-wider print:text-black print:font-bold print:mb-1 print:text-xs">
       <span class="print:hidden">></span>
-      <h2>Professional Summary</h2>
+      <h2 class="print:font-serif">Professional Summary</h2>
     </div>
-    <p class="text-skin-base leading-relaxed text-lg border-l-2 border-skin-border pl-4 print:text-black print:text-xs print:leading-normal print:border-black print:pl-3">
+    <p class="text-skin-base leading-relaxed text-lg border-l-2 border-skin-border pl-4 print:text-black print:text-xs print:leading-normal print:border-black print:pl-3 print:font-serif">
       {resume.summary}
     </p>
   </section>
@@ -50,16 +50,15 @@
   <section class="mb-10 print:mb-4 break-inside-avoid">
     <div class="flex items-center gap-2 mb-3 text-skin-accent text-sm uppercase tracking-wider print:text-black print:font-bold print:mb-1 print:text-xs">
       <span class="print:hidden">></span>
-      <h2>Skills</h2>
+      <h2 class="print:font-serif">Skills</h2>
     </div>
     
-    <!-- Reduced gap from gap-6 to gap-4 (screen) and gap-2 (print) -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 print:grid-cols-3 print:gap-2">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 print:grid-cols-1 print:gap-0.5">
       {#each Object.entries(resume.skills) as [category, items]}
-        <div class="bg-skin-base/5 p-3 border border-skin-border print:bg-transparent print:p-0 print:border-0 rounded-lg">
-          <h3 class="text-xs font-bold uppercase text-skin-muted mb-2 print:text-black print:mb-1 print:underline">{category}</h3>
+        <div class="bg-skin-base/5 p-3 border border-skin-border print:bg-transparent print:p-0 print:border-0 rounded-lg print:grid print:grid-cols-[140px_1fr] print:gap-4 print:items-baseline">
+          <h3 class="text-xs font-bold uppercase text-skin-muted mb-2 print:text-black print:mb-0 print:no-underline print:text-[10px] print:font-bold print:font-serif">{category}</h3>
           <div class="flex flex-wrap gap-2 print:block">
-            <span class="hidden print:inline print:text-xs print:text-black print:leading-tight">
+            <span class="hidden print:inline print:text-xs print:text-black print:leading-tight print:text-[10px] print:font-serif">
               {items.join(', ')}
             </span>
             <div class="print:hidden">
