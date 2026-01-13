@@ -4,6 +4,12 @@ on:
   push:
     branches: [ "main" ]
   workflow_dispatch:
+    inputs:
+      invalidate_cache:
+        description: 'Invalidate Cloud CDN Cache'
+        required: false
+        default: false
+        type: boolean
 
 jobs:
   deploy-site:
@@ -41,3 +47,13 @@ jobs:
           gsutil -m rsync -r site/build gs://${{ secrets.GCS_BUCKET }}
           gsutil web set -m index.html -e 404.html gs://${{ secrets.GCS_BUCKET }}
           gsutil iam ch allUsers:objectViewer gs://${{ secrets.GCS_BUCKET }}
+      - name: Invalidate Cloud CDN Cache
+        if: ${{ inputs.invalidate_cache == true }}
+        run: |
+          # Requires GCS_CDN_URL_MAP_NAME secret to be set in GitHub
+          if [ -n "${{ secrets.GCS_CDN_URL_MAP_NAME }}" ]; then
+            gcloud compute url-maps invalidate-cdn-cache ${{ secrets.GCS_CDN_URL_MAP_NAME }} --path "/*" --async
+          else
+            echo "Skipping invalidation: GCS_CDN_URL_MAP_NAME secret not set."
+            echo "If you are using Cloudflare, configure this step to call the Cloudflare API instead."
+          fi
