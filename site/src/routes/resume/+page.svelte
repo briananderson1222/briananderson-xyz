@@ -152,7 +152,7 @@
                 </a>
               {:else}
                 <span class="text-skin-base print:text-black print:text-[10px] block">{cert.name}</span>
-              {C/if}
+              {/if}
             </div>
             <span class="text-skin-muted text-xs shrink-0 ml-4 print:text-black print:text-[9px]">{cert.period.split('-')[1].trim()}</span>
           </div>
