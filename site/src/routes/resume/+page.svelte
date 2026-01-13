@@ -3,7 +3,7 @@
   const { resume } = data;
 </script>
 
-<div class="max-w-4xl mx-auto px-4 py-12 md:py-16 font-mono selection:bg-skin-accent/30 selection:text-white print:p-0 print:max-w-none print:leading-tight">
+<div class="max-w-4xl mx-auto px-4 py-12 md:py-16 font-mono print:p-0 print:max-w-none print:leading-tight">
   
   <!-- Header -->
   <header class="border-b-2 border-skin-border pb-8 mb-10 print:mb-6 print:pb-4 print:border-black">
