@@ -91,7 +91,7 @@
             <h3 class="text-xl font-bold text-skin-base print:text-black print:text-sm print:font-serif">{job.role}</h3>
             <div class="font-mono text-sm text-skin-muted print:text-black print:text-[10px] print:font-serif md:text-right">
               <div>{job.period}</div>
-              <div class="text-xs text-skin-muted">[{getDuration(job.period)}]</div>
+              <div class="text-xs text-skin-muted print:inline print:pl-1 print:text-[9px]">({getDuration(job.period)})</div>
             </div>
           </div>
           
