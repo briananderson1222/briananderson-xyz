@@ -1,19 +1,18 @@
 import posthog from 'posthog-js';
 import { browser } from '$app/environment';
-import { PUBLIC_POSTHOG_KEY, PUBLIC_POSTHOG_HOST } from '$env/static/public';
 
 export const prerender = true;
 export const trailingSlash = 'always';
 
 export const load = async () => {
-  if (browser) {
+  if (browser && import.meta.env.PUBLIC_POSTHOG_KEY) {
     posthog.init(
-      PUBLIC_POSTHOG_KEY,
+      import.meta.env.PUBLIC_POSTHOG_KEY,
       {
-        api_host: PUBLIC_POSTHOG_HOST,
+        api_host: import.meta.env.PUBLIC_POSTHOG_HOST || 'https://app.posthog.com',
         capture_pageview: false,
         capture_pageleave: false,
-        capture_exceptions: true // This enables capturing exceptions using Error Tracking, set to false if you don't want this
+        capture_exceptions: true
       }
     );
   }

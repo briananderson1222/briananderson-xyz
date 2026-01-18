@@ -201,14 +201,14 @@
       height: auto !important;
     }
     /* Specific overrides for elements that might still be mono */
-    h1, h2, h3, h4, h5, h6, p, span, li, a, div, section, article {
-      font-family: 'Lato', sans-serif !important; /* Ensure Lato font */
+    h1, h2, h3, p, span, li, a, div, section, article {
+      font-family: 'Lato', sans-serif !important;
     }
     /* Prevent elements from creating extra blank pages */
     section, article {
-      break-after: auto !important; /* Allow content to break naturally */
+      break-after: auto !important;
     }
-    div[role="list"], ul { /* Example: If list items are causing issues */
+    ul {
       break-after: auto !important;
     }
   }
