@@ -18,6 +18,26 @@
    function toggleCategory(category: string) {
      openCategories[category] = !openCategories[category];
    }
+
+   function isSkillObject(item: any): item is { name: string } {
+     return item !== null && typeof item === 'object' && 'name' in item;
+   }
+
+   function getSkillUrl(item: any): string | undefined {
+     return isSkillObject(item) && 'url' in item ? item.url : undefined;
+   }
+
+   function getSkillAltName(item: any): string | undefined {
+     return isSkillObject(item) && 'altName' in item ? item.altName : undefined;
+   }
+
+   function getSkillName(item: any): string {
+     return isSkillObject(item) ? item.name : item;
+   }
+
+   function isNonResumeSkill(item: any): boolean {
+     return isSkillObject(item) && item.resume === false;
+   }
 </script>
 
 <section class="py-12 md:py-20 px-4">
@@ -110,12 +130,24 @@
                    <div class="flex items-center gap-2 text-skin-muted">
                       <span class="text-skin-accent">[OK]</span>
                       {#if 'name' in item}
-                        {#if item.url}
-                          <a href={item.url} target="_blank" rel="noreferrer" class="hover:text-skin-accent transition-colors" title={item.altName}>
-                            {item.name}{item.altName ? ` (aka. ${item.altName})` : ''} ↗
-                          </a>
+                        {#if item.resume === false}
+                          <div class="opacity-60">
+                            {#if item.url}
+                              <a href={item.url} target="_blank" rel="noreferrer" class="hover:text-skin-accent transition-colors" title={item.altName}>
+                                {item.name}{item.altName ? ` (aka. ${item.altName})` : ''} ↗
+                              </a>
+                            {:else}
+                              <span title={item.altName}>{item.name}{item.altName ? ` (aka. ${item.altName})` : ''}</span>
+                            {/if}
+                          </div>
                         {:else}
-                          <span title={item.altName}>{item.name}{item.altName ? ` (aka. ${item.altName})` : ''}</span>
+                          {#if item.url}
+                            <a href={item.url} target="_blank" rel="noreferrer" class="hover:text-skin-accent transition-colors" title={item.altName}>
+                              {item.name}{item.altName ? ` (aka. ${item.altName})` : ''} ↗
+                            </a>
+                          {:else}
+                            <span title={item.altName}>{item.name}{item.altName ? ` (aka. ${item.altName})` : ''}</span>
+                          {/if}
                         {/if}
                       {:else}
                         <span>{item}</span>
