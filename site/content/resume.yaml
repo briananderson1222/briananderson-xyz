@@ -9,148 +9,99 @@ summary: >-
 skills:
   Cloud Platforms:
     - name: AWS (Current)
-      resume: true
     - name: Google Cloud
-      resume: true
     - name: OpenShift
-      resume: true
   Infrastructure & IaC:
     - name: Terraform
-      resume: true
       url: https://www.terraform.io
     - name: AWS CDK
-      resume: true
     - name: Kubernetes (EKS/GKE)
-      resume: true
     - name: Networking (VPC/TGW)
-      resume: true
   DevOps & CI/CD:
     - name: GitHub Actions
-      resume: true
       url: https://github.com/actions
     - name: GitLab CI
-      resume: true
       url: https://docs.gitlab.com/ci/
     - name: Helm
-      resume: true
       url: https://helm.sh/
     - name: Jenkins
-      resume: true
     - name: Spinnaker
-      resume: true
       url: https://spinnaker.io/
   Languages:
     - name: Java (Spring Boot)
-      resume: true
       url: https://spring.io/projects/spring-boot
     - name: Python
-      resume: true
       url: https://www.python.org/
     - name: Node.js
-      resume: true
       url: https://nodejs.org/
     - name: TypeScript
-      resume: true
       url: https://www.typescriptlang.org/
   Web Frameworks:
     - name: React
-      resume: true
       url: https://react.dev/
     - name: Angular
-      resume: true
       url: https://angular.dev/
     - name: SvelteKit
-      resume: true
       url: https://kit.svelte.dev/
     - name: Next.js
-      resume: true
       url: https://nextjs.org/
     - name: Vue
-      resume: true
       url: https://vuejs.org/
   Data & Messaging:
     - name: PostgreSQL
-      resume: true
       url: https://www.postgresql.org/
     - name: DynamoDB
-      resume: true
       url: https://docs.aws.amazon.com/dynamodb/
     - name: Redis
-      resume: true
       url: https://redis.io/
     - name: Firestore
-      resume: true
       url: https://cloud.google.com/products/firestore/
     - name: Pub/Sub
-      resume: true
       url: https://cloud.google.com/products/pubsub/
     - name: Apache Kafka
-      resume: true
       url: https://kafka.apache.org/
     - name: EventBridge
-      resume: true
       url: https://docs.aws.amazon.com/eventbridge/
   Generative AI:
     - name: Amazon Bedrock
-      resume: true
       url: https://docs.aws.amazon.com/bedrock/
     - name: RAG
-      resume: true
     - name: Prompt Engineering
-      resume: true
     - name: Model Context Protocol (MCP)
-      resume: true
   AI Agent Frameworks:
     - name: LangGraph
-      resume: true
       url: https://langchain-ai.github.io/langgraph
     - name: Agentcore
-      resume: true
     - name: Strands SDK
-      resume: true
       url: https://strandsagents.com/
     - name: VoltAgent SDK
-      resume: true
       url: https://voltagent.dev/
   AI Development Tools:
     - name: Kiro
-      resume: true
       altName: Amazon Q Developer
       url: https://kiro.dev/
     - name: Claude Code
-      resume: true
       url: https://www.anthropic.com/
     - name: Cursor
-      resume: true
       url: https://cursor.com/
     - name: Codex
-      resume: true
       url: https://openai.com/codex/
     - name: SpecKit
-      resume: true
       url: https://github.com/github/spec-kit
     - name: OpenSpec
-      resume: true
       url: https://openspec.dev/
   Applications & Services:
     - name: Amazon Connect
-      resume: true
       url: https://aws.amazon.com/connect/
     - name: Amazon QuickSuite
-      resume: true
       url: https://aws.amazon.com/quicksuite/
     - name: Mapbox
-      resume: true
       url: https://www.mapbox.com/
   Leadership & Strategy:
     - name: Executive Stakeholder Management
-      resume: true
     - name: Solution Discovery
-      resume: true
     - name: Strategic Roadmapping
-      resume: true
     - name: Cross-Functional Leadership
-      resume: true
 
 experience:
   - role: Enterprise Solutions Architect
@@ -189,7 +140,7 @@ experience:
     period: January 2017 - November 2021
     description: Architected high-concurrency ordering platforms on GKE and mobile architecture for agriculture.
     highlights:
-      - "Google Cloud Ecommerce Transformation: Architected a high-concurrency ordering platform using Angular and Java Spring Boot microservices on Google Kubernetes Engine (GKE). Integrated Firestore, Pub/Sub and Memorystore, scaling team to 60+ developers and achieving 8-9 production deployments per day via Spinnaker."
+      - "Google Cloud Ecommerce Transformation: Architected a high-concurrency ordering platform using Angular and Java Spring Boot microservices on Google Kubernetes Engine (GKE). Integrated Firestore, Pub/Sub and Memorystore, scaling team to 60+ developers and achieving 8–9 production deployments per day via Spinnaker."
       - "Mobile Architecture (Agriculture): Led Android architecture for a global satellite/drone data solution, ensuring implementation parity with iOS. Built a dual-platform CD pipeline using Fastlane, Jenkins, and Docker, integrating AWS Device Farm for automated testing and Mapbox for complex geospatial data visualization."
       - "Innovation Leadership: Engineered an internal DevOps framework for standardized cross-platform mobile distribution, reducing release overhead from 4 weeks to 1 week for 6 production-supported applications."
 
