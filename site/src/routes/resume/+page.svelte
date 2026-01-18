@@ -57,15 +57,14 @@
     
      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 print:grid-cols-1 print:gap-0.5">
        {#each Object.entries(resume.skills) as [category, items]}
-         {@const filteredItems = items.filter(item => typeof item === 'string' ? true : (item.resume ?? true))}
          <div class="bg-skin-base/5 p-3 border border-skin-border print:bg-transparent print:p-0 print:border-0 rounded-lg print:grid print:grid-cols-[140px_1fr] print:gap-4 print:items-baseline">
            <h3 class="text-xs font-bold uppercase text-skin-muted mb-2 print:text-black print:mb-0 print:no-underline print:text-[10px] print:font-bold print:font-serif">{category}</h3>
            <div class="flex flex-wrap gap-2 print:block">
              <span class="hidden print:inline print:text-xs print:text-black print:leading-tight print:text-[10px] print:font-serif">
-               {filteredItems.map(item => typeof item === 'string' ? item : item.name).join(', ')}
+               {items.map(item => typeof item === 'string' ? item : item.name).join(', ')}
              </span>
              <div class="print:hidden">
-               {#each filteredItems as skill}
+               {#each items as skill}
                  <span class="inline-block px-2 py-0.5 text-xs font-semibold rounded-md border border-skin-border text-skin-base bg-skin-page shadow-sm mr-1 mb-1">
                    {typeof skill === 'string' ? skill : skill.name}
                  </span>
