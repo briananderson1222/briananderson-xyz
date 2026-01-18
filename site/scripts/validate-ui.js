@@ -180,6 +180,26 @@ function validateResumeData(html, resumeData) {
   
   return checks;
 }
+
+async function validatePrintStyles(html) {
+  const checks = [];
+  
+  // Check for print-specific classes instead of @media print in HTML
+  checks.push({
+    name: 'Print-specific classes present',
+    pass: html.includes('print:font-serif') || html.includes('print:hidden'),
+    value: 'print: classes found'
+  });
+  
+  // Check for print-specific CSS
+  checks.push({
+    name: 'Print-specific CSS present',
+    pass: html.includes('print:') || html.includes('@media print'),
+    value: 'Print CSS detected'
+  });
+  
+  return checks;
+}
   
   if (resumeData.title) {
     checks.push({
