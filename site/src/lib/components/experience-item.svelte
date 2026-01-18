@@ -13,7 +13,7 @@
 
 <div class="relative group {compact ? 'mb-3' : 'mb-6'}">
   <div class="absolute -left-[31px] top-1.5 w-3 h-3 bg-skin-page border border-skin-accent rounded-full class:current-job={isCurrentJob(job)}"></div>
-  <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1 sm:gap-4 hover:ring-1 hover:ring-skin-accent/20 hover:ring-offset-1 rounded transition-all">
+  <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1 sm:gap-4 hover:ring-1 hover:ring-skin-accent/20 hover:ring-offset-1 hover:z-10 rounded transition-all">
     <div class="min-w-0 flex-1">
       <h3 class="text-base text-skin-base font-bold leading-snug">{job.role}</h3>
       <div class="text-skin-accent text-sm">@ {job.company}</div>

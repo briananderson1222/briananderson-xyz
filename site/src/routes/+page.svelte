@@ -129,9 +129,9 @@
       <h2 class="text-xl font-bold text-skin-base">WORK_HISTORY_LOG</h2>
     </div>
 
-      <div class="space-y-6 font-mono border-l-2 border-skin-border ml-2 pl-6 relative">
-        {#each (showAllExperience ? resume.experience : resume.experience.slice(-3)) as job}
-          <ExperienceItem {job} />
+       <div class="space-y-6 font-mono border-l-2 border-skin-border ml-2 pl-6 relative hover:z-10">
+         {#each (showAllExperience ? resume.experience : resume.experience.slice(-3)) as job}
+           <ExperienceItem {job} />
         {/each}
         <div class="pt-4 space-y-3">
           {#if resume.experience.length > 3}

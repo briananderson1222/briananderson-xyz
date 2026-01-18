@@ -88,7 +88,7 @@
 
    <div class="space-y-6 print:space-y-3">
        {#each resume.experience as job}
-         <article class="relative pl-6 border-l-2 border-skin-border print:border-black print:pl-3 hover:ring-1 hover:ring-skin-accent/20 hover:ring-offset-1 rounded transition-all">
+          <article class="relative pl-6 border-l-2 border-skin-border print:border-black print:pl-3 hover:ring-1 hover:ring-skin-accent/20 hover:ring-offset-1 hover:z-10 rounded transition-all">
            <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-skin-page border-2 border-skin-border print:hidden"></div>
 
 
