@@ -1,9 +1,12 @@
 <script lang="ts">
-   import type { PageData } from './$types';
-   import { getDuration } from '$lib/utils/date';
-   import { browser } from '$app/environment';
-   export let data: PageData;
-   const { resume } = data;
+  import type { PageData } from './$types';
+  import ExperienceItem from '$lib/components/experience-item.svelte';
+  import { getDuration } from '$lib/utils/date';
+  import { browser } from '$app/environment';
+
+  export let data: PageData;
+  const { resume } = data;
+
 </script>
 
 <div class="max-w-4xl mx-auto px-4 py-12 md:py-16 font-mono print:font-serif print:p-0 print:max-w-none print:leading-tight">
