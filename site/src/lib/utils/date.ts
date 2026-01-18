@@ -1,7 +1,5 @@
-export function getDuration(period: string) {
+export function getDuration(startDate: string, endDate?: string): string {
   const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-  const parts = period.split(' - ');
-  if (parts.length !== 2) return '';
 
   const parseDate = (str: string) => {
     if (str.toUpperCase() === 'PRESENT') return new Date();
@@ -10,8 +8,8 @@ export function getDuration(period: string) {
     return new Date(parseInt(yearStr), monthIndex !== -1 ? monthIndex : 0);
   };
 
-  const start = parseDate(parts[0]);
-  const end = parseDate(parts[1]);
+  const start = parseDate(startDate);
+  const end = endDate ? parseDate(endDate) : new Date();
 
   let years = end.getFullYear() - start.getFullYear();
   let m = end.getMonth() - start.getMonth();
@@ -31,3 +29,4 @@ export function getDuration(period: string) {
 
   return [yStr, mStr].filter(Boolean).join(' ');
 }
+
