@@ -174,6 +174,107 @@ function validateResumeData(html, resumeData) {
     });
   }
   
+  // Add print style validation
+  const printChecks = await validatePrintStyles(html);
+  checks.push(...printChecks);
+  
+  return checks;
+}
+  
+  if (resumeData.title) {
+    checks.push({
+      name: 'Title in header',
+      pass: html.includes(resumeData.title),
+      value: resumeData.title
+    });
+  }
+  
+  if (resumeData.email) {
+    checks.push({
+      name: 'Email in header',
+      pass: html.includes(resumeData.email),
+      value: resumeData.email
+    });
+  }
+  
+  if (resumeData.summary) {
+    checks.push({
+      name: 'Summary section',
+      pass: html.includes(resumeData.summary),
+      value: resumeData.summary.substring(0, 50) + '...'
+    });
+  }
+  
+  // Validate experience entries
+  if (resumeData.experience && resumeData.experience.length > 0) {
+    checks.push({
+      name: 'Experience section exists',
+      pass: html.includes('Experience') || html.includes('experience'),
+      value: `${resumeData.experience.length} entries`
+    });
+    
+    resumeData.experience.forEach((job, index) => {
+      if (index < 3) { // Check first 3 jobs to keep output manageable
+        checks.push({
+          name: `Experience entry ${index + 1}: ${job.role}`,
+          pass: html.includes(job.role) && html.includes(job.company),
+          value: `${job.role} @ ${job.company}`
+        });
+        
+        // Check for date fields (new structure)
+        if (job.start_date) {
+          checks.push({
+            name: `Experience entry ${index + 1}: start_date`,
+            pass: html.includes(job.start_date),
+            value: job.start_date
+          });
+        }
+      }
+    });
+  }
+  
+  // Validate skills
+  if (resumeData.skills) {
+    const skillCount = Object.keys(resumeData.skills).length;
+    checks.push({
+      name: 'Skills section exists',
+      pass: html.includes('Skills') || html.includes('skills'),
+      value: `${skillCount} categories`
+    });
+    
+    // Check a few skills from each category
+    Object.entries(resumeData.skills).forEach(([category, items]) => {
+      if (items && items.length > 0) {
+        const firstItem = items[0];
+        const skillName = typeof firstItem === 'string' ? firstItem : firstItem.name;
+        checks.push({
+          name: `Skill category: ${category}`,
+          pass: html.includes(skillName),
+          value: `${items.length} skills (e.g., ${skillName})`
+        });
+      }
+    });
+  }
+  
+  // Validate education
+  if (resumeData.education && resumeData.education.length > 0) {
+    checks.push({
+      name: 'Education section exists',
+      pass: html.includes('Education') || html.includes('education'),
+      value: `${resumeData.education.length} entries`
+    });
+    
+    resumeData.education.forEach((edu, index) => {
+      if (index === 0) {
+        checks.push({
+          name: 'Education entry 1',
+          pass: html.includes(edu.school) && html.includes(edu.degree),
+          value: `${edu.school} - ${edu.degree}`
+        });
+      }
+    });
+  }
+  
   // Validate print styles
   checks.push({
     name: 'Print styles present',
