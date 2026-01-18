@@ -108,18 +108,18 @@
                <div class="p-3 grid grid-cols-1 gap-2">
                  {#each items as item}
                    <div class="flex items-center gap-2 text-skin-muted">
-                     <span class="text-skin-accent">[OK]</span>
-                     {#if 'name' in item}
-                       {#if item.url}
-                         <a href={item.url} target="_blank" rel="noreferrer" class="hover:text-skin-accent transition-colors" title={item.altName}>
-                           {item.name}{item.altName ? ` (aka. ${item.altName})` : ''}
-                         </a>
-                       {:else}
-                         <span title={item.altName}>{item.name}{item.altName ? ` (aka. ${item.altName})` : ''}</span>
-                       {/if}
-                     {:else}
-                       <span>{item}</span>
-                     {/if}
+                      <span class="text-skin-accent">[OK]</span>
+                      {#if 'name' in item}
+                        {#if item.url}
+                          <a href={item.url} target="_blank" rel="noreferrer" class="hover:text-skin-accent transition-colors" title={item.altName}>
+                            {item.name}{item.altName ? ` (aka. ${item.altName})` : ''} ↗
+                          </a>
+                        {:else}
+                          <span title={item.altName}>{item.name}{item.altName ? ` (aka. ${item.altName})` : ''}</span>
+                        {/if}
+                      {:else}
+                        <span>{item}</span>
+                      {/if}
                    </div>
                  {/each}
                </div>
