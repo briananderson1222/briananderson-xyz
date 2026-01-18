@@ -19,6 +19,9 @@ const config = {
   preprocess: [vitePreprocess(), mdsvex(mdsvexConfig)],
   kit: {
     adapter: adapter({ pages: 'build', assets: 'build', strict: true }),
+    paths: {
+      relative: false // Required for PostHog session replay to work correctly
+    },
     // Crawl all pages, but ignore 404s for the Decap CMS admin which is served from static/admin/
     prerender: {
       entries: ['*'],

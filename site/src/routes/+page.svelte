@@ -10,6 +10,7 @@
 
   let mounted = false;
   let openCategories: Record<string, boolean> = {};
+  let showAllExperience = false;
 
   onMount(() => mounted = true);
 
@@ -162,7 +163,7 @@
     </div>
 
     <div class="space-y-6 font-mono border-l-2 border-skin-border ml-2 pl-6 relative">
-      {#each resume.experience as job}
+      {#each (showAllExperience ? resume.experience : resume.experience.slice(-5)) as job}
         <div class="relative group">
           <div class="absolute -left-[31px] top-1.5 w-3 h-3 bg-skin-page border border-skin-accent rounded-full group-hover:bg-skin-accent transition-colors"></div>
           <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1 sm:gap-4">
@@ -182,8 +183,16 @@
           {/if}
         </div>
       {/each}
-      <div class="pt-4">
-         <a href="/resume" class="text-sm text-skin-accent hover:underline">View full details in resume -></a>
+      <div class="pt-4 space-y-3">
+        {#if resume.experience.length > 5}
+          <button 
+            on:click={() => showAllExperience = !showAllExperience}
+            class="text-sm text-skin-accent hover:underline font-mono"
+          >
+            {showAllExperience ? 'Show less' : `Show ${resume.experience.length - 5} more`} ->
+          </button>
+        {/if}
+        <a href="/resume" class="text-sm text-skin-accent hover:underline block font-mono">View full details in resume -></a>
       </div>
     </div>
   </div>

@@ -2,6 +2,14 @@
   import '$lib/styles/app.css';
   import Navbar from '$lib/components/Navbar.svelte';
   import Footer from '$lib/components/Footer.svelte';
+  import { browser } from '$app/environment';
+  import { beforeNavigate, afterNavigate } from '$app/navigation';
+  import posthog from 'posthog-js';
+
+  if (browser) {
+    beforeNavigate(() => posthog.capture('$pageleave'));
+    afterNavigate(() => posthog.capture('$pageview'));
+  }
 </script>
 
 <div class="pointer-events-none fixed inset-0 z-30 overflow-hidden">
