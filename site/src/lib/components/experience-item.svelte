@@ -1,6 +1,7 @@
 <script lang="ts">
   import { getDuration } from '$lib/utils/date';
   import type { ResumeJob } from '$lib/types';
+  import { browser } from '$app/environment';
 
   export let job: ResumeJob;
   export let compact = false;

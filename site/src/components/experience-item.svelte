@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
   import { getDuration } from '$lib/utils/date';
   import type { ResumeJob } from '$lib/types';
 

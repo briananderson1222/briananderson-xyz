@@ -88,6 +88,7 @@
          <article class="relative pl-6 border-l-2 border-skin-border print:border-black print:pl-3 hover:ring-1 hover:ring-skin-accent/20 hover:ring-offset-1 rounded transition-all">
            <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-skin-page border-2 border-skin-border print:hidden"></div>
 
+
           
           <div class="flex flex-col md:flex-row md:items-baseline justify-between mb-0 items-start print:flex-row print:items-baseline">
             <h3 class="text-xl font-bold text-skin-base print:text-black print:text-sm print:font-serif">{job.role}</h3>
@@ -114,7 +115,12 @@
 
   <div class="hidden print:block border-t border-black my-4"></div>
 
-  <!-- Education & Certs -->
+   <!-- Experience -->
+   <div class="space-y-6 print:space-y-3">
+       {#each resume.experience as job}
+         <article class="relative pl-6 border-l-2 border-skin-border print:border-black print:pl-3 hover:ring-1 hover:ring-skin-accent/20 hover:ring-offset-1 rounded transition-all">
+           <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-skin-page border-2 border-skin-border print:hidden"></div>
+
   <div class="grid md:grid-cols-2 gap-10 print:grid-cols-2 print:gap-6 print:mb-0 print:mt-2">
     <section>
       <div class="flex items-center gap-2 mb-4 text-skin-accent text-sm uppercase tracking-wider print:text-black print:font-bold print:mb-2 print:text-xs">
