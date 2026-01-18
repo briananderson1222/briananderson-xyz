@@ -1,14 +1,5 @@
 #!/usr/bin/env node
 
-/**
- * UI Validation Script
- * 
- * This script validates that dynamic content from resume.yaml
- * is properly rendering in the built static HTML files.
- * 
- * Usage: node scripts/validate-ui.js
- */
-
 import fs from 'fs';
 import path from 'path';
 import yaml from 'js-yaml';
@@ -212,6 +203,15 @@ function validateHomePage(html, resumeData) {
   }
   
   if (resumeData.experience && resumeData.experience.length > 0) {
+    const experienceItemCount = (html.match(/ExperienceItem/g) || []).length;
+    const expectedCount = Math.min(3, resumeData.experience.length);
+    
+    checks.push({
+      name: 'Experience items count (actual rendered)',
+      pass: experienceItemCount === expectedCount,
+      value: `Found ${experienceItemCount}, expected ${expectedCount}`
+    });
+    
     const recentJobs = resumeData.experience.slice(-3);
     recentJobs.forEach((job, index) => {
       checks.push({
@@ -227,6 +227,14 @@ function validateHomePage(html, resumeData) {
       name: 'Skills section on home page',
       pass: html.includes('Skills') || html.includes('skills'),
       value: `${Object.keys(resumeData.skills).length} categories`
+    });
+  }
+  
+  if (resumeData.experience.length > 3) {
+    checks.push({
+      name: 'Show more/less button present',
+      pass: html.includes('Show more') || html.includes('Show less'),
+      value: 'Toggle button found'
     });
   }
   
@@ -290,6 +298,7 @@ async function main() {
   } else {
     error('Some validations failed!');
     info('\n✗ Review the failed checks above');
+    info('\n💡 Tip: If experience items are wrong, check that resume.yaml lists jobs oldest → newest');
     process.exit(1);
   }
 }
