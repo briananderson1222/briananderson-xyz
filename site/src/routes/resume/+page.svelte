@@ -91,12 +91,7 @@
           <div class="flex flex-col md:flex-row md:items-baseline justify-between mb-0 items-start print:flex-row print:items-baseline">
             <h3 class="text-xl font-bold text-skin-base print:text-black print:text-sm print:font-serif">{job.role}</h3>
             <div class="font-mono text-sm text-skin-muted print:text-black print:text-[10px] print:font-serif md:text-right">
-              {#if browser}
-                <div>{job.period}</div>
-                <div class="text-xs text-skin-muted">[{getDuration(job.period)}]</div>
-              {:else}
-                <span class="text-[9px]">{job.period} ({getDuration(job.period)})</span>
-              {/if}
+              <span class="print:text-[9px]">{job.period} [{getDuration(job.period)}]</span>
             </div>
           </div>
           
