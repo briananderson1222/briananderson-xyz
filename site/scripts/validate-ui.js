@@ -68,17 +68,15 @@ async function loadBuildOutput(page) {
   }
 }
 
-async function validatePrintStyles(html) {
+function validatePrintStyles(html) {
   const checks = [];
   
-  // Check for print-specific classes instead of @media print in HTML
   checks.push({
     name: 'Print-specific classes present',
     pass: html.includes('print:font-serif') || html.includes('print:hidden'),
     value: 'print: classes found'
   });
   
-  // Check for print-specific CSS
   checks.push({
     name: 'Print-specific CSS present',
     pass: html.includes('print:') || html.includes('@media print'),
@@ -88,10 +86,9 @@ async function validatePrintStyles(html) {
   return checks;
 }
 
-function validateResumeData(html, resumeData) {
+async function validateResumeData(html, resumeData) {
   const checks = [];
   
-  // Validate basic resume data
   if (resumeData.name) {
     checks.push({
       name: 'Name in header',
@@ -124,7 +121,6 @@ function validateResumeData(html, resumeData) {
     });
   }
   
-  // Validate experience entries
   if (resumeData.experience && resumeData.experience.length > 0) {
     checks.push({
       name: 'Experience section exists',
@@ -133,14 +129,13 @@ function validateResumeData(html, resumeData) {
     });
     
     resumeData.experience.forEach((job, index) => {
-      if (index < 3) { // Check first 3 jobs to keep output manageable
+      if (index < 3) {
         checks.push({
           name: `Experience entry ${index + 1}: ${job.role}`,
           pass: html.includes(job.role) && html.includes(job.company),
           value: `${job.role} @ ${job.company}`
         });
         
-        // Check for date fields (new structure)
         if (job.start_date) {
           checks.push({
             name: `Experience entry ${index + 1}: start_date`,
@@ -152,7 +147,6 @@ function validateResumeData(html, resumeData) {
     });
   }
   
-  // Validate skills
   if (resumeData.skills) {
     const skillCount = Object.keys(resumeData.skills).length;
     checks.push({
@@ -161,7 +155,6 @@ function validateResumeData(html, resumeData) {
       value: `${skillCount} categories`
     });
     
-    // Check a few skills from each category
     Object.entries(resumeData.skills).forEach(([category, items]) => {
       if (items && items.length > 0) {
         const firstItem = items[0];
@@ -175,7 +168,6 @@ function validateResumeData(html, resumeData) {
     });
   }
   
-  // Validate education
   if (resumeData.education && resumeData.education.length > 0) {
     checks.push({
       name: 'Education section exists',
@@ -194,9 +186,8 @@ function validateResumeData(html, resumeData) {
     });
   }
   
-  // Validate print styles
   const printChecks = validatePrintStyles(html);
-  checks.push(...printChecks);
+  printChecks.forEach(check => checks.push(check));
   
   return checks;
 }
@@ -204,7 +195,6 @@ function validateResumeData(html, resumeData) {
 function validateHomePage(html, resumeData) {
   const checks = [];
   
-  // Validate basic resume data on home page
   if (resumeData.name) {
     checks.push({
       name: 'Name on home page',
@@ -221,7 +211,6 @@ function validateHomePage(html, resumeData) {
     });
   }
   
-  // Validate experience items
   if (resumeData.experience && resumeData.experience.length > 0) {
     const recentJobs = resumeData.experience.slice(-3);
     recentJobs.forEach((job, index) => {
@@ -233,7 +222,6 @@ function validateHomePage(html, resumeData) {
     });
   }
   
-  // Validate skills section
   if (resumeData.skills) {
     checks.push({
       name: 'Skills section on home page',
@@ -269,11 +257,9 @@ function runChecks(checks, sectionName) {
 async function main() {
   info('\n=== UI Validation Script ===\n');
   
-  // Load resume data
   const resumeData = await loadResumeData();
   success('Loaded resume.yaml');
   
-  // Validate resume page
   const resumeHtml = await loadBuildOutput('resume');
   if (!resumeHtml) {
     error('Resume page build output not found. Run `pnpm build` first.');
@@ -281,10 +267,9 @@ async function main() {
   }
   success('Loaded resume.html build output');
   
-  const resumeChecks = validateResumeData(resumeHtml, resumeData);
+  const resumeChecks = await validateResumeData(resumeHtml, resumeData);
   const resumePassed = runChecks(resumeChecks, 'Resume Page Validation');
   
-  // Validate home page
   const homeHtml = await loadBuildOutput('index');
   if (!homeHtml) {
     error('Home page build output not found. Run `pnpm build` first.');
@@ -295,7 +280,6 @@ async function main() {
   const homeChecks = validateHomePage(homeHtml, resumeData);
   const homePassed = runChecks(homeChecks, 'Home Page Validation');
   
-  // Summary
   info('\n=== Summary ===');
   if (resumePassed && homePassed) {
     success('All validations passed!');
