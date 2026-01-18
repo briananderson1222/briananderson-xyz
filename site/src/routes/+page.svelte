@@ -6,6 +6,7 @@
   import type { PageData } from './$types';
   import { getDuration } from '$lib/utils/date';
   import ExperienceItem from '$lib/components/experience-item.svelte';
+  import ExperienceItem from '$lib/components/experience-item.svelte';
 
   export let data: PageData;
   const { resume } = data;
