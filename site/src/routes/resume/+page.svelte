@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { PageData } from './$types';
+  import { getDuration } from '$lib/utils/date';
   export let data: PageData;
   const { resume } = data;
 </script>
@@ -88,7 +89,10 @@
           
           <div class="flex flex-col md:flex-row md:items-baseline justify-between mb-0 items-start print:flex-row print:items-baseline">
             <h3 class="text-xl font-bold text-skin-base print:text-black print:text-sm print:font-serif">{job.role}</h3>
-            <span class="font-mono text-sm text-skin-muted print:text-black print:text-[10px] print:font-serif md:text-right">{job.period}</span>
+            <div class="font-mono text-sm text-skin-muted print:text-black print:text-[10px] print:font-serif md:text-right">
+              <div>{job.period}</div>
+              <div class="text-xs text-skin-muted">[{getDuration(job.period)}]</div>
+            </div>
           </div>
           
           <div class="text-skin-accent mb-2 font-semibold print:text-black print:text-xs print:mb-0.5 print:font-bold print:font-serif">
