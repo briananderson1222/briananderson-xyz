@@ -2,6 +2,7 @@ export function getDuration(startDate: string, endDate?: string): string {
   const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
   const parseDate = (str: string) => {
+    if (!str) return new Date();
     if (str.toUpperCase() === 'PRESENT') return new Date();
     const [monthStr, yearStr] = str.split(' ');
     const monthIndex = months.findIndex(m => m.startsWith(monthStr));

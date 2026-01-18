@@ -3,8 +3,29 @@ name: Build and Deploy (Site + Auth Proxy)
 on:
   push:
     branches: [ "main" ]
+  workflow_dispatch:
+    inputs:
+      enable_auth_proxy:
+        description: 'Enable Auth Proxy deployment (disabled by default)'
+        required: false
+        default: false
+        type: boolean
 
 jobs:
+  check-auth-proxy:
+    runs-on: ubuntu-latest
+    outputs:
+      should_deploy: ${{ steps.check.outputs.result }}
+    steps:
+      - id: check
+        run: |
+          if [ "${{ inputs.enable_auth_proxy }}" == "true" ]; then
+            echo "result=true" >> $GITHUB_OUTPUT
+          else
+            echo "Auth Proxy deployment is disabled. To enable, run workflow with 'enable_auth_proxy' input set to true." | tee -a $GITHUB_STEP_SUMMARY
+            echo "result=false" >> $GITHUB_OUTPUT
+          fi
+
   build-site:
     runs-on: ubuntu-latest
     permissions:
@@ -47,7 +68,8 @@ jobs:
       contents: read
       id-token: write
     environment: prod
-    needs: build-site
+    needs: [build-site, check-auth-proxy]
+    if: needs.check-auth-proxy.outputs.should_deploy == 'true'
     steps:
       - uses: actions/checkout@v4
       - name: Authenticate to Google Cloud (WIF)

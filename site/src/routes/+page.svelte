@@ -5,6 +5,7 @@
   import { slide } from 'svelte/transition';
   import type { PageData } from './$types';
   import { getDuration } from '$lib/utils/date';
+  import ExperienceItem from '$lib/components/experience-item.svelte';
 
   export let data: PageData;
   const { resume } = data;
@@ -134,30 +135,6 @@
         {/each}
         <div class="pt-4 space-y-3">
           {#if resume.experience.length > 3}
-            <button
-              on:click={() => showAllExperience = !showAllExperience}
-              class="text-sm text-skin-accent hover:underline font-mono"
-            >
-              {showAllExperience ? 'Show less' : `Show ${resume.experience.length - 3} more`} ->
-            </button>
-          {/if}
-          <a href="/resume" class="text-sm text-skin-accent hover:underline block font-mono">View full details in resume -></a>
-        </div>
-      </div>
-            <div class="text-xs text-skin-muted whitespace-nowrap text-left sm:text-right shrink-0 mt-1 sm:mt-0.5">
-              <div>{job.period}</div>
-              <div class="text-skin-muted">[{getDuration(job.period)}]</div>
-            </div>
-          </div>
-          {#if job.description}
-            <p class="text-skin-muted text-sm mt-2 max-w-2xl leading-relaxed">
-              {job.description}
-            </p>
-          {/if}
-        </div>
-      {/each}
-      <div class="pt-4 space-y-3">
-        {#if resume.experience.length > 3}
           <button
             on:click={() => showAllExperience = !showAllExperience}
             class="text-sm text-skin-accent hover:underline font-mono"

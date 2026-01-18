@@ -96,7 +96,7 @@
           <div class="flex flex-col md:flex-row md:items-baseline justify-between mb-0 items-start print:flex-row print:items-baseline">
             <h3 class="text-xl font-bold text-skin-base print:text-black print:text-sm print:font-serif">{job.role}</h3>
             <div class="font-mono text-sm text-skin-muted print:text-black print:text-[10px] print:font-serif md:text-right">
-              <span class="print:text-[9px]">{job.period} [{getDuration(job.period)}]</span>
+              <span class="print:text-[9px]">{job.start_date} {job.end_date ? '- ' + job.end_date : ' - Present'} [{getDuration(job.start_date, job.end_date)}]</span>
             </div>
           </div>
           
@@ -116,13 +116,7 @@
     </div>
   </section>
 
-  <div class="hidden print:block border-t border-black my-4"></div>
-
-   <!-- Experience -->
-   <div class="space-y-6 print:space-y-3">
-       {#each resume.experience as job}
-         <article class="relative pl-6 border-l-2 border-skin-border print:border-black print:pl-3 hover:ring-1 hover:ring-skin-accent/20 hover:ring-offset-1 rounded transition-all">
-           <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-skin-page border-2 border-skin-border print:hidden"></div>
+   <div class="hidden print:block border-t border-black my-4"></div>
 
   <div class="grid md:grid-cols-2 gap-10 print:grid-cols-2 print:gap-6 print:mb-0 print:mt-2">
     <section>
@@ -135,7 +129,7 @@
           <div class="print:font-serif">
             <h3 class="font-bold text-skin-base print:text-black print:text-xs">{edu.school}</h3>
             <p class="text-skin-muted text-sm print:text-black print:text-[10px]">{edu.degree}</p>
-            <p class="text-skin-muted text-xs mt-1 print:text-black print:text-[9px]">{edu.period}</p>
+            <p class="text-skin-muted text-xs mt-1 print:text-black print:text-[9px]">{edu.start_date} {edu.end_date ? '- ' + edu.end_date : ' - Present'}</p>
           </div>
         {/each}
         {#if resume['early-career']}
@@ -143,7 +137,7 @@
             <div class="print:font-serif">
               <h3 class="font-bold text-skin-base print:text-black print:text-xs">{career.company}</h3>
               <p class="text-skin-muted text-sm print:text-black print:text-[10px]">{career.role}</p>
-              <p class="text-skin-muted text-xs mt-1 print:text-black print:text-[9px]">{career.period}</p>
+              <p class="text-skin-muted text-xs mt-1 print:text-black print:text-[9px]">{career.start_date}</p>
             </div>
           {/each}
         {/if}
@@ -167,7 +161,7 @@
                 <span class="text-skin-base print:text-black print:text-[10px] block">{cert.name}</span>
               {/if}
             </div>
-            <span class="text-skin-muted text-xs shrink-0 ml-4 print:text-black print:text-[9px]">{cert.period.split('-')[1].trim()}</span>
+            <span class="text-skin-muted text-xs shrink-0 ml-4 print:text-black print:text-[9px]">{cert.end_date}</span>
           </div>
         {/each}
       </div>

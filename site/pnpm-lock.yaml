@@ -23,9 +23,6 @@ importers:
       posthog-js:
         specifier: ^1.319.0
         version: 1.319.0
-      posthog-node:
-        specifier: ^5.20.0
-        version: 5.20.0
     devDependencies:
       '@sveltejs/adapter-static':
         specifier: ^3.0.5
@@ -1083,10 +1080,6 @@ packages:
 
   posthog-js@1.319.0:
     resolution: {integrity: sha512-0LFqLEhZzA8s1TrhYxsKsKmYV0n3FpNrWaT8rMjL87TRXtpy3XtsvbZKa97X6MFly5CK9CdhgKSNNyX7j12MrQ==}
-
-  posthog-node@5.20.0:
-    resolution: {integrity: sha512-LkR5KfrvEQTnUtNKN97VxFB00KcYG1Iz8iKg8r0e/i7f1eQhg1WSZO+Jp1B4bvtHCmdpIE4HwYbvCCzFoCyjVg==}
-    engines: {node: '>=20'}
 
   preact@10.28.2:
     resolution: {integrity: sha512-lbteaWGzGHdlIuiJ0l2Jq454m6kcpI1zNje6d8MlGAFlYvP2GO4ibnat7P74Esfz4sPTdM6UxtTwh/d3pwM9JA==}
@@ -2266,10 +2259,6 @@ snapshots:
       preact: 10.28.2
       query-selector-shadow-dom: 1.0.1
       web-vitals: 4.2.4
-
-  posthog-node@5.20.0:
-    dependencies:
-      '@posthog/core': 1.9.1
 
   preact@10.28.2: {}
 

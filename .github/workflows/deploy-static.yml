@@ -12,9 +12,36 @@ on:
         type: boolean
 
 jobs:
+  validate:
+    runs-on: ubuntu-latest
+    environment: prod
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+          cache-dependency-path: site/pnpm-lock.yaml
+      - name: Install deps
+        working-directory: site
+        run: pnpm i --frozen-lockfile || pnpm i
+      - name: Set up PostHog environment variables
+        working-directory: site
+        run: |
+          echo "PUBLIC_POSTHOG_KEY=${{ secrets.PUBLIC_POSTHOG_KEY }}" >> .env
+          echo "PUBLIC_POSTHOG_HOST=${{ secrets.PUBLIC_POSTHOG_HOST }}" >> .env
+      - name: Validate
+        working-directory: site
+        run: pnpm run validate
+
   deploy-site:
     environment: prod
     runs-on: ubuntu-latest
+    needs: validate
     permissions:
       contents: 'read'
       id-token: 'write'

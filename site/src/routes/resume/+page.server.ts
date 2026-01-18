@@ -8,7 +8,7 @@ export const prerender = true;
 export const load = async () => {
   try {
     const filePath = path.resolve('content/resume.yaml');
-    const fileContents = fs.readFileSync(filePath, 'utf8');
+    const fileContents = fs.readFileSync(filePath, 'utf-8');
     const resume = yaml.load(fileContents) as Resume;
     return { resume };
   } catch (e) {

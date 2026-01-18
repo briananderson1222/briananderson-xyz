@@ -34,6 +34,7 @@
   .current-job {
     background-color: var(--color-skin-accent);
     box-shadow: 0 0 10px 2px var(--color-skin-accent);
+    animation: pulse 2s infinite;
   }
 
   @keyframes pulse {

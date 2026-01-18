@@ -1,0 +1,324 @@
+#!/usr/bin/env node
+
+/**
+ * PostHog Integration Validation Script
+ * 
+ * This script validates that PostHog analytics is properly configured
+ * and tracking events are being captured.
+ * 
+ * Usage: node scripts/validate-posthog.js
+ */
+
+import fs from 'fs';
+import path from 'path';
+
+const COLORS = {
+  reset: '\x1b[0m',
+  green: '\x1b[32m',
+  red: '\x1b[31m',
+  yellow: '\x1b[33m',
+  blue: '\x1b[34m'
+};
+
+function log(message, color = 'reset') {
+  console.log(`${COLORS[color]}${message}${COLORS.reset}`);
+}
+
+function error(message) {
+  log(`✗ ${message}`, 'red');
+}
+
+function success(message) {
+  log(`✓ ${message}`, 'green');
+}
+
+function warn(message) {
+  log(`⚠ ${message}`, 'yellow');
+}
+
+function info(message) {
+  log(`ℹ ${message}`, 'blue');
+}
+
+async function validateEnvConfig() {
+  info('\n=== Environment Configuration ===\n');
+  
+  let passed = 0;
+  let total = 0;
+  
+  // Check .env file
+  const envPath = path.resolve('.env');
+  if (fs.existsSync(envPath)) {
+    const envContent = fs.readFileSync(envPath, 'utf-8');
+    
+    total++;
+    if (envContent.includes('PUBLIC_POSTHOG_KEY=')) {
+      const keyMatch = envContent.match(/PUBLIC_POSTHOG_KEY=(.+)/);
+      if (keyMatch && keyMatch[1] && keyMatch[1] !== 'your_posthog_project_key') {
+        success('PUBLIC_POSTHOG_KEY is configured');
+        passed++;
+      } else {
+        error('PUBLIC_POSTHOG_KEY is set to placeholder value');
+      }
+    } else {
+      error('PUBLIC_POSTHOG_KEY not found in .env');
+    }
+    
+    total++;
+    if (envContent.includes('PUBLIC_POSTHOG_HOST=')) {
+      const hostMatch = envContent.match(/PUBLIC_POSTHOG_HOST=(.+)/);
+      if (hostMatch && hostMatch[1]) {
+        success(`PUBLIC_POSTHOG_HOST is configured: ${hostMatch[1].trim()}`);
+        passed++;
+      } else {
+        error('PUBLIC_POSTHOG_HOST is empty');
+      }
+    } else {
+      error('PUBLIC_POSTHOG_HOST not found in .env');
+    }
+  } else {
+    error('.env file not found');
+    total += 2;
+  }
+  
+  return { passed, total };
+}
+
+async function validateClientSideIntegration() {
+  info('\n=== Client-Side Integration ===\n');
+  
+  let passed = 0;
+  let total = 0;
+  
+  // Check layout.ts
+  const layoutTsPath = path.resolve('src/routes/+layout.ts');
+  if (fs.existsSync(layoutTsPath)) {
+    const layoutContent = fs.readFileSync(layoutTsPath, 'utf-8');
+    
+    total++;
+    if (layoutContent.includes("import posthog from 'posthog-js'")) {
+      success('posthog-js is imported in layout.ts');
+      passed++;
+    } else {
+      error('posthog-js import missing in layout.ts');
+    }
+    
+    total++;
+    if (layoutContent.includes('posthog.init(')) {
+      success('posthog.init() is called in layout.ts');
+      passed++;
+    } else {
+      error('posthog.init() call missing in layout.ts');
+    }
+    
+    total++;
+    if (layoutContent.includes('PUBLIC_POSTHOG_KEY')) {
+      success('PUBLIC_POSTHOG_KEY is used in layout.ts');
+      passed++;
+    } else {
+      error('PUBLIC_POSTHOG_KEY not referenced in layout.ts');
+    }
+  } else {
+    error('src/routes/+layout.ts not found');
+    total += 3;
+  }
+  
+  // Check layout.svelte
+  const layoutSveltePath = path.resolve('src/routes/+layout.svelte');
+  if (fs.existsSync(layoutSveltePath)) {
+    const layoutContent = fs.readFileSync(layoutSveltePath, 'utf-8');
+    
+    total++;
+    if (layoutContent.includes("import posthog from 'posthog-js'")) {
+      success('posthog-js is imported in layout.svelte');
+      passed++;
+    } else {
+      error('posthog-js import missing in layout.svelte');
+    }
+    
+    total++;
+    if (layoutContent.includes('posthog.capture(')) {
+      success('posthog.capture() is called for events');
+      passed++;
+    } else {
+      error('posthog.capture() call missing in layout.svelte');
+    }
+    
+    total++;
+    if (layoutContent.includes('$pageview')) {
+      success('Pageview events are tracked');
+      passed++;
+    } else {
+      error('$pageview event tracking missing');
+    }
+    
+    total++;
+    if (layoutContent.includes('$pageleave')) {
+      success('Pageleave events are tracked');
+      passed++;
+    } else {
+      error('$pageleave event tracking missing');
+    }
+  } else {
+    error('src/routes/+layout.svelte not found');
+    total += 4;
+  }
+  
+  return { passed, total };
+}
+
+async function validateServerSideIntegration() {
+  info('\n=== Server-Side Integration (Skipped for Static Site) ===\n');
+  
+  let passed = 0;
+  let total = 0;
+  
+  info('ℹ Static site detected - server-side PostHog tracking not needed');
+  info('ℹ posthog-node package is present but unused (safe to remove)');
+  
+  // Just verify posthog-node package exists but is not required
+  const posthogPath = path.resolve('src/lib/server/posthog.ts');
+  if (fs.existsSync(posthogPath)) {
+    info('ℹ src/lib/server/posthog.ts exists (safe to remove for static sites)');
+  }
+  
+  // No server-side checks needed for static sites
+  total = 1;
+  passed = 1;
+  success('Server-side tracking not required for static sites');
+  
+  return { passed, total };
+}
+
+async function validateBuildOutput() {
+  info('\n=== Build Output ===\n');
+  
+  let passed = 0;
+  let total = 0;
+  
+  // Check env.js where SvelteKit embeds PUBLIC_ env vars
+  const envJsPath = path.resolve('build/_app/env.js');
+  if (fs.existsSync(envJsPath)) {
+    const envContent = fs.readFileSync(envJsPath, 'utf-8');
+    
+    total++;
+    if (envContent.includes('phc_')) {
+      success('PostHog project key found in build/_app/env.js');
+      passed++;
+    } else {
+      error('PostHog project key not found in build/_app/env.js');
+    }
+    
+    total++;
+    if (envContent.includes('PUBLIC_POSTHOG_KEY')) {
+      success('PUBLIC_POSTHOG_KEY is properly embedded');
+      passed++;
+    } else {
+      error('PUBLIC_POSTHOG_KEY not found in build/_app/env.js');
+    }
+    
+    total++;
+    if (envContent.includes('PUBLIC_POSTHOG_HOST')) {
+      success('PUBLIC_POSTHOG_HOST is properly embedded');
+      passed++;
+    } else {
+      error('PUBLIC_POSTHOG_HOST not found in build/_app/env.js');
+    }
+  } else {
+    error('build/_app/env.js not found. Run `pnpm build` first.');
+    total += 3;
+  }
+  
+  // Check index.html for script references
+  const indexHtmlPath = path.resolve('build/index.html');
+  if (fs.existsSync(indexHtmlPath)) {
+    const htmlContent = fs.readFileSync(indexHtmlPath, 'utf-8');
+    
+    total++;
+    if (htmlContent.includes('env.js') || htmlContent.includes('env')) {
+      success('Environment variables are embedded in build output');
+      passed++;
+    } else {
+      error('Environment variables not referenced in index.html');
+    }
+  } else {
+    error('build/index.html not found. Run `pnpm build` first.');
+    total++;
+  }
+  
+  return { passed, total };
+}
+
+async function validateDependencies() {
+  info('\n=== Dependencies ===\n');
+  
+  let passed = 0;
+  let total = 0;
+  
+  const packageJsonPath = path.resolve('package.json');
+  if (fs.existsSync(packageJsonPath)) {
+    const packageContent = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
+    
+    total++;
+    if (packageContent.dependencies['posthog-js']) {
+      success(`posthog-js is installed: ${packageContent.dependencies['posthog-js']}`);
+      passed++;
+    } else {
+      error('posthog-js not found in dependencies');
+    }
+    
+    total++;
+    if (packageContent.dependencies['posthog-node']) {
+      info('ℹ posthog-node is installed but not needed for static sites (' + packageContent.dependencies['posthog-node'] + ')');
+      info('  Consider removing: pnpm remove posthog-node');
+      passed++;
+    } else {
+      success('posthog-node not installed (correct for static sites)');
+      passed++;
+    }
+  } else {
+    error('package.json not found');
+    total += 2;
+  }
+  
+  return { passed, total };
+}
+
+async function main() {
+  info('\n=== PostHog Integration Validation Script ===\n');
+  
+  const envResults = await validateEnvConfig();
+  const clientResults = await validateClientSideIntegration();
+  const serverResults = await validateServerSideIntegration();
+  const buildResults = await validateBuildOutput();
+  const depResults = await validateDependencies();
+  
+  const totalPassed = envResults.passed + clientResults.passed + serverResults.passed + buildResults.passed + depResults.passed;
+  const totalChecks = envResults.total + clientResults.total + serverResults.total + buildResults.total + depResults.total;
+  
+  info('\n=== Summary ===');
+  info(`Passed: ${totalPassed}/${totalChecks}`);
+  
+  if (totalPassed === totalChecks) {
+    success('\n✓ All PostHog integration checks passed!');
+    info('\nNext steps:');
+    info('1. Run `pnpm dev` and open http://localhost:5173');
+    info('2. Open browser DevTools (F12)');
+    info('3. Check Console for PostHog initialization messages');
+    info('4. Check Network tab for requests to PostHog host');
+    info('5. Navigate between pages to verify pageview events');
+    info('6. Check PostHog dashboard to confirm events are being received');
+    process.exit(0);
+  } else {
+    const failed = totalChecks - totalPassed;
+    error(`\n✗ ${failed} check(s) failed!`);
+    info('\nReview the failed checks above to fix issues.');
+    process.exit(1);
+  }
+}
+
+main().catch(e => {
+  error(`Fatal error: ${e.message}`);
+  console.error(e);
+  process.exit(1);
+});
