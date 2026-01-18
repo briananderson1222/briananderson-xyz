@@ -7,56 +7,150 @@ summary: >-
   Proven track record of leading multi-team deliveries for Fortune 500 companies, specializing in migrating monolithic systems to Kubernetes-based microservices and implementing AI-driven automation. Expert in AWS/GCP architecture, CI/CD standardization, and bridging the gap between executive strategy and technical execution. Currently focused on pioneering Agentic AI at scale to drive measurable business automation and customer outcomes.
 
 skills:
-  Cloud & Infrastructure:
-    - AWS (Current)
-    - Google Cloud
-    - CloudFormation/CDK
-    - Terraform
-    - Kubernetes (EKS/GKE)
-    - OpenShift
-    - Networking (VPC/TGW)
-    - Amazon Connect
-    - Amazon Quick
-  Generative AI:
-    - Kiro (Amazon Q Developer)
-    - Amazon Bedrock
-    - Agentcore
-    - MCP (Model Context Protocol)
-    - RAG
-    - Prompt Engineering
-    - Python
-    - LangGraph
-    - Strands SDK
-    - VoltAgent SDK
-    - GitHub's SpecKit
-    - FissionAI's OpenSpec
-    - BMAD
-    - AI-DLC (AWS's AI Development Lifecycle Framework)
+  Cloud Platforms:
+    - name: AWS (Current)
+      resume: true
+    - name: Google Cloud
+      resume: true
+    - name: OpenShift
+      resume: true
+  Infrastructure & IaC:
+    - name: Terraform
+      resume: true
+      url: https://www.terraform.io
+    - name: AWS CDK
+      resume: true
+    - name: Kubernetes (EKS/GKE)
+      resume: true
+    - name: Networking (VPC/TGW)
+      resume: true
   DevOps & CI/CD:
-    - Platform Engineering
-    - GitHub Actions
-    - GitLab CI
-    - Helm
-    - Jenkins
-    - Spinnaker
-  Development:
-    - Java (Spring Boot)
-    - Node.js
-    - TypeScript
-    - Angular
-    - React
+    - name: GitHub Actions
+      resume: true
+      url: https://github.com/actions
+    - name: GitLab CI
+      resume: true
+      url: https://docs.gitlab.com/ci/
+    - name: Helm
+      resume: true
+      url: https://helm.sh/
+    - name: Jenkins
+      resume: true
+    - name: Spinnaker
+      resume: true
+      url: https://spinnaker.io/
+  Languages:
+    - name: Java (Spring Boot)
+      resume: true
+      url: https://spring.io/projects/spring-boot
+    - name: Python
+      resume: true
+      url: https://www.python.org/
+    - name: Node.js
+      resume: true
+      url: https://nodejs.org/
+    - name: TypeScript
+      resume: true
+      url: https://www.typescriptlang.org/
+  Web Frameworks:
+    - name: React
+      resume: true
+      url: https://react.dev/
+    - name: Angular
+      resume: true
+      url: https://angular.dev/
+    - name: SvelteKit
+      resume: true
+      url: https://kit.svelte.dev/
+    - name: Next.js
+      resume: true
+      url: https://nextjs.org/
+    - name: Vue
+      resume: true
+      url: https://vuejs.org/
   Data & Messaging:
-    - PostgreSQL
-    - DynamoDB
-    - Redis
-    - Pub/Sub
-    - Kafka
-    - EventBridge
-  Enterprise Strategy:
-    - Executive Stakeholder Management
-    - Solution Discovery
-    - Strategic Roadmapping
-    - Cross-Functional Leadership
+    - name: PostgreSQL
+      resume: true
+      url: https://www.postgresql.org/
+    - name: DynamoDB
+      resume: true
+      url: https://docs.aws.amazon.com/dynamodb/
+    - name: Redis
+      resume: true
+      url: https://redis.io/
+    - name: Firestore
+      resume: true
+      url: https://cloud.google.com/products/firestore/
+    - name: Pub/Sub
+      resume: true
+      url: https://cloud.google.com/products/pubsub/
+    - name: Apache Kafka
+      resume: true
+      url: https://kafka.apache.org/
+    - name: EventBridge
+      resume: true
+      url: https://docs.aws.amazon.com/eventbridge/
+  Generative AI:
+    - name: Amazon Bedrock
+      resume: true
+      url: https://docs.aws.amazon.com/bedrock/
+    - name: RAG
+      resume: true
+    - name: Prompt Engineering
+      resume: true
+    - name: Model Context Protocol (MCP)
+      resume: true
+  AI Agent Frameworks:
+    - name: LangGraph
+      resume: true
+      url: https://langchain-ai.github.io/langgraph
+    - name: Agentcore
+      resume: true
+    - name: Strands SDK
+      resume: true
+      url: https://strandsagents.com/
+    - name: VoltAgent SDK
+      resume: true
+      url: https://voltagent.dev/
+  AI Development Tools:
+    - name: Kiro
+      resume: true
+      altName: Amazon Q Developer
+      url: https://kiro.dev/
+    - name: Claude Code
+      resume: true
+      url: https://www.anthropic.com/
+    - name: Cursor
+      resume: true
+      url: https://cursor.com/
+    - name: Codex
+      resume: true
+      url: https://openai.com/codex/
+    - name: SpecKit
+      resume: true
+      url: https://github.com/github/spec-kit
+    - name: OpenSpec
+      resume: true
+      url: https://openspec.dev/
+  Applications & Services:
+    - name: Amazon Connect
+      resume: true
+      url: https://aws.amazon.com/connect/
+    - name: Amazon QuickSuite
+      resume: true
+      url: https://aws.amazon.com/quicksuite/
+    - name: Mapbox
+      resume: true
+      url: https://www.mapbox.com/
+  Leadership & Strategy:
+    - name: Executive Stakeholder Management
+      resume: true
+    - name: Solution Discovery
+      resume: true
+    - name: Strategic Roadmapping
+      resume: true
+    - name: Cross-Functional Leadership
+      resume: true
 
 experience:
   - role: Enterprise Solutions Architect
@@ -65,10 +159,10 @@ experience:
     period: September 2024 - PRESENT
     description: Specializing in GenAI integration, Cloud Native transformation, and Logistics Control Towers.
     highlights:
-      - "Strategic Technical Advisory (Auto/Manufacturing): Partnered with Greenfield enterprise customers to identify high-impact business opportunities for Logistics Control Towers and AI-driven quality analysis. Led discovery sessions, serving as the technical catalyst to mobilize AWS Professional Services and industry-specific specialists for delivery."
-      - "Customer Trust & Modernization: Directed an Amazon Connect pilot for a global manufacturer to automate customer support via SMS, enabling the expansion of business support hours. Architected a Document Management System integrated with SAP ERP, successfully leveraging this high-visibility win to earn executive trust and establish a long-term roadmap for comprehensive cloud migration."
+      - "Strategic Technical Advisory (Auto/Manufacturing): Partnered with Greenfield enterprise customers to identify high-impact business opportunities for Logistics Control Towers and AI-driven quality analysis. Led discovery sessions, serving as technical catalyst to mobilize AWS Professional Services and industry-specific specialists for delivery."
+      - "Customer Trust & Modernization: Directed an Amazon Connect pilot for a global manufacturer to automate customer support via SMS, enabling expansion of business support hours. Architected a Document Management System integrated with SAP ERP, successfully leveraging this high-visibility win to earn executive trust and establish a long-term roadmap for comprehensive cloud migration."
       - "GenAI Innovation & Automation: Engineered a custom GenAI agent platform using Amazon Bedrock and Agentcore, reducing team administrative overhead by ~4 hours/week. Focused on improving CRM data hygiene and automated note-taking to provide leadership with enhanced visibility into customer engagement trends."
-      - "Product Influence & Ecosystem Integration: Championed Amazon Q Developer (Kiro) by driving the prioritization of bi-directional AI collaboration, enabling agentic features to capture and synchronize with manual user updates during pair-programming sessions. Engineered integrations for GitHub's SpecKit and FissionAI's OpenSpec, earning a public commendation from the SpecKit team and driving high demand for internal customer-facing consultations."
+      - "Product Influence & Ecosystem Integration: Championed Amazon Q Developer (Kiro) by driving prioritization of bi-directional AI collaboration, enabling agentic features to capture and synchronize with manual user updates during pair-programming sessions. Engineered integrations for GitHub's SpecKit and FissionAI's OpenSpec, earning a public commendation from SpecKit team and driving high demand for internal customer-facing consultations."
 
   - role: Technical Director
     company: Valtech | Kin + Carta
@@ -76,7 +170,7 @@ experience:
     period: March 2024 - September 2024
     description: Led cloud modernization for a mission-critical credit card portfolio to OpenShift.
     highlights:
-      - "Cloud Modernization Strategy: Partnered with C-suite stakeholders to lead the migration of a mission-critical Credit Card portfolio from legacy Websphere and PCF environments to OpenShift (OCP). Orchestrated the transition of 6 core applications with zero downtime."
+      - "Cloud Modernization Strategy: Partnered with C-suite stakeholders to lead migration of a mission-critical Credit Card portfolio from legacy Websphere and PCF environments to OpenShift (OCP). Orchestrated transition of 6 core applications with zero downtime."
       - "Engineering Excellence: Pioneered a \"Quality First\" mandate by implementing TDD and automated CI/CD guardrails. Reduced deployment cycles from monthly releases to multiple on-demand daily deployments while maintaining strict financial sector change management compliance."
       - "Scalable Architecture & Enablement: Standardized enterprise-wide integration patterns using Helm Charts and Kubernetes Operators. This enabled seamless, \"first-class\" adoption of observability tools (Datadog/Instana) and AWS services (e.g., RDS for PostgreSQL) across multiple delivery teams."
 
@@ -86,8 +180,8 @@ experience:
     period: November 2021 - March 2024
     description: Designed 'Golden Path' for cloud adoption and standardized CI/CD templates.
     highlights:
-      - "Enterprise Platform Engineering: Designed and evangelized a \"Golden Path\" for cloud adoption for a major Food Distributor, standardizing product provisioning and CI/CD templates across GitLab, SonarCloud, NexusIQ, and Apigee to enable rapid, secure deployment cycles."
-      - "Infrastructure as Code (IaC) & Governance: Developed a comprehensive library of shared Terraform Modules and Liquibase patterns, ensuring infrastructure consistency, security compliance, and automated budgetary guardrails across all enterprise product teams."
+      - "Enterprise Platform Engineering: Designed and evangelized a \"Golden Path\" for cloud adoption for a major Food Distributor, standardizing product provisioning and CI/CD templates across GitLab, SonarCloud, NexusIQ and Apigee to enable rapid, secure deployment cycles."
+      - "Infrastructure as Code (IaC) & Governance: Developed a comprehensive library of shared Terraform Modules and Liquibase patterns, ensuring infrastructure consistency, security compliance and automated budgetary guardrails across all enterprise product teams."
 
   - role: Technical Principal
     company: Solstice | Kin + Carta
@@ -95,8 +189,8 @@ experience:
     period: January 2017 - November 2021
     description: Architected high-concurrency ordering platforms on GKE and mobile architecture for agriculture.
     highlights:
-      - "Google Cloud Ecommerce Transformation: Architected a high-concurrency ordering platform using Angular and Java Spring Boot microservices on Google Kubernetes Engine (GKE). Integrated Firestore, Pub/Sub, and Memorystore, scaling the team to 60+ developers and achieving 8–9 production deployments per day via Spinnaker."
-      - "Mobile Architecture (Agriculture): Led the Android architecture for a global satellite/drone data solution, ensuring implementation parity with iOS. Built a dual-platform CD pipeline using Fastlane, Jenkins, and Docker, integrating AWS Device Farm for automated testing and Mapbox for complex geospatial data visualization."
+      - "Google Cloud Ecommerce Transformation: Architected a high-concurrency ordering platform using Angular and Java Spring Boot microservices on Google Kubernetes Engine (GKE). Integrated Firestore, Pub/Sub and Memorystore, scaling team to 60+ developers and achieving 8-9 production deployments per day via Spinnaker."
+      - "Mobile Architecture (Agriculture): Led Android architecture for a global satellite/drone data solution, ensuring implementation parity with iOS. Built a dual-platform CD pipeline using Fastlane, Jenkins, and Docker, integrating AWS Device Farm for automated testing and Mapbox for complex geospatial data visualization."
       - "Innovation Leadership: Engineered an internal DevOps framework for standardized cross-platform mobile distribution, reducing release overhead from 4 weeks to 1 week for 6 production-supported applications."
 
   - role: Senior Technical Consultant
@@ -105,7 +199,7 @@ experience:
     period: July 2015 - January 2017
     description: Led technical sales and architecture for enterprise mobile and modernization roadmaps.
     highlights:
-      - "Enterprise Mobile Strategy: Served as Solution Architect and Tech Lead for native iOS and Android applications for a Global Fast Food enterprise, overseeing complex integration with the ServiceNow platform."
+      - "Enterprise Mobile Strategy: Served as Solution Architect and Tech Lead for native iOS and Android applications for a Global Fast Food enterprise, overseeing complex integration with ServiceNow platform."
       - "Modernization Roadmaps: Led technical sales engagements for large-scale fleet management clients, performing architectural audits and providing strategic roadmaps to modernize legacy platforms and UI/UX."
       - "Innovation & R&D Leadership: Spearheaded R&D projects involving Raspberry Pi (Flask), Oculus Rift (Unity 3D), and Amazon Echo to demonstrate experiential commerce at industry conference (Solstice FWD)."
       - "Location-Based Services: Architected a high-traffic healthcare conference application utilizing iBeacons (BLE) for proximity-based notifications and Parse for real-time messaging."
@@ -125,10 +219,10 @@ experience:
     period: June 2013 - April 2014
     description: Delivered core mobile features for financial services clients.
     highlights:
-      - "Financial Services Engineering: Delivered core mobile features for a large financial services client in 4-week sprints, including Photo Check Deposit, Scheduled Payments, and a complete home screen refactor using Auto Layout."
+      - "Financial Services Engineering: Delivered core mobile features for a large financial services client in 4-week sprints, including Photo Check Deposit, Scheduled Payments and a complete home screen refactor using Auto Layout."
 
 early-career:
-  - role:  Web Developer and Database Management
+  - role: Web Developer and Database Management
     company: Space Science and Engineering Center
     period: June 2010 - May 2013
     location: Madison, WI

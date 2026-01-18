@@ -7,8 +7,17 @@ export interface ResumeJob {
   highlights: string[];
 }
 
+export interface SkillItem {
+  name: string;
+  resume?: boolean;
+  url?: string;
+  altName?: string;
+}
+
+export type SkillsCategory = Record<string, SkillItem[]>;
+
 export interface ResumeSkillCategory {
-  [category: string]: string[];
+  [category: string]: SkillItem[];
 }
 
 export interface ResumeEducation {
