@@ -95,7 +95,7 @@
                 <div>{job.period}</div>
                 <div class="text-xs text-skin-muted">[{getDuration(job.period)}]</div>
               {:else}
-                <span class="text-[9px]">({getDuration(job.period)}) {job.period}</span>
+                <span class="text-[9px]">{job.period} ({getDuration(job.period)})</span>
               {/if}
             </div>
           </div>
