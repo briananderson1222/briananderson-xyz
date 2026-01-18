@@ -63,7 +63,7 @@ jobs:
       - name: Test print functionality
         run: |
           # Check that print styles exist in build output
-          if grep -q "@media print" site/build/resume.html; then
+          if grep -q "@media print" site/build/resume/index.html; then
             echo "✓ Print styles found in resume.html"
           else
             echo "✗ Print styles not found in resume.html"
@@ -71,7 +71,7 @@ jobs:
           fi
           
           # Check that print mode hides nav and footer
-          if grep -q ":global(nav)" site/build/resume.html; then
+          if grep -q ":global(nav)" site/build/resume/index.html; then
             echo "✓ Print nav hiding styles found"
           else
             echo "✗ Print nav hiding styles not found"
