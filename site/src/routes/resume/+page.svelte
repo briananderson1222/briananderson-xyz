@@ -3,6 +3,7 @@
   import ExperienceItem from '$lib/components/experience-item.svelte';
   import { getDuration } from '$lib/utils/date';
   import { browser } from '$app/environment';
+  import '$lib/components/ui/glowing-green.css';
 
   export let data: PageData;
   const { resume } = data;
@@ -86,34 +87,34 @@
       <h2 class="print:font-serif">Experience</h2>
     </div>
 
-   <div class="space-y-6 print:space-y-3">
-       {#each resume.experience as job}
-          <article class="relative pl-6 border-l-2 border-skin-border print:border-black print:pl-3 hover:ring-1 hover:ring-skin-accent/20 hover:ring-offset-1 hover:z-10 rounded transition-all">
-           <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-skin-page border-2 border-skin-border print:hidden"></div>
+    <div class="space-y-6 print:space-y-2">
+        {#each resume.experience as job}
+           <article class="relative pl-6 border-l-2 border-skin-border print:border-black print:pl-3">
+            <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-skin-page border-2 border-skin-border print:hidden {!job.end_date ? 'glowing-green' : ''}"></div>
 
+           <div class="pb-4 print:pb-0 hover:bg-skin-base/5 transition-all duration-300">
+              <div class="flex flex-col md:flex-row md:items-baseline justify-between mb-0 items-start print:flex-row print:items-baseline">
+                <h3 class="experience-title text-xl font-bold text-skin-base print:text-black print:text-sm print:font-serif">{job.role}</h3>
+                <div class="font-mono text-sm text-skin-muted print:text-black print:text-[10px] print:font-serif md:text-right">
+                  <span class="print:text-[9px]">{job.start_date} {job.end_date ? '- ' + job.end_date : ' - Present'} [{getDuration(job.start_date, job.end_date)}]</span>
+                </div>
+              </div>
 
-          
-          <div class="flex flex-col md:flex-row md:items-baseline justify-between mb-0 items-start print:flex-row print:items-baseline">
-            <h3 class="text-xl font-bold text-skin-base print:text-black print:text-sm print:font-serif">{job.role}</h3>
-            <div class="font-mono text-sm text-skin-muted print:text-black print:text-[10px] print:font-serif md:text-right">
-              <span class="print:text-[9px]">{job.start_date} {job.end_date ? '- ' + job.end_date : ' - Present'} [{getDuration(job.start_date, job.end_date)}]</span>
+              <div class="text-skin-accent mb-2 print:mb-1 font-semibold print:text-black print:text-xs print:mb-0.5 print:font-bold print:font-serif">
+                {job.company} <span class="text-skin-muted font-normal text-sm mx-1 print:text-black">|</span> {job.location}
+              </div>
+
+              <ul class="space-y-1 text-skin-muted leading-relaxed print:text-black print:text-[10px] print:space-y-0 print:leading-tight print:font-serif">
+                {#each job.highlights as highlight}
+                  <li class="relative pl-4 before:content-['-'] before:absolute before:left-0 before:text-skin-muted print:before:text-black">
+                    {highlight}
+                  </li>
+                {/each}
+              </ul>
             </div>
-          </div>
-          
-          <div class="text-skin-accent mb-2 font-semibold print:text-black print:text-xs print:mb-0.5 print:font-bold print:font-serif">
-            {job.company} <span class="text-skin-muted font-normal text-sm mx-1 print:text-black">|</span> {job.location}
-          </div>
-
-          <ul class="space-y-1 text-skin-muted leading-relaxed print:text-black print:text-[10px] print:space-y-0.5 print:font-serif">
-            {#each job.highlights as highlight}
-              <li class="relative pl-4 before:content-['-'] before:absolute before:left-0 before:text-skin-muted print:before:text-black">
-                {highlight}
-              </li>
-            {/each}
-          </ul>
-        </article>
-      {/each}
-    </div>
+          </article>
+        {/each}
+     </div>
   </section>
 
    <div class="hidden print:block border-t border-black my-4"></div>

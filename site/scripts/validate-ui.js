@@ -203,16 +203,22 @@ function validateHomePage(html, resumeData) {
   }
   
   if (resumeData.experience && resumeData.experience.length > 0) {
-    const experienceItemCount = (html.match(/ExperienceItem/g) || []).length;
+    // Count experience items by checking for the rendered jobs (not component name)
+    const recentJobs = resumeData.experience.slice(0, 3);
+    let experienceItemCount = 0;
+    recentJobs.forEach(job => {
+      if (html.includes(job.role) && html.includes(job.company)) {
+        experienceItemCount++;
+      }
+    });
     const expectedCount = Math.min(3, resumeData.experience.length);
-    
+
     checks.push({
       name: 'Experience items count (actual rendered)',
       pass: experienceItemCount === expectedCount,
       value: `Found ${experienceItemCount}, expected ${expectedCount}`
     });
-    
-    const recentJobs = resumeData.experience.slice(-3);
+
     recentJobs.forEach((job, index) => {
       checks.push({
         name: `Experience item ${index + 1} on home page`,
@@ -233,7 +239,7 @@ function validateHomePage(html, resumeData) {
   if (resumeData.experience.length > 3) {
     checks.push({
       name: 'Show more/less button present',
-      pass: html.includes('Show more') || html.includes('Show less'),
+      pass: html.includes('Show') && html.includes('more') && html.includes('->'),
       value: 'Toggle button found'
     });
   }

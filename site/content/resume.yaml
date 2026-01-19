@@ -88,13 +88,6 @@ skills:
       url: https://github.com/github/spec-kit
     - name: OpenSpec
       url: https://openspec.dev/
-  Applications & Services:
-    - name: Amazon Connect
-      url: https://aws.amazon.com/connect/
-    - name: Amazon QuickSuite
-      url: https://aws.amazon.com/quicksuite/
-    - name: Mapbox
-      url: https://www.mapbox.com/
   Leadership & Strategy:
     - name: Executive Stakeholder Management
     - name: Solution Discovery
