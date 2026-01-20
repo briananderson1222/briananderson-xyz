@@ -43,3 +43,9 @@ variable "auth_proxy_image" {
   type    = string
   default = ""
 } # e.g., us-central1-docker.pkg.dev/PROJECT/containers/decap-auth-proxy:SHA
+
+variable "allowed_repository_owner_ids" {
+  description = "List of GitHub repository owner IDs allowed to authenticate"
+  type        = list(string)
+  default     = ["256009379", "4603907"]
+}

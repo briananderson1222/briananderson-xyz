@@ -79,14 +79,15 @@ resource "google_iam_workload_identity_pool_provider" "provider" {
   display_name                       = "GitHub OIDC Provider"
 
   attribute_mapping = {
-    "google.subject"       = "assertion.sub"
-    "attribute.repository" = "assertion.repository"
-    "attribute.ref"        = "assertion.ref"
-    "attribute.actor"      = "assertion.actor"
+    "google.subject"              = "assertion.sub"
+    "attribute.repository"        = "assertion.repository"
+    "attribute.repository_owner_id" = "assertion.repository_owner_id"
+    "attribute.ref"               = "assertion.ref"
+    "attribute.actor"             = "assertion.actor"
   }
 
   # Limit which GitHub repo/branch can assume this identity
-  attribute_condition = "attribute.repository == \"${var.github_org}/${var.github_repo}\" && attribute.ref == \"refs/heads/${var.github_branch}\""
+  attribute_condition = "attribute.repository_owner_id in ${jsonencode(var.allowed_repository_owner_ids)} && attribute.ref == \"refs/heads/main\""
 
   oidc { issuer_uri = "https://token.actions.githubusercontent.com" }
 }
