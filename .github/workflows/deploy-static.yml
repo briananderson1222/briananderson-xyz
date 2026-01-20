@@ -71,9 +71,9 @@ jobs:
         uses: google-github-actions/setup-gcloud@v2
       - name: Upload to GCS
         run: |
-          gsutil -m rsync -r site/build gs://${{ secrets.GCS_BUCKET }}
-          gsutil web set -m index.html -e 404.html gs://${{ secrets.GCS_BUCKET }}
-          gsutil iam ch allUsers:objectViewer gs://${{ secrets.GCS_BUCKET }}
+          gcloud storage rsync site/build gs://${{ secrets.GCS_BUCKET }} --recursive --delete-unmatched-destination-objects
+          gcloud storage buckets update gs://${{ secrets.GCS_BUCKET }} --web-main-page=index.html --web-error-page=404.html
+          gcloud storage buckets add-iam-policy-binding gs://${{ secrets.GCS_BUCKET }} --member=allUsers --role=roles/storage.objectViewer
       - name: Invalidate Cloud CDN Cache
         if: ${{ inputs.invalidate_cache == true }}
         run: |
