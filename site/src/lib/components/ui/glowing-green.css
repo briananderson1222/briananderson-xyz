@@ -1,14 +1,12 @@
 /* Glowing green indicator styles - using theme colors */
 
 .glowing-green {
-  background-color: var(--color-skin-accent, #22c55e);
-  border-color: var(--color-skin-accent, #22c55e);
-  box-shadow: 0 0 10px 2px var(--color-skin-accent, rgba(34, 197, 94, 0.5));
   animation: pulse-green 2s infinite;
 }
 
 @keyframes pulse-green {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0.8;
     box-shadow: 0 0 10px 2px var(--color-skin-accent, rgba(34, 197, 94, 0.5));
   }

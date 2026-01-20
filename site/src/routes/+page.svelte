@@ -89,7 +89,7 @@
   <div class="max-w-4xl mx-auto px-4">
     <div class="flex items-center gap-2 mb-6 text-skin-accent font-mono">
       <span>></span>
-      <h2 class="text-xl font-bold text-skin-base">SYSTEM_MODULES_LOADED</h2>
+      <h2 class="text-xl font-bold">SYSTEM_MODULES_LOADED</h2>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-start font-mono text-sm">
@@ -126,7 +126,7 @@
   <div class="max-w-4xl mx-auto px-4">
     <div class="flex items-center gap-2 mb-6 text-skin-accent font-mono">
       <span>></span>
-      <h2 class="text-xl font-bold text-skin-base">WORK_HISTORY_LOG</h2>
+      <h2 class="text-xl font-bold">WORK_HISTORY_LOG</h2>
     </div>
 
        <div class="space-y-6 font-mono border-l-2 border-skin-border ml-2 pl-6 relative hover:z-10">

@@ -1,10 +1,10 @@
 name: Brian Anderson
 title: Technical Director & Enterprise Solutions Architect
-tagline: Specializing in GenAI integration, Cloud Native transformation, and DevOps. I design autonomous systems and scalable architectures that empower teams to deliver high-quality solutions through continuous delivery and collaborative developer experiences.
+tagline: Specializing in GenAI integration, Cloud Native transformation, and DevOps. Passion for designing autonomous systems and scalable architectures that empower teams to deliver high-quality solutions by fostering a culture of collaboration, focusing on developer experience, and enabling rapid innovation with continuous delivery.
 mission: Driving measurable business automation and customer outcomes through Agentic AI and Cloud Native strategies.
 email: brian@briananderson.xyz
 location: Denver, CO
-summary: Proven track record of leading multi-team deliveries for Fortune 500 companies, specializing in migrating monolithic systems to Kubernetes-based microservices and implementing automation. Expert in AWS/GCP architecture, CI/CD standardization, and bridging the gap between executive strategy and technical execution.
+summary: Proven track record of leading multi-team deliveries for Fortune 500 companies, specializing in migrating monolithic systems to Kubernetes-based microservices and implementing end-to-end automation. Expert in AWS/GCP architecture, CI/CD standardization, and bridging the gap between executive strategy and technical execution.
 skills:
   Cloud Platforms:
     - name: AWS
@@ -100,17 +100,17 @@ experience:
     location: Denver, CO
     description: Specializing in GenAI integration, Cloud Native transformation, and Logistics Control Towers.
     highlights:
-      - 'Strategic Technical Advisory (Auto/Manufacturing): Partnered with Greenfield enterprise customers to identify high-impact business opportunities for Logistics Control Towers and AI-driven quality analysis. Led discovery sessions, serving as technical catalyst to mobilize AWS Professional Services and industry-specific specialists for delivery.'
-      - 'Customer Trust & Modernization: Directed an Amazon Connect pilot for a global manufacturer to automate customer support via SMS, enabling expansion of business support hours. Architected a Document Management System integrated with SAP ERP, successfully leveraging this high-visibility win to earn executive trust and establish a long-term roadmap for comprehensive cloud migration.'
-      - 'GenAI Innovation & Automation: Engineered a custom GenAI agent platform using Amazon Bedrock and Agentcore, reducing team administrative overhead by ~4 hours/week. Focused on improving CRM data hygiene and automated note-taking to provide leadership with enhanced visibility into customer engagement trends.'
-      - 'Product Influence & Ecosystem Integration: Championed Amazon Q Developer (Kiro) by driving prioritization of bi-directional AI collaboration, enabling agentic features to capture and synchronize with manual user updates during pair-programming sessions. Engineered integrations for GitHub''s SpecKit and FissionAI''s OpenSpec, earning a public commendation from SpecKit team and driving high demand for internal customer-facing consultations.'
+      - "Strategic Technical Advisory (Auto/Manufacturing): Partnered with Greenfield enterprise customers to identify high-impact business opportunities for Logistics Control Towers and AI-driven quality analysis. Led discovery sessions, serving as technical catalyst to mobilize AWS Professional Services and industry-specific specialists for delivery."
+      - "Customer Trust & Modernization: Directed an Amazon Connect pilot for a global manufacturer to automate customer support via SMS, enabling expansion of business support hours. Architected a Document Management System integrated with SAP ERP, successfully leveraging this high-visibility win to earn executive trust and establish a long-term roadmap for comprehensive cloud migration."
+      - "GenAI Innovation & Automation: Engineered a custom GenAI agent platform using Amazon Bedrock and Agentcore, reducing team administrative overhead by ~4 hours/week. Focused on improving CRM data hygiene and automated note-taking to provide leadership with enhanced visibility into customer engagement trends."
+      - "Product Influence & Ecosystem Integration: Championed Amazon Q Developer (Kiro) by driving prioritization of bi-directional AI collaboration, enabling agentic features to capture and synchronize with manual user updates during pair-programming sessions. Engineered integrations for GitHub's SpecKit and FissionAI's OpenSpec, earning a public commendation from SpecKit team and driving high demand for internal customer-facing consultations."
     start_date: September 2024
   - role: Technical Director
     company: Valtech | Kin + Carta
     location: Denver, CO
     description: Led cloud modernization for a mission-critical credit card portfolio to OpenShift.
     highlights:
-      - 'Cloud Modernization Strategy: Partnered with C-suite stakeholders to lead migration of a mission-critical Credit Card portfolio from legacy Websphere and PCF environments to OpenShift (OCP). Orchestrated transition of 6 core applications with zero downtime.'
+      - "Cloud Modernization Strategy: Partnered with C-suite stakeholders to lead migration of a mission-critical Credit Card portfolio from legacy Websphere and PCF environments to OpenShift (OCP). Orchestrated transition of 6 core applications with zero downtime."
       - 'Engineering Excellence: Pioneered a "Quality First" mandate by implementing TDD and automated CI/CD guardrails. Reduced deployment cycles from monthly releases to multiple on-demand daily deployments while maintaining strict financial sector change management compliance.'
       - 'Scalable Architecture & Enablement: Standardized enterprise-wide integration patterns using Helm Charts and Kubernetes Operators. This enabled seamless, "first-class" adoption of observability tools (Datadog/Instana) and AWS services (e.g., RDS for PostgreSQL) across multiple delivery teams.'
     start_date: March 2024
@@ -121,7 +121,7 @@ experience:
     description: Designed 'Golden Path' for cloud adoption and standardized CI/CD templates.
     highlights:
       - 'Enterprise Platform Engineering: Designed and evangelized a "Golden Path" for cloud adoption for a major Food Distributor, standardizing product provisioning and CI/CD templates across GitLab, SonarCloud, NexusIQ and Apigee to enable rapid, secure deployment cycles.'
-      - 'Infrastructure as Code (IaC) & Governance: Developed a comprehensive library of shared Terraform Modules and Liquibase patterns, ensuring infrastructure consistency, security compliance and automated budgetary guardrails across all enterprise product teams.'
+      - "Infrastructure as Code (IaC) & Governance: Developed a comprehensive library of shared Terraform Modules and Liquibase patterns, ensuring infrastructure consistency, security compliance and automated budgetary guardrails across all enterprise product teams."
     start_date: November 2021
     end_date: March 2024
   - role: Technical Principal
@@ -129,9 +129,9 @@ experience:
     location: Denver, CO
     description: Architected high-concurrency ordering platforms on GKE and mobile architecture for agriculture.
     highlights:
-      - 'Google Cloud Ecommerce Transformation: Architected a high-concurrency ordering platform using Angular and Java Spring Boot microservices on Google Kubernetes Engine (GKE). Integrated Firestore, Pub/Sub and Memorystore, scaling team to 60+ developers and achieving 8–9 production deployments per day via Spinnaker.'
-      - 'Mobile Architecture (Agriculture): Led Android architecture for a global satellite/drone data solution, ensuring implementation parity with iOS. Built a dual-platform CD pipeline using Fastlane, Jenkins, and Docker, integrating AWS Device Farm for automated testing and Mapbox for complex geospatial data visualization.'
-      - 'Innovation Leadership: Engineered an internal DevOps framework for standardized cross-platform mobile distribution, reducing release overhead from 4 weeks to 1 week for 6 production-supported applications.'
+      - "Google Cloud Ecommerce Transformation: Architected a high-concurrency ordering platform using Angular and Java Spring Boot microservices on Google Kubernetes Engine (GKE). Integrated Firestore, Pub/Sub and Memorystore, scaling team to 60+ developers and achieving 8–9 production deployments per day via Spinnaker."
+      - "Mobile Architecture (Agriculture): Led Android architecture for a global satellite/drone data solution, ensuring implementation parity with iOS. Built a dual-platform CD pipeline using Fastlane, Jenkins, and Docker, integrating AWS Device Farm for automated testing and Mapbox for complex geospatial data visualization."
+      - "Innovation Leadership: Engineered an internal DevOps framework for standardized cross-platform mobile distribution, reducing release overhead from 4 weeks to 1 week for 6 production-supported applications."
     start_date: January 2017
     end_date: November 2021
   - role: Senior Technical Consultant
@@ -139,10 +139,10 @@ experience:
     location: Chicago, IL
     description: Led technical sales and architecture for enterprise mobile and modernization roadmaps.
     highlights:
-      - 'Enterprise Mobile Strategy: Served as Solution Architect and Tech Lead for native iOS and Android applications for a Global Fast Food enterprise, overseeing complex integration with ServiceNow platform.'
-      - 'Modernization Roadmaps: Led technical sales engagements for large-scale fleet management clients, performing architectural audits and providing strategic roadmaps to modernize legacy platforms and UI/UX.'
-      - 'Innovation & R&D Leadership: Spearheaded R&D projects involving Raspberry Pi (Flask), Oculus Rift (Unity 3D), and Amazon Echo to demonstrate experiential commerce at industry conference (Solstice FWD).'
-      - 'Location-Based Services: Architected a high-traffic healthcare conference application utilizing iBeacons (BLE) for proximity-based notifications and Parse for real-time messaging.'
+      - "Enterprise Mobile Strategy: Served as Solution Architect and Tech Lead for native iOS and Android applications for a Global Fast Food enterprise, overseeing complex integration with ServiceNow platform."
+      - "Modernization Roadmaps: Led technical sales engagements for large-scale fleet management clients, performing architectural audits and providing strategic roadmaps to modernize legacy platforms and UI/UX."
+      - "Innovation & R&D Leadership: Spearheaded R&D projects involving Raspberry Pi (Flask), Oculus Rift (Unity 3D), and Amazon Echo to demonstrate experiential commerce at industry conference (Solstice FWD)."
+      - "Location-Based Services: Architected a high-traffic healthcare conference application utilizing iBeacons (BLE) for proximity-based notifications and Parse for real-time messaging."
     start_date: July 2015
     end_date: January 2017
   - role: Technical Consultant
@@ -150,8 +150,8 @@ experience:
     location: Chicago, IL
     description: Developed native mobile and hybrid web applications for high-profile clients.
     highlights:
-      - 'iOS Product Delivery: Acted as sole developer and architect for a premium Swift-based iOS application for a high-profile executive society, transitioning a legacy subscription model into a user-centric mobile experience.'
-      - 'Web & Hybrid Development: Architected an AngularJS web application for a specialty food distributor, implementing automated deployment pipelines using Octopus and TFS. Integrated Chart.js via custom WebViews into native mobile apps for a wealth management company using Bower and Gulp for streamlined package management and integration.'
+      - "iOS Product Delivery: Acted as sole developer and architect for a premium Swift-based iOS application for a high-profile executive society, transitioning a legacy subscription model into a user-centric mobile experience."
+      - "Web & Hybrid Development: Architected an AngularJS web application for a specialty food distributor, implementing automated deployment pipelines using Octopus and TFS. Integrated Chart.js via custom WebViews into native mobile apps for a wealth management company using Bower and Gulp for streamlined package management and integration."
     start_date: April 2014
     end_date: July 2015
   - role: Technical Analyst
@@ -159,7 +159,7 @@ experience:
     location: Chicago, IL
     description: Delivered core mobile features for financial services clients.
     highlights:
-      - 'Financial Services Engineering: Delivered core mobile features for a large financial services client in 4-week sprints, including Photo Check Deposit, Scheduled Payments and a complete home screen refactor using Auto Layout.'
+      - "Financial Services Engineering: Delivered core mobile features for a large financial services client in 4-week sprints, including Photo Check Deposit, Scheduled Payments and a complete home screen refactor using Auto Layout."
     start_date: June 2013
     end_date: April 2014
 early-career:

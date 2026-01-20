@@ -42,7 +42,7 @@
   </header>
 
   <!-- Summary -->
-  <section class="mb-10 print:mb-2">
+  <section class="mb-10 print:mb-4">
     <div class="flex items-center gap-2 mb-3 text-skin-accent text-sm uppercase tracking-wider print:text-black print:font-bold print:mb-1 print:text-xs">
       <span class="print:hidden">></span>
       <h2 class="print:font-serif">Professional Summary</h2>
@@ -89,10 +89,10 @@
 
     <div class="space-y-6 print:space-y-2">
         {#each resume.experience as job}
-           <article class="relative pl-6 border-l-2 border-skin-border print:border-black print:pl-3">
-            <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-skin-page border-2 border-skin-border print:hidden {!job.end_date ? 'glowing-green' : ''}"></div>
+           <article class="relative pl-[1rem] border-l-2 border-skin-border print:border-black print:pl-3">
+             <div class="absolute -left-[9px] top-[1.3rem] w-4 h-4 rounded-full bg-skin-page border-2 border-skin-border print:hidden {!job.end_date ? 'glowing-green' : ''}"></div>
 
-           <div class="pb-4 print:pb-0 hover:bg-skin-base/5 transition-all duration-300">
+            <div class="p-4 print:pb-0 print:p-0 hover:bg-skin-base/5 transition-all duration-300">
               <div class="flex flex-col md:flex-row md:items-baseline justify-between mb-0 items-start print:flex-row print:items-baseline">
                 <h3 class="experience-title text-xl font-bold text-skin-base print:text-black print:text-sm print:font-serif">{job.role}</h3>
                 <div class="font-mono text-sm text-skin-muted print:text-black print:text-[10px] print:font-serif md:text-right">
