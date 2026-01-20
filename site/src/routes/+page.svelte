@@ -46,7 +46,7 @@
 
           <div class="mb-4 text-terminal-green">$ cat mission.txt</div>
           <p class="mb-6 border-l-2 border-zinc-700 pl-4 italic opacity-80">
-            "Drive measurable business automation and customer outcomes through Agentic AI and Cloud Native strategies."
+            "{resume.mission}"
           </p>
 
           <div class="mb-4 text-terminal-green">$ list-actions</div>
@@ -89,7 +89,7 @@
   <div class="max-w-4xl mx-auto px-4">
     <div class="flex items-center gap-2 mb-6 text-skin-accent font-mono">
       <span>></span>
-      <h2 class="text-xl font-bold text-skin-base">./skills_status</h2>
+      <h2 class="text-xl font-bold text-skin-base">SYSTEM_MODULES_LOADED</h2>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-start font-mono text-sm">
@@ -126,7 +126,7 @@
   <div class="max-w-4xl mx-auto px-4">
     <div class="flex items-center gap-2 mb-6 text-skin-accent font-mono">
       <span>></span>
-      <h2 class="text-xl font-bold text-skin-base">./experience_summary</h2>
+      <h2 class="text-xl font-bold text-skin-base">WORK_HISTORY_LOG</h2>
     </div>
 
        <div class="space-y-6 font-mono border-l-2 border-skin-border ml-2 pl-6 relative hover:z-10">
@@ -155,13 +155,11 @@
       <span>></span>
       <h2 class="text-xl font-bold">INITIATE_CONTACT</h2>
     </div>
-    <div class="bg-skin-page p-6 border border-skin-border font-mono text-sm">
-      <p class="mb-4 text-skin-base">
-        To establish connection, please route traffic to:
-      </p>
-      <a href="mailto:brian@briananderson.xyz" class="text-skin-accent hover:underline decoration-dashed underline-offset-4">
-        brian@briananderson.xyz
-      </a>
-    </div>
+    <p class="text-skin-base font-mono text-sm">
+      To establish connection, please route traffic to:
+    </p>
+    <a href="mailto:brian@briananderson.xyz" class="text-skin-accent hover:underline decoration-dashed underline-offset-4 font-mono text-sm">
+      brian@briananderson.xyz
+    </a>
   </div>
 </section>

@@ -40,6 +40,7 @@ export interface ResumeEarlyCareer {
   role: string;
   company: string;
   start_date: string;
+  end_date?: string;
   location: string;
 }
 
@@ -47,6 +48,7 @@ export interface Resume {
   name: string;
   title: string;
   tagline: string;
+  mission?: string;
   email: string;
   location: string;
   summary: string;

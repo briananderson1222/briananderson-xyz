@@ -48,16 +48,16 @@
       <h2 class="print:font-serif">Professional Summary</h2>
     </div>
     <p class="text-skin-base leading-relaxed text-lg border-l-2 border-skin-border pl-4 print:text-black print:text-xs print:leading-normal print:border-black print:pl-3 print:font-serif">
-      {resume.summary}
+      <span class="print:text-black print:text-xs print:font-serif">{resume.summary}</span> <span class="print:inline print:mt-0 print:ml-1 print:text-black print:text-xs print:font-serif">{resume.tagline}</span>
     </p>
   </section>
 
   <!-- Skills -->
-  <section class="mb-10 print:mb-2 print:mt-2 break-inside-avoid">
-    <div class="flex items-center gap-2 mb-3 text-skin-accent text-sm uppercase tracking-wider print:text-black print:font-bold print:mb-1 print:text-xs">
-      <span class="print:hidden">></span>
-      <h2 class="print:font-serif">Skills</h2>
-    </div>
+   <section class="mb-10 print:mb-2 print:mt-2 break-inside-avoid">
+      <div class="flex items-center gap-2 mb-6 text-skin-accent text-sm uppercase tracking-wider print:text-black print:font-bold print:mb-1 print:text-xs">
+       <span class="print:hidden">></span>
+       <h2 class="print:font-serif">Skills</h2>
+     </div>
     
      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 print:grid-cols-1 print:gap-0.5">
        {#each Object.entries(resume.skills) as [category, items]}
@@ -104,13 +104,13 @@
                 {job.company} <span class="text-skin-muted font-normal text-sm mx-1 print:text-black">|</span> {job.location}
               </div>
 
-              <ul class="space-y-1 text-skin-muted leading-relaxed print:text-black print:text-[10px] print:space-y-0 print:leading-tight print:font-serif">
-                {#each job.highlights as highlight}
-                  <li class="relative pl-4 before:content-['-'] before:absolute before:left-0 before:text-skin-muted print:before:text-black">
-                    {highlight}
-                  </li>
-                {/each}
-              </ul>
+               <ul class="mt-3 space-y-1 text-skin-muted leading-relaxed print:text-black print:text-[10px] print:space-y-0 print:leading-tight print:font-serif">
+                 {#each job.highlights as highlight}
+                   <li class="relative pl-4 before:content-['-'] before:absolute before:left-0 before:text-skin-muted print:before:text-black">
+                     {highlight}
+                   </li>
+                 {/each}
+               </ul>
             </div>
           </article>
         {/each}
@@ -138,7 +138,7 @@
             <div class="print:font-serif">
               <h3 class="font-bold text-skin-base print:text-black print:text-xs">{career.company}</h3>
               <p class="text-skin-muted text-sm print:text-black print:text-[10px]">{career.role}</p>
-              <p class="text-skin-muted text-xs mt-1 print:text-black print:text-[9px]">{career.start_date}</p>
+              <p class="text-skin-muted text-xs mt-1 print:text-black print:text-[9px]">{career.start_date} {career.end_date ? '- ' + career.end_date : ''}</p>
             </div>
           {/each}
         {/if}

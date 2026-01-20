@@ -1,12 +1,13 @@
 name: Brian Anderson
-title: Enterprise Solutions Architect & Technical Leader
-tagline: Specializing in GenAI integration, Cloud Native transformation, and DevOps at scale.
+title: Technical Director & Enterprise Solutions Architect
+tagline: Specializing in GenAI integration, Cloud Native transformation, and DevOps. I design autonomous systems and scalable architectures that empower teams to deliver high-quality solutions through continuous delivery and collaborative developer experiences.
+mission: Driving measurable business automation and customer outcomes through Agentic AI and Cloud Native strategies.
 email: brian@briananderson.xyz
 location: Denver, CO
-summary: Proven track record of leading multi-team deliveries for Fortune 500 companies, specializing in migrating monolithic systems to Kubernetes-based microservices and implementing AI-driven automation. Expert in AWS/GCP architecture, CI/CD standardization, and bridging the gap between executive strategy and technical execution. Currently focused on pioneering Agentic AI at scale to drive measurable business automation and customer outcomes.
+summary: Proven track record of leading multi-team deliveries for Fortune 500 companies, specializing in migrating monolithic systems to Kubernetes-based microservices and implementing automation. Expert in AWS/GCP architecture, CI/CD standardization, and bridging the gap between executive strategy and technical execution.
 skills:
   Cloud Platforms:
-    - name: AWS (Current)
+    - name: AWS
     - name: Google Cloud
     - name: OpenShift
   Infrastructure & IaC:
