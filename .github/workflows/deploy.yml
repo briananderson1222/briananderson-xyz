@@ -48,6 +48,9 @@ jobs:
         run: pnpm i --frozen-lockfile || pnpm i
       - name: Build
         working-directory: site
+        env:
+          PUBLIC_POSTHOG_KEY: ${{ secrets.PUBLIC_POSTHOG_KEY }}
+          PUBLIC_POSTHOG_HOST: ${{ secrets.PUBLIC_POSTHOG_HOST }}
         run: pnpm build
       - name: Authenticate to Google Cloud (WIF)
         uses: google-github-actions/auth@v2
