@@ -46,39 +46,36 @@ async function validateEnvConfig() {
   let passed = 0;
   let total = 0;
   
-  // Check .env file
+  // Check environment variables from either .env file or process.env
   const envPath = path.resolve('.env');
-  if (fs.existsSync(envPath)) {
+  let posthogKey = process.env.PUBLIC_POSTHOG_KEY;
+  let posthogHost = process.env.PUBLIC_POSTHOG_HOST;
+  
+  // If not in process.env, try reading from .env file
+  if (!posthogKey && fs.existsSync(envPath)) {
     const envContent = fs.readFileSync(envPath, 'utf-8');
-    
-    total++;
-    if (envContent.includes('PUBLIC_POSTHOG_KEY=')) {
-      const keyMatch = envContent.match(/PUBLIC_POSTHOG_KEY=(.+)/);
-      if (keyMatch && keyMatch[1] && keyMatch[1] !== 'your_posthog_project_key') {
-        success('PUBLIC_POSTHOG_KEY is configured');
-        passed++;
-      } else {
-        error('PUBLIC_POSTHOG_KEY is set to placeholder value');
-      }
-    } else {
-      error('PUBLIC_POSTHOG_KEY not found in .env');
-    }
-    
-    total++;
-    if (envContent.includes('PUBLIC_POSTHOG_HOST=')) {
-      const hostMatch = envContent.match(/PUBLIC_POSTHOG_HOST=(.+)/);
-      if (hostMatch && hostMatch[1]) {
-        success(`PUBLIC_POSTHOG_HOST is configured: ${hostMatch[1].trim()}`);
-        passed++;
-      } else {
-        error('PUBLIC_POSTHOG_HOST is empty');
-      }
-    } else {
-      error('PUBLIC_POSTHOG_HOST not found in .env');
-    }
+    const keyMatch = envContent.match(/PUBLIC_POSTHOG_KEY=(.+)/);
+    const hostMatch = envContent.match(/PUBLIC_POSTHOG_HOST=(.+)/);
+    if (keyMatch && keyMatch[1]) posthogKey = keyMatch[1].trim();
+    if (hostMatch && hostMatch[1]) posthogHost = hostMatch[1].trim();
+  }
+  
+  // Check PUBLIC_POSTHOG_KEY
+  total++;
+  if (posthogKey && posthogKey !== 'your_posthog_project_key') {
+    success('PUBLIC_POSTHOG_KEY is configured');
+    passed++;
   } else {
-    error('.env file not found');
-    total += 2;
+    error('PUBLIC_POSTHOG_KEY not configured or set to placeholder value');
+  }
+  
+  // Check PUBLIC_POSTHOG_HOST
+  total++;
+  if (posthogHost) {
+    success(`PUBLIC_POSTHOG_HOST is configured: ${posthogHost}`);
+    passed++;
+  } else {
+    error('PUBLIC_POSTHOG_HOST not configured');
   }
   
   return { passed, total };
