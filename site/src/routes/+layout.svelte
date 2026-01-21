@@ -1,10 +1,23 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
   import '$lib/styles/app.css';
   import Navbar from '$lib/components/Navbar.svelte';
   import Footer from '$lib/components/Footer.svelte';
   import { browser } from '$app/environment';
   import { beforeNavigate, afterNavigate } from '$app/navigation';
   import posthog from 'posthog-js';
+
+  if (browser && import.meta.env.PUBLIC_POSTHOG_KEY) {
+    posthog.init(
+      import.meta.env.PUBLIC_POSTHOG_KEY,
+      {
+        api_host: import.meta.env.PUBLIC_POSTHOG_HOST || 'https://app.posthog.com',
+        capture_pageview: false,
+        capture_pageleave: false,
+        capture_exceptions: true
+      }
+    );
+  }
 
   if (browser) {
     beforeNavigate(() => posthog.capture('$pageleave'));
