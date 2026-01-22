@@ -1,11 +1,4 @@
-# Artifact Registry for container images
-resource "google_artifact_registry_repository" "containers" {
-  repository_id = "containers"
-  format        = "DOCKER"
-  location      = var.region
-}
-
-# GCS site bucket
+# GCS site bucket (production)
 resource "google_storage_bucket" "site" {
   name          = var.bucket_name
   location      = "US"
@@ -33,38 +26,32 @@ resource "google_storage_bucket_iam_binding" "public_read" {
   members = ["allUsers"]
 }
 
-# Cloud Run (Decap OAuth proxy)
-resource "google_service_account" "auth_proxy" {
-  account_id   = "decap-auth-proxy"
-  display_name = "Decap OAuth Proxy"
-}
+# GCS site bucket (dev)
+resource "google_storage_bucket" "site_dev" {
+  name          = "dev.briananderson.xyz"
+  location      = "US"
+  force_destroy = false
 
-resource "google_cloud_run_v2_service" "auth_proxy" {
-  name     = "decap-auth-proxy"
-  location = var.region
-  ingress  = "INGRESS_TRAFFIC_ALL"
-
-  template {
-    service_account = google_service_account.auth_proxy.email
-    containers {
-      image = length(var.auth_proxy_image) > 0 ? var.auth_proxy_image : "us-docker.pkg.dev/cloudrun/container/hello"
-      env {
-        name  = "BASE_URL"
-        value = "https://${var.auth_proxy_domain}"
-      }
-      # Set GITHUB_CLIENT_ID / GITHUB_CLIENT_SECRET via console or secret manager (managed outside TF)
-    }
+  website {
+    main_page_suffix = "index.html"
+    not_found_page   = "404.html"
   }
 
-  lifecycle { ignore_changes = [template[0].containers[0].env] }
+  cors {
+    origin          = ["https://dev.briananderson.xyz"]
+    method          = ["GET", "HEAD"]
+    response_header = ["*"]
+    max_age_seconds = 3600
+  }
+
+  uniform_bucket_level_access = true
 }
 
-resource "google_cloud_run_service_iam_member" "auth_proxy_invoker" {
-  location = google_cloud_run_v2_service.auth_proxy.location
-  project  = var.project_id
-  service  = google_cloud_run_v2_service.auth_proxy.name
-  role     = "roles/run.invoker"
-  member   = "allUsers"
+# Public read for dev bucket
+resource "google_storage_bucket_iam_binding" "public_read_dev" {
+  bucket  = google_storage_bucket.site_dev.name
+  role    = "roles/storage.objectViewer"
+  members = ["allUsers"]
 }
 
 # Workload Identity Federation (GitHub OIDC)
@@ -111,20 +98,8 @@ resource "google_project_iam_member" "ci_storage_admin" {
   member  = "serviceAccount:${google_service_account.github_ci.email}"
 }
 
-resource "google_project_iam_member" "ci_run_admin" {
-  project = var.project_id
-  role    = "roles/run.admin"
-  member  = "serviceAccount:${google_service_account.github_ci.email}"
-}
-
-resource "google_project_iam_member" "ci_artifact_writer" {
-  project = var.project_id
-  role    = "roles/artifactregistry.writer"
-  member  = "serviceAccount:${google_service_account.github_ci.email}"
-}
-
 output "wif_pool_name" { value = google_iam_workload_identity_pool.pool.name }
 output "wif_provider_name" { value = google_iam_workload_identity_pool_provider.provider.name }
 output "ci_service_account" { value = google_service_account.github_ci.email }
-output "auth_proxy_url" { value = google_cloud_run_v2_service.auth_proxy.uri }
 output "site_bucket" { value = google_storage_bucket.site.url }
+output "site_dev_bucket" { value = google_storage_bucket.site_dev.url }

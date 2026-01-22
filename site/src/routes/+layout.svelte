@@ -14,7 +14,12 @@
         api_host: import.meta.env.PUBLIC_POSTHOG_HOST || 'https://app.posthog.com',
         capture_pageview: false,
         capture_pageleave: false,
-        capture_exceptions: true
+        capture_exceptions: true,
+        loaded: (ph) => {
+          ph.register({
+            deployment_environment: import.meta.env.PUBLIC_DEPLOYMENT_ENV || 'unknown'
+          });
+        }
       }
     );
   }

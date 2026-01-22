@@ -1,0 +1,187 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      deploy_prod:
+        description: 'Deploy to production (default: dev only)'
+        required: false
+        default: false
+        type: boolean
+      rollback:
+        description: 'Rollback to previous successful deployment'
+        required: false
+        default: false
+        type: boolean
+      target_env:
+        description: 'Target environment for rollback (dev or prod)'
+        required: false
+        default: 'prod'
+        type: choice
+        options:
+          - dev
+          - prod
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      artifact_name: build-artifact-${{ github.sha }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+          cache-dependency-path: site/pnpm-lock.yaml
+      - name: Install deps
+        working-directory: site
+        run: pnpm i --frozen-lockfile || pnpm i
+      - name: Install Playwright browsers
+        working-directory: site
+        run: pnpm exec playwright install --with-deps chromium
+      - name: Run validation
+        working-directory: site
+        env:
+          PUBLIC_DEPLOYMENT_ENV: dev
+          PUBLIC_POSTHOG_KEY: ${{ secrets.PUBLIC_POSTHOG_KEY }}
+          PUBLIC_POSTHOG_HOST: ${{ secrets.PUBLIC_POSTHOG_HOST }}
+        run: pnpm run validate
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifact-${{ github.sha }}
+          path: site/build/
+          retention-days: 30
+
+  deploy-dev:
+    runs-on: ubuntu-latest
+    needs: build
+    environment: dev
+    if: github.event.inputs.rollback != 'true'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: build-artifact-${{ github.sha }}
+          path: site/build/
+      - uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WIF_PROVIDER }}
+          service_account: ${{ secrets.GCP_WIF_SA_EMAIL }}
+      - uses: google-github-actions/setup-gcloud@v2
+      - name: Upload to dev bucket
+        run: |
+          gcloud storage rsync site/build/ gs://dev.briananderson.xyz/ --delete-unmatched-destination-objects
+          gcloud storage buckets update gs://dev.briananderson.xyz --web-main-page-suffix=index.html --web-error-page=404.html
+      - name: Run E2E tests
+        working-directory: site
+        env:
+          BASE_URL: https://dev.briananderson.xyz
+        run: npx playwright test --base-url=https://dev.briananderson.xyz
+
+  deploy-prod:
+    runs-on: ubuntu-latest
+    needs: deploy-dev
+    environment: prod
+    if: github.event_name == 'workflow_dispatch' && github.event.inputs.deploy_prod == 'true'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: build-artifact-${{ github.sha }}
+          path: site/build/
+      - uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WIF_PROVIDER }}
+          service_account: ${{ secrets.GCP_WIF_SA_EMAIL }}
+      - uses: google-github-actions/setup-gcloud@v2
+      - name: Get last successful prod deployment
+        id: last_successful
+        run: |
+          LAST_SUCCESSFUL=$(gh run list --workflow=build-and-deploy.yml --branch=main --limit=100 --json conclusion,name,databaseId --jq '[.[] | select(.conclusion == "success" and .name == "deploy-prod")] | .[0].databaseId' || echo "none")
+          if [ "$LAST_SUCCESSFUL" == "none" ] || [ -z "$LAST_SUCCESSFUL" ]; then
+            echo "No previous successful prod deployment found"
+            echo "run_id=none" >> $GITHUB_OUTPUT
+          else
+            echo "run_id=$LAST_SUCCESSFUL" >> $GITHUB_OUTPUT
+          fi
+        env:
+          GH_TOKEN: ${{ github.token }}
+      - name: Upload to prod bucket
+        id: deploy
+        run: |
+          gcloud storage rsync site/build/ gs://briananderson.xyz/ --delete-unmatched-destination-objects
+          gcloud storage buckets update gs://briananderson.xyz --web-main-page-suffix=index.html --web-error-page=404.html
+      - name: Run smoke tests
+        id: smoke
+        working-directory: site
+        env:
+          BASE_URL: https://briananderson.xyz
+        continue-on-error: true
+        run: npx playwright test --base-url=https://briananderson.xyz
+      - name: Rollback on failure
+        if: steps.smoke.outcome == 'failure' && steps.last_successful.outputs.run_id != 'none'
+        env:
+          LAST_RUN_ID: ${{ steps.last_successful.outputs.run_id }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          echo "❌ Smoke tests failed, rolling back to run $LAST_RUN_ID..."
+          gh run download $LAST_RUN_ID -n build-artifact-*
+          gcloud storage rsync site/build/ gs://briananderson.xyz/ --delete-unmatched-destination-objects
+          echo "Rollback complete. Previous successful deployment restored."
+          exit 1
+      - name: Warn if no rollback target
+        if: steps.smoke.outcome == 'failure' && steps.last_successful.outputs.run_id == 'none'
+        run: |
+          echo "⚠️  Smoke tests failed but no previous successful prod deployment found for rollback."
+          echo "This is the first prod deployment - manual intervention may be required."
+          exit 1
+
+  rollback-manual:
+    runs-on: ubuntu-latest
+    if: github.event.inputs.rollback == 'true'
+    environment: ${{ inputs.target_env }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Get last successful deployment
+        id: last_successful
+        run: |
+          TARGET_ENV="${{ inputs.target_env }}"
+          LAST_SUCCESSFUL=$(gh run list --workflow=build-and-deploy.yml --branch=main --limit=100 --json conclusion,name,databaseId --jq "[.[] | select(.conclusion == \"success\" and .name == \"deploy-$TARGET_ENV\")] | .[0].databaseId" || echo "none")
+          if [ "$LAST_SUCCESSFUL" == "none" ] || [ -z "$LAST_SUCCESSFUL" ]; then
+            echo "No previous successful deployment found for $TARGET_ENV"
+            echo "run_id=none" >> $GITHUB_OUTPUT
+          else
+            echo "run_id=$LAST_SUCCESSFUL" >> $GITHUB_OUTPUT
+          fi
+        env:
+          GH_TOKEN: ${{ github.token }}
+      - name: Check if rollback target exists
+        if: steps.last_successful.outputs.run_id == 'none'
+        run: |
+          echo "❌ No previous successful deployment found for rollback."
+          exit 1
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: build-artifact-*
+          path: site/build/
+          run-id: ${{ steps.last_successful.outputs.run_id }}
+      - uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WIF_PROVIDER }}
+          service_account: ${{ secrets.GCP_WIF_SA_EMAIL }}
+      - uses: google-github-actions/setup-gcloud@v2
+      - name: Rollback to ${{ inputs.target_env }}
+        run: |
+          BUCKET="dev.briananderson.xyz"
+          if [ "${{ inputs.target_env }}" == "prod" ]; then
+            BUCKET="briananderson.xyz"
+          fi
+          gcloud storage rsync site/build/ gs://$BUCKET/ --delete-unmatched-destination-objects
+          echo "✅ Rollback to ${{ inputs.target_env }} complete"
