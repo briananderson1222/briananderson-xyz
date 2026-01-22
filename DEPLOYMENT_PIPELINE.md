@@ -143,6 +143,35 @@ Add a CNAME record for the dev environment:
 
 ---
 
+## Step 4: Configure Branch Protection (Recommended)
+
+To enforce best practices and prevent accidental deployments, configure branch protection:
+
+**Current Protection Settings:**
+- Direct push to `main` is blocked (requires pull request)
+- Force push to `main` is allowed (for emergency rollbacks)
+- Requires 1 approving review before merging
+- Admins can bypass these rules
+
+**To update protection rules:**
+1. Go to: https://github.com/briananderson-xyz/briananderson-xyz/settings/branches
+2. Click "Add rule" or edit existing rule for `main`
+3. Configure:
+   - Require pull request before merging
+   - Require approvals (recommended: 1)
+   - Dismiss stale PRs (optional)
+   - Allow force pushes (for emergencies)
+4. Save changes
+
+**Bypass protection (if needed):**
+```bash
+git push origin main --force
+```
+
+**Note:** As an admin, you can bypass protection rules. For team collaboration, consider requiring all changes to go through PRs for better code review.
+
+---
+
 ## Step 4: Deploy to Dev (First Time)
 
 After pushing to `main`, the workflow will:

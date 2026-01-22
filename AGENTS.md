@@ -42,6 +42,21 @@ When adding new fields to `resume.yaml`, update the `Resume` interface in `site/
 
 ## Deployment Pipeline
 
+**Branch Protection:**
+- Direct push to `main` branch is blocked (requires pull request)
+- Force push to `main` is allowed (for emergency rollbacks)
+- Requires 1 approving review before merging
+- Admins can bypass these rules
+
+To bypass protection for direct push:
+```bash
+git push origin main --force
+```
+
+**Note:** You are an admin, so you can bypass protection rules if needed. For team collaboration, consider requiring all changes to go through PRs.
+
+## Deployment Pipeline
+
 The site uses a dev → prod deployment pipeline with artifact promotion. See [DEPLOYMENT_PIPELINE.md](../DEPLOYMENT_PIPELINE.md) for complete setup and usage documentation.
 
 ### Quick Overview
