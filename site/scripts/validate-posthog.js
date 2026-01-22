@@ -83,48 +83,15 @@ async function validateEnvConfig() {
 
 async function validateClientSideIntegration() {
   info('\n=== Client-Side Integration ===\n');
-  
+
   let passed = 0;
   let total = 0;
-  
-  // Check layout.ts
-  const layoutTsPath = path.resolve('src/routes/+layout.ts');
-  if (fs.existsSync(layoutTsPath)) {
-    const layoutContent = fs.readFileSync(layoutTsPath, 'utf-8');
-    
-    total++;
-    if (layoutContent.includes("import posthog from 'posthog-js'")) {
-      success('posthog-js is imported in layout.ts');
-      passed++;
-    } else {
-      error('posthog-js import missing in layout.ts');
-    }
-    
-    total++;
-    if (layoutContent.includes('posthog.init(')) {
-      success('posthog.init() is called in layout.ts');
-      passed++;
-    } else {
-      error('posthog.init() call missing in layout.ts');
-    }
-    
-    total++;
-    if (layoutContent.includes('PUBLIC_POSTHOG_KEY')) {
-      success('PUBLIC_POSTHOG_KEY is used in layout.ts');
-      passed++;
-    } else {
-      error('PUBLIC_POSTHOG_KEY not referenced in layout.ts');
-    }
-  } else {
-    error('src/routes/+layout.ts not found');
-    total += 3;
-  }
-  
-  // Check layout.svelte
+
+  // Check layout.svelte for all PostHog integration
   const layoutSveltePath = path.resolve('src/routes/+layout.svelte');
   if (fs.existsSync(layoutSveltePath)) {
     const layoutContent = fs.readFileSync(layoutSveltePath, 'utf-8');
-    
+
     total++;
     if (layoutContent.includes("import posthog from 'posthog-js'")) {
       success('posthog-js is imported in layout.svelte');
@@ -132,7 +99,23 @@ async function validateClientSideIntegration() {
     } else {
       error('posthog-js import missing in layout.svelte');
     }
-    
+
+    total++;
+    if (layoutContent.includes('posthog.init(')) {
+      success('posthog.init() is called in layout.svelte');
+      passed++;
+    } else {
+      error('posthog.init() call missing in layout.svelte');
+    }
+
+    total++;
+    if (layoutContent.includes('PUBLIC_POSTHOG_KEY')) {
+      success('PUBLIC_POSTHOG_KEY is used in layout.svelte');
+      passed++;
+    } else {
+      error('PUBLIC_POSTHOG_KEY not referenced in layout.svelte');
+    }
+
     total++;
     if (layoutContent.includes('posthog.capture(')) {
       success('posthog.capture() is called for events');
@@ -140,7 +123,7 @@ async function validateClientSideIntegration() {
     } else {
       error('posthog.capture() call missing in layout.svelte');
     }
-    
+
     total++;
     if (layoutContent.includes('$pageview')) {
       success('Pageview events are tracked');
@@ -148,7 +131,7 @@ async function validateClientSideIntegration() {
     } else {
       error('$pageview event tracking missing');
     }
-    
+
     total++;
     if (layoutContent.includes('$pageleave')) {
       success('Pageleave events are tracked');
@@ -158,9 +141,9 @@ async function validateClientSideIntegration() {
     }
   } else {
     error('src/routes/+layout.svelte not found');
-    total += 4;
+    total += 6;
   }
-  
+
   return { passed, total };
 }
 
