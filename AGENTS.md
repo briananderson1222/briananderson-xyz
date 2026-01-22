@@ -430,3 +430,40 @@ gh run view <run-id> --log | grep -A 10 -B 5 "error\|fail\|Error"
 5. Any additional context that might help?
 
 This helps in providing efficient, targeted assistance.
+
+## OpenCode Skills
+
+This repository has a project-local OpenCode skill for CI/CD debugging:
+
+### Available Skills
+
+**cicd-debug-loop** (`.opencode/skills/cicd-debug-loop/SKILL.md`)
+- Debugs the dev→prod deployment pipeline
+- Provides job-specific debugging guidance
+- Lists known issues and solutions
+- Auto-iterates with fix-verify cycle
+
+### How to Use Skills
+
+When working with OpenCode agents:
+
+1. **Agent loads skill automatically**: Ask "My deployment pipeline is broken"
+2. **Manual load**: Ask agent to "load the cicd-debug-loop skill"
+3. **Skill provides structured debugging**: Follows assess→investigate→diagnose→fix→verify→iterate loop
+
+### Installing Skills Globally
+
+To use the GitHub Actions debug skill on other projects:
+
+```bash
+# Global skill location
+~/.config/opencode/skills/github-actions-debug/SKILL.md
+```
+
+This skill works with any GitHub Actions workflow, not just this repo. It provides:
+- Systematic debugging approach
+- Common error patterns and fixes
+- Auto-iteration with fix-verify cycle
+- gh CLI command reference
+
+See the skill file for complete documentation.
