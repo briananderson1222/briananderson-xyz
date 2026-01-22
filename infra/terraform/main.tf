@@ -66,11 +66,10 @@ resource "google_iam_workload_identity_pool_provider" "provider" {
   display_name                       = "GitHub OIDC Provider"
 
   attribute_mapping = {
-    "google.subject"              = "assertion.sub"
-    "attribute.repository"        = "assertion.repository"
+    "google.subject"                = "assertion.sub"
     "attribute.repository_owner_id" = "assertion.repository_owner_id"
-    "attribute.ref"               = "assertion.ref"
-    "attribute.actor"             = "assertion.actor"
+    "attribute.ref"                 = "assertion.ref"
+    "attribute.actor"               = "assertion.actor"
   }
 
   # Limit which GitHub repo/branch can assume this identity

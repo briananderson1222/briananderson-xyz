@@ -46,20 +46,6 @@ jobs:
           workload_identity_provider: ${{ secrets.GCP_WIF_PROVIDER }}
           service_account: ${{ secrets.GCP_WIF_SA_EMAIL }}
 
-      - name: Setup gcloud
-        uses: google-github-actions/setup-gcloud@v2
-
-      - name: Configure Docker for Artifact Registry
-        run: gcloud auth configure-docker ${{ secrets.GCP_REGION }}-docker.pkg.dev -q
-
-      - name: Build & Push auth-proxy image
-        working-directory: auth-proxy
-        run: |
-          IMAGE="${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/containers/decap-auth-proxy:${{ github.sha }}"
-          docker build -t "$IMAGE" .
-          docker push "$IMAGE"
-          echo "IMAGE=$IMAGE" >> $GITHUB_ENV
-
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
@@ -68,9 +54,34 @@ jobs:
       - name: Terraform Init (GCS backend)
         working-directory: infra/terraform
         run: |
-          terraform init             -backend-config="bucket=${{ secrets.TF_STATE_BUCKET }}"             -backend-config="prefix=gcp/infra"
+          terraform init \
+            -backend-config="bucket=${{ secrets.TF_STATE_BUCKET }}" \
+            -backend-config="prefix=gcp/infra"
+
+      - name: Terraform Plan
+        id: plan
+        working-directory: infra/terraform
+        run: |
+          terraform plan \
+            -var="project_id=${{ secrets.GCP_PROJECT_ID }}" \
+            -var="region=${{ secrets.GCP_REGION }}" \
+            -var="github_org=${{ secrets.GH_ORG }}" \
+            -var="github_repo=${{ secrets.GH_REPO }}" \
+            -var="bucket_name=${{ secrets.SITE_BUCKET_NAME }}" \
+            -var="auth_proxy_domain=${{ secrets.AUTH_PROXY_DOMAIN }}" \
+            -out=tfplan.out
+
+      - name: Show Plan
+        working-directory: infra/terraform
+        run: terraform show -no-color tfplan.out
+
+      - name: Upload Plan
+        uses: actions/upload-artifact@v4
+        with:
+          name: terraform-plan
+          path: infra/terraform/tfplan.out
 
       - name: Terraform Apply
         working-directory: infra/terraform
         run: |
-          terraform apply -auto-approve -var="project_id={{ secrets.GCP_PROJECT_ID }}" -var="region=${{ secrets.GCP_REGION }}"          -var="auth_proxy_image=${{ env.IMAGE }}"
+          terraform apply -auto-approve tfplan.out

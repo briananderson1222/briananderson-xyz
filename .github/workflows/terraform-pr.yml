@@ -86,6 +86,13 @@ jobs:
             -var="bucket_name=${{ secrets.SITE_BUCKET_NAME }}" \
             -var="auth_proxy_domain=${{ secrets.AUTH_PROXY_DOMAIN }}" \
             -out=tfplan.out
+
       - name: Show Plan
         working-directory: infra/terraform
         run: terraform show -no-color tfplan.out
+
+      - name: Upload Plan
+        uses: actions/upload-artifact@v4
+        with:
+          name: terraform-plan
+          path: infra/terraform/tfplan.out
