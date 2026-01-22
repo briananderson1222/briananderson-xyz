@@ -84,7 +84,9 @@ jobs:
           gcloud storage buckets update gs://dev.briananderson.xyz --web-main-page-suffix=index.html --web-error-page=404.html
       - name: Run E2E tests
         working-directory: site
-        run: npx playwright test --base-url https://dev.briananderson.xyz
+        env:
+          PLAYWRIGHT_TEST_BASE_URL: https://dev.briananderson.xyz
+        run: npx playwright test
 
   deploy-prod:
     runs-on: ubuntu-latest
