@@ -19,6 +19,10 @@ permissions:
   contents: read
   pull_requests: write
 
+concurrency:
+  group: terraform-pr
+  cancel-in-progress: true
+
 jobs:
   check-terraform:
     if: github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch'

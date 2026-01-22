@@ -8,6 +8,10 @@ on:
       - 'site/**'
   workflow_dispatch:
 
+concurrency:
+  group: validate-ui
+  cancel-in-progress: true
+
 jobs:
   validate:
     if: github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch'
