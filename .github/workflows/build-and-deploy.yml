@@ -44,7 +44,7 @@ jobs:
         run: pnpm i --frozen-lockfile || pnpm i
       - name: Install Playwright browsers
         working-directory: site
-        run: pnpm exec playwright install --with-deps chromium
+        run: sudo pnpm exec playwright install --with-deps chromium
       - name: Run validation
         working-directory: site
         env:
@@ -146,14 +146,14 @@ jobs:
   rollback-manual:
     runs-on: ubuntu-latest
     if: github.event.inputs.rollback == 'true'
-    environment: ${{ inputs.target_env }}
+    environment: ${{ github.event.inputs.target_env }}
     steps:
       - uses: actions/checkout@v4
       - name: Get last successful deployment
         id: last_successful
         run: |
-          TARGET_ENV="${{ inputs.target_env }}"
-          LAST_SUCCESSFUL=$(gh run list --workflow=build-and-deploy.yml --branch=main --limit=100 --json conclusion,name,databaseId --jq "[.[] | select(.conclusion == \"success\" and .name == \"deploy-$TARGET_ENV\")] | .[0].databaseId" || echo "none")
+          TARGET_ENV="${{ github.event.inputs.target_env }}"
+          LAST_SUCCESSFUL=$(gh run list --workflow=build-and-deploy.yml --branch=main --limit=100 --json conclusion,name,databaseId --jq '[.[] | select(.conclusion == "success" and .name == "deploy-'$TARGET_ENV'")] | .[0].databaseId' || echo "none")
           if [ "$LAST_SUCCESSFUL" == "none" ] || [ -z "$LAST_SUCCESSFUL" ]; then
             echo "No previous successful deployment found for $TARGET_ENV"
             echo "run_id=none" >> $GITHUB_OUTPUT
@@ -177,11 +177,11 @@ jobs:
           workload_identity_provider: ${{ secrets.GCP_WIF_PROVIDER }}
           service_account: ${{ secrets.GCP_WIF_SA_EMAIL }}
       - uses: google-github-actions/setup-gcloud@v2
-      - name: Rollback to ${{ inputs.target_env }}
+      - name: Rollback to ${{ github.event.inputs.target_env }}
         run: |
           BUCKET="dev.briananderson.xyz"
-          if [ "${{ inputs.target_env }}" == "prod" ]; then
+          if [ "${{ github.event.inputs.target_env }}" == "prod" ]; then
             BUCKET="briananderson.xyz"
           fi
           gcloud storage rsync site/build/ gs://$BUCKET/ --delete-unmatched-destination-objects
-          echo "✅ Rollback to ${{ inputs.target_env }} complete"
+          echo "✅ Rollback to ${{ github.event.inputs.target_env }} complete"
