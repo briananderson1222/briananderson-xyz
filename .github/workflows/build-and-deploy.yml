@@ -86,7 +86,8 @@ jobs:
         working-directory: site
         env:
           BASE_URL: https://dev.briananderson.xyz
-        run: npx playwright test --base-url=https://dev.briananderson.xyz
+        run: |
+          npx playwright test --base-url=$BASE_URL
 
   deploy-prod:
     runs-on: ubuntu-latest
@@ -127,7 +128,8 @@ jobs:
         env:
           BASE_URL: https://briananderson.xyz
         continue-on-error: true
-        run: npx playwright test --base-url=https://briananderson.xyz
+        run: |
+          npx playwright test --base-url=$BASE_URL
       - name: Rollback on failure
         if: steps.smoke.outcome == 'failure' && steps.last_successful.outputs.run_id != 'none'
         env:
