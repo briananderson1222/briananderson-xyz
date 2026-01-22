@@ -69,6 +69,20 @@ jobs:
     if: github.event.inputs.rollback != 'true'
     steps:
       - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+          cache-dependency-path: site/pnpm-lock.yaml
+      - name: Install deps
+        working-directory: site
+        run: pnpm i --frozen-lockfile || pnpm i
+      - name: Install Playwright browsers
+        working-directory: site
+        run: npx playwright install chromium
       - uses: actions/download-artifact@v4
         with:
           name: build-artifact-${{ github.sha }}
