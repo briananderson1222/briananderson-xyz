@@ -6,3 +6,6 @@ build
 .envrc
 .terraform
 .terraform.lock.hcl
+
+# Environment variables
+site/.env
