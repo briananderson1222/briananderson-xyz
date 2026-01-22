@@ -2,7 +2,7 @@ name: Terraform Apply (main)
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   workflow_dispatch:
     inputs:
       enable_terraform:

@@ -3,7 +3,7 @@ name: Validate UI
 on:
   pull_request:
     types: [opened, synchronize, reopened]
-    branches: [ "main" ]
+    branches: ["main"]
     paths:
       - 'site/**'
   workflow_dispatch:
