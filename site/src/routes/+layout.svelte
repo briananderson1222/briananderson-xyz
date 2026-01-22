@@ -16,8 +16,9 @@
         capture_pageleave: false,
         capture_exceptions: true,
         loaded: (ph) => {
+          const deploymentEnv = typeof window !== 'undefined' && window.location.hostname.includes('dev.') ? 'dev' : 'production';
           ph.register({
-            deployment_environment: import.meta.env.PUBLIC_DEPLOYMENT_ENV || 'unknown'
+            deployment_environment: deploymentEnv
           });
         }
       }

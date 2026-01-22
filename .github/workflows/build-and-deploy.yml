@@ -1,5 +1,9 @@
 name: Build and Deploy
 
+permissions:
+  contents: read
+  id-token: write
+
 on:
   push:
     branches: [main]
@@ -48,7 +52,6 @@ jobs:
       - name: Run validation
         working-directory: site
         env:
-          PUBLIC_DEPLOYMENT_ENV: dev
           PUBLIC_POSTHOG_KEY: ${{ secrets.PUBLIC_POSTHOG_KEY }}
           PUBLIC_POSTHOG_HOST: ${{ secrets.PUBLIC_POSTHOG_HOST }}
         run: pnpm run validate
