@@ -48,7 +48,7 @@ jobs:
         run: pnpm i --frozen-lockfile || pnpm i
       - name: Install Playwright browsers
         working-directory: site
-        run: sudo npx playwright install --with-deps chromium
+        run: npx playwright install chromium
       - name: Run validation
         working-directory: site
         env:
