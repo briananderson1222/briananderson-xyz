@@ -4,6 +4,9 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
     branches: [ "main" ]
+    paths:
+      - 'infra/terraform/**'
+      - '.github/workflows/terraform-pr.yml'
   workflow_dispatch:
     inputs:
       enable_terraform:

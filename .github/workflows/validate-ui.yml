@@ -4,6 +4,9 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
     branches: [ "main" ]
+    paths:
+      - 'site/**'
+      - '.github/workflows/validate-ui.yml'
   workflow_dispatch:
 
 jobs:
