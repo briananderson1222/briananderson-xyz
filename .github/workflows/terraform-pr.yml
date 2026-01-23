@@ -76,29 +76,25 @@ jobs:
       - name: Comment PR with Plan
         if: github.event_name == 'pull_request'
         run: |
-          # Generate plan output for comment
           cd infra/terraform
           PLAN_OUTPUT=$(terraform show -no-color tfplan.out)
           
-          # Create comment body
-          cat > comment.md << 'EOF'
-          ## Terraform Plan Results
+          # Create comment with plan results
+          echo "## Terraform Plan Results" > comment.md
+          echo "" >> comment.md
+          echo "**Format Check:** ${{ steps.format.outcome == 'success' && '✅ Passed' || '❌ Failed' }}" >> comment.md
+          echo "**Validation:** ${{ steps.validate.outcome == 'success' && '✅ Passed' || '❌ Failed' }}" >> comment.md
+          echo "**Plan:** ${{ steps.plan.outcome == 'success' && '✅ Generated' || '❌ Failed' }}" >> comment.md
+          echo "" >> comment.md
+          echo "<details>" >> comment.md
+          echo "<summary>Show Plan</summary>" >> comment.md
+          echo "" >> comment.md
+          echo '```terraform' >> comment.md
+          echo "$PLAN_OUTPUT" >> comment.md
+          echo '```' >> comment.md
+          echo "" >> comment.md
+          echo "</details>" >> comment.md
           
-          **Format Check:** ${{ steps.format.outcome == 'success' && '✅ Passed' || '❌ Failed' }}
-          **Validation:** ${{ steps.validate.outcome == 'success' && '✅ Passed' || '❌ Failed' }}
-          **Plan:** ${{ steps.plan.outcome == 'success' && '✅ Generated' || '❌ Failed' }}
-          
-          <details>
-          <summary>Show Plan</summary>
-          
-          ```terraform
-          ${PLAN_OUTPUT}
-          ```
-          
-          </details>
-          EOF
-          
-          # Post comment using gh CLI
           gh pr comment ${{ github.event.number }} --body-file comment.md
         env:
           GH_TOKEN: ${{ github.token }}
