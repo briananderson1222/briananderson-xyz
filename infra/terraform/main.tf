@@ -1,4 +1,4 @@
-# GCS site bucket (production)
+# GCS site bucket (production) - trunk-based CI/CD test 2
 resource "google_storage_bucket" "site" {
   name          = var.bucket_name
   location      = "US"
