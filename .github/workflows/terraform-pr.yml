@@ -4,8 +4,7 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
     branches: ["main"]
-    paths:
-      - 'infra/terraform/**'
+
 
 permissions:
   id-token: write
