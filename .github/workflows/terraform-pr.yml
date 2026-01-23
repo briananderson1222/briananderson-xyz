@@ -102,7 +102,7 @@ jobs:
               summary = '\n**Resource Changes:**\n- ' + addCount + '\n- ' + changeCount + '\n- ' + destroyCount;
             }
 
-            const commentBody = '## 📋 Terraform Plan Results\n\n' +
+            const commentBody = '## Terraform Plan Results\n\n' +
               planStatus + ' - Plan completed\n\n' +
               '### Validation Checks\n' +
               '- ' + formatStatus + ' - Terraform Format\n' +
