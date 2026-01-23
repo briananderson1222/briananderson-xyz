@@ -85,9 +85,9 @@ jobs:
             const fs = require('fs');
             const planOutput = fs.readFileSync('infra/terraform/tfplan.out', 'utf8');
 
-            const planStatus = '${{ steps.plan.outcome }}' === 'success' ? '✅ Success' : '❌ Failed';
-            const formatStatus = '${{ steps.format.outcome }}' === 'success' ? '✅ Passed' : '❌ Failed';
-            const validateStatus = '${{ steps.validate.outcome }}' === 'success' ? '✅ Passed' : '❌ Failed';
+            const planStatus = '${{ steps.plan.outcome }}' === 'success' ? 'Success' : 'Failed';
+            const formatStatus = '${{ steps.format.outcome }}' === 'success' ? 'Passed' : 'Failed';
+            const validateStatus = '${{ steps.validate.outcome }}' === 'success' ? 'Passed' : 'Failed';
 
             let summary = '';
             if (planOutput) {
