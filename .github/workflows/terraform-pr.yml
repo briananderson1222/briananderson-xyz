@@ -76,21 +76,21 @@ jobs:
           name: terraform-plan
           path: infra/terraform/tfplan.out
 
-      - name: Post PR Comment with Plan Results
+      - name: Post PR Comment
         if: always()
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const fs = require('fs');
-            const planOutput = fs.readFileSync('infra/terraform/tfplan.out', 'utf8');
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh pr comment ${{ github.event.number }} --body "## Terraform Plan Results
 
-            const planStatus = '${{ steps.plan.outcome }}' === 'success' ? 'Success' : 'Failed';
-            const formatStatus = '${{ steps.format.outcome }}' === 'success' ? 'Passed' : 'Failed';
-            const validateStatus = '${{ steps.validate.outcome }}' === 'success' ? 'Passed' : 'Failed';
+          Status: ${{ steps.plan.outcome == 'success' && 'Success' || 'Failed' }}
+          Format: ${{ steps.format.outcome == 'success' && 'Passed' || 'Failed' }}
+          Validate: ${{ steps.validate.outcome == 'success' && 'Passed' || 'Failed' }}
 
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: '## Terraform Plan Results\n\n' + planStatus + ' - Plan completed\n\n' + '### Validation Checks\n' + '- ' + formatStatus + ' - Terraform Format\n' + '- ' + validateStatus + ' - Terraform Validate\n\n' + '<details>\n<summary><strong>Full Plan Output</strong></summary>\n\n```\n' + planOutput + '\n```\n\n</details>\n\nPlan file available in workflow artifacts: `tfplan.out`'
-            });
+          <details><summary>Full Plan Output</summary>
+
+          \`\`\`
+          $(cat infra/terraform/tfplan.out)
+          \`\`\`
+
+          </details>"
