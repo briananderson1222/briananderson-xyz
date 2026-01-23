@@ -19,6 +19,7 @@ concurrency:
 jobs:
   plan:
     runs-on: ubuntu-latest
+    environment: prod
     env:
       TF_IN_AUTOMATION: "true"
     steps:
@@ -60,11 +61,6 @@ jobs:
         run: |
           terraform plan \
             -var="project_id=${{ secrets.GCP_PROJECT_ID }}" \
-            -var="region=${{ secrets.GCP_REGION }}" \
-            -var="github_org=${{ secrets.GH_ORG }}" \
-            -var="github_repo=${{ secrets.GH_REPO }}" \
-            -var="bucket_name=${{ secrets.SITE_BUCKET_NAME }}" \
-            -var="auth_proxy_domain=${{ secrets.AUTH_PROXY_DOMAIN }}" \
             -out=tfplan.out
 
       - name: Show Plan
@@ -76,4 +72,34 @@ jobs:
         with:
           name: terraform-plan
           path: infra/terraform/tfplan.out
+
+      - name: Comment PR with Plan
+        if: github.event_name == 'pull_request'
+        run: |
+          # Generate plan output for comment
+          cd infra/terraform
+          PLAN_OUTPUT=$(terraform show -no-color tfplan.out)
+          
+          # Create comment body
+          cat > comment.md << 'EOF'
+          ## Terraform Plan Results
+          
+          **Format Check:** ${{ steps.format.outcome == 'success' && '✅ Passed' || '❌ Failed' }}
+          **Validation:** ${{ steps.validate.outcome == 'success' && '✅ Passed' || '❌ Failed' }}
+          **Plan:** ${{ steps.plan.outcome == 'success' && '✅ Generated' || '❌ Failed' }}
+          
+          <details>
+          <summary>Show Plan</summary>
+          
+          ```terraform
+          ${PLAN_OUTPUT}
+          ```
+          
+          </details>
+          EOF
+          
+          # Post comment using gh CLI
+          gh pr comment ${{ github.event.number }} --body-file comment.md
+        env:
+          GH_TOKEN: ${{ github.token }}
 
