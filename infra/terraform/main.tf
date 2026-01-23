@@ -103,3 +103,4 @@ output "ci_service_account" { value = google_service_account.github_ci.email }
 output "site_bucket" { value = google_storage_bucket.site.url }
 output "site_dev_bucket" { value = google_storage_bucket.site_dev.url }
 # test PR workflow fix
+# trigger PR workflow
