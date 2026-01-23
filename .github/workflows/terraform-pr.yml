@@ -89,33 +89,9 @@ jobs:
             const formatStatus = '${{ steps.format.outcome }}' === 'success' ? 'Passed' : 'Failed';
             const validateStatus = '${{ steps.validate.outcome }}' === 'success' ? 'Passed' : 'Failed';
 
-            let summary = '';
-            if (planOutput) {
-              const addMatch = planOutput.match(/add\s+\d+/g);
-              const changeMatch = planOutput.match(/change\s+\d+/g);
-              const destroyMatch = planOutput.match(/destroy\s+\d+/g);
-
-              const addCount = addMatch ? addMatch[0] : '0 add';
-              const changeCount = changeMatch ? changeMatch[0] : '0 change';
-              const destroyCount = destroyMatch ? destroyMatch[0] : '0 destroy';
-
-              summary = '\n**Resource Changes:**\n- ' + addCount + '\n- ' + changeCount + '\n- ' + destroyCount;
-            }
-
-            const commentBody = '## Terraform Plan Results\n\n' +
-              planStatus + ' - Plan completed\n\n' +
-              '### Validation Checks\n' +
-              '- ' + formatStatus + ' - Terraform Format\n' +
-              '- ' + validateStatus + ' - Terraform Validate\n\n' +
-              summary + '\n\n' +
-              '<details>\n<summary><strong>Full Plan Output</strong></summary>\n\n' +
-              '```\n' + planOutput + '\n```\n\n' +
-              '</details>\n\n' +
-              'Plan file available in workflow artifacts: `tfplan.out`';
-
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: commentBody
+              body: '## Terraform Plan Results\n\n' + planStatus + ' - Plan completed\n\n' + '### Validation Checks\n' + '- ' + formatStatus + ' - Terraform Format\n' + '- ' + validateStatus + ' - Terraform Validate\n\n' + '<details>\n<summary><strong>Full Plan Output</strong></summary>\n\n```\n' + planOutput + '\n```\n\n</details>\n\nPlan file available in workflow artifacts: `tfplan.out`'
             });
