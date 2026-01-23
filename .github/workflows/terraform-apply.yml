@@ -3,42 +3,24 @@ name: Terraform Apply (main)
 on:
   push:
     branches: ["main"]
-  workflow_dispatch:
-    inputs:
-      enable_terraform:
-        description: 'Enable Terraform apply (disabled by default)'
-        required: false
-        default: false
-        type: boolean
 
 permissions:
   id-token: write
   contents: read
 
 jobs:
-  check-terraform:
-    runs-on: ubuntu-latest
-    outputs:
-      should_run: ${{ steps.check.outputs.result }}
-    steps:
-      - id: check
-        run: |
-          if [ "${{ inputs.enable_terraform }}" == "true" ]; then
-            echo "result=true" >> $GITHUB_OUTPUT
-          else
-            echo "Terraform apply is disabled. To enable, run workflow with 'enable_terraform' input set to true." | tee -a $GITHUB_STEP_SUMMARY
-            echo "result=false" >> $GITHUB_OUTPUT
-          fi
-
   apply:
     runs-on: ubuntu-latest
-    environment: prod
-    needs: check-terraform
-    if: needs.check-terraform.outputs.should_run == 'true'
     env:
       TF_IN_AUTOMATION: "true"
     steps:
       - uses: actions/checkout@v4
+
+      - name: Download Plan Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: terraform-plan
+          path: infra/terraform/
 
       - name: Authenticate to Google Cloud (WIF)
         uses: google-github-actions/auth@v2
@@ -58,30 +40,17 @@ jobs:
             -backend-config="bucket=${{ secrets.TF_STATE_BUCKET }}" \
             -backend-config="prefix=gcp/infra"
 
-      - name: Terraform Plan
-        id: plan
-        working-directory: infra/terraform
-        run: |
-          terraform plan \
-            -var="project_id=${{ secrets.GCP_PROJECT_ID }}" \
-            -var="region=${{ secrets.GCP_REGION }}" \
-            -var="github_org=${{ secrets.GH_ORG }}" \
-            -var="github_repo=${{ secrets.GH_REPO }}" \
-            -var="bucket_name=${{ secrets.SITE_BUCKET_NAME }}" \
-            -var="auth_proxy_domain=${{ secrets.AUTH_PROXY_DOMAIN }}" \
-            -out=tfplan.out
-
       - name: Show Plan
         working-directory: infra/terraform
         run: terraform show -no-color tfplan.out
-
-      - name: Upload Plan
-        uses: actions/upload-artifact@v4
-        with:
-          name: terraform-plan
-          path: infra/terraform/tfplan.out
 
       - name: Terraform Apply
         working-directory: infra/terraform
         run: |
           terraform apply -auto-approve tfplan.out
+
+      - name: Upload Applied Plan
+        uses: actions/upload-artifact@v4
+        with:
+          name: terraform-plan-applied
+          path: infra/terraform/tfplan.out

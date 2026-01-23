@@ -55,6 +55,46 @@ git push origin main --force
 
 **Note:** You are an admin, so you can bypass protection rules if needed. For team collaboration, consider requiring all changes to go through PRs.
 
+### Terraform Trunk-Based CI/CD
+
+This repository uses **trunk-based Terraform CI/CD** with two-phase workflow:
+
+**Phase 1: PR Workflow** (`.github/workflows/terraform-pr.yml`)
+- Trigger: Auto-runs on PR events (opened, synchronize, reopened)
+- Path filter: Only when `infra/terraform/**` changes
+- Purpose: Code review and planning BEFORE merge
+- Actions:
+  - Terraform format check
+  - Terraform validate
+  - Generate plan file (`tfplan.out`)
+  - Post detailed PR comment with plan results
+  - Upload plan as GitHub artifact
+- **Safety:** Read-only (never applies changes)
+
+**Phase 2: Push Workflow** (`.github/workflows/terraform-apply.yml`)
+- Trigger: Auto-runs on push to main (after PR merge)
+- Purpose: Continuous deployment AFTER merge
+- Actions:
+  - Download `tfplan.out` artifact from PR workflow
+  - Authenticate to GCP
+  - Apply the reviewed plan: `terraform apply -auto-approve tfplan.out`
+  - Upload applied plan for audit trail
+- **Safety:** No manual gates (relies on branch protection + code review)
+
+**Key Principles:**
+- ✅ Main branch is always deployable
+- ✅ PRs provide code review safety (no manual deployment gates)
+- ✅ Same plan used for review and apply (reproducible)
+- ✅ Automatic deployment after merge (true continuous delivery)
+- ✅ Full audit trail via GitHub artifacts
+
+**Testing Locally:**
+```bash
+cd infra/terraform
+terraform plan -out=tfplan.out
+terraform show -no-color tfplan.out  # Review plan
+```
+
 ## Deployment Pipeline
 
 The site uses a dev → prod deployment pipeline with artifact promotion. See [DEPLOYMENT_PIPELINE.md](../DEPLOYMENT_PIPELINE.md) for complete setup and usage documentation.
