@@ -104,3 +104,4 @@ output "site_bucket" { value = google_storage_bucket.site.url }
 output "site_dev_bucket" { value = google_storage_bucket.site_dev.url }
 # test trigger
 # test trigger 2
+# test trigger 3

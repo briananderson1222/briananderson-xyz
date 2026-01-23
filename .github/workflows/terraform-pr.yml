@@ -6,6 +6,10 @@ on:
     branches: ["main"]
     paths:
       - 'infra/terraform/**'
+  push:
+    branches-ignore: ["main"]
+    paths:
+      - 'infra/terraform/**'
 
 permissions:
   id-token: write
