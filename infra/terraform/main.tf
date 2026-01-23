@@ -19,7 +19,7 @@ resource "google_storage_bucket" "site" {
   uniform_bucket_level_access = true
 }
 
-# Public read for objects (so CDN can cache)
+# Public read for objects (so CDN can cache) - trunk-based CI/CD test
 resource "google_storage_bucket_iam_binding" "public_read" {
   bucket  = google_storage_bucket.site.name
   role    = "roles/storage.objectViewer"
