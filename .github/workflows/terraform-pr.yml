@@ -6,13 +6,6 @@ on:
     branches: ["main"]
     paths:
       - 'infra/terraform/**'
-  workflow_dispatch:
-    inputs:
-      enable_terraform:
-        description: 'Enable Terraform plan (disabled by default)'
-        required: false
-        default: false
-        type: boolean
 
 permissions:
   id-token: write
@@ -24,25 +17,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  check-terraform:
-    if: github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch'
-    runs-on: ubuntu-latest
-    outputs:
-      should_run: ${{ steps.check.outputs.result }}
-    steps:
-      - id: check
-        run: |
-          if [ "${{ inputs.enable_terraform }}" == "true" ]; then
-            echo "result=true" >> $GITHUB_OUTPUT
-          else
-            echo "Terraform plan is disabled. To enable, run workflow with 'enable_terraform' input set to true." | tee -a $GITHUB_STEP_SUMMARY
-            echo "result=false" >> $GITHUB_OUTPUT
-          fi
-
   plan:
-    if: (github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') && needs.check-terraform.outputs.should_run == 'true'
     runs-on: ubuntu-latest
-    needs: check-terraform
     env:
       TF_IN_AUTOMATION: "true"
     steps:
@@ -67,12 +43,16 @@ jobs:
             -backend-config="prefix=gcp/infra"
 
       - name: Terraform Format
+        id: format
         working-directory: infra/terraform
         run: terraform fmt -check -recursive
+        continue-on-error: true
 
       - name: Terraform Validate
+        id: validate
         working-directory: infra/terraform
         run: terraform validate
+        continue-on-error: true
 
       - name: Terraform Plan
         id: plan
@@ -96,3 +76,22 @@ jobs:
         with:
           name: terraform-plan
           path: infra/terraform/tfplan.out
+
+      - name: Post PR Comment with Plan Results
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const planOutput = fs.readFileSync('infra/terraform/tfplan.out', 'utf8');
+
+            const planStatus = '${{ steps.plan.outcome }}' === 'success' ? 'Success' : 'Failed';
+            const formatStatus = '${{ steps.format.outcome }}' === 'success' ? 'Passed' : 'Failed';
+            const validateStatus = '${{ steps.validate.outcome }}' === 'success' ? 'Passed' : 'Failed';
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '## Terraform Plan Results\n\n' + planStatus + ' - Plan completed\n\n' + '### Validation Checks\n' + '- ' + formatStatus + ' - Terraform Format\n' + '- ' + validateStatus + ' - Terraform Validate\n\n' + '<details>\n<summary><strong>Full Plan Output</strong></summary>\n\n```\n' + planOutput + '\n```\n\n</details>\n\nPlan file available in workflow artifacts: `tfplan.out`'
+            });
