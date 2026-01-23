@@ -99,29 +99,19 @@ jobs:
               const changeCount = changeMatch ? changeMatch[0] : '0 change';
               const destroyCount = destroyMatch ? destroyMatch[0] : '0 destroy';
 
-              summary = `\n**Resource Changes:**\n- ${addCount}\n- ${changeCount}\n- ${destroyCount}`;
+              summary = '\n**Resource Changes:**\n- ' + addCount + '\n- ' + changeCount + '\n- ' + destroyCount;
             }
 
-            const commentBody = `## 📋 Terraform Plan Results
-
-            ${planStatus} - Plan completed
-
-            ### Validation Checks
-            - ${formatStatus} - Terraform Format
-            - ${validateStatus} - Terraform Validate
-
-            ${summary}
-
-            <details>
-            <summary><strong>Full Plan Output</strong></summary>
-
-            \`\`\`
-            ${planOutput}
-            \`\`\`
-
-            </details>
-
-            Plan file available in workflow artifacts: \`tfplan.out\``;
+            const commentBody = '## 📋 Terraform Plan Results\n\n' +
+              planStatus + ' - Plan completed\n\n' +
+              '### Validation Checks\n' +
+              '- ' + formatStatus + ' - Terraform Format\n' +
+              '- ' + validateStatus + ' - Terraform Validate\n\n' +
+              summary + '\n\n' +
+              '<details>\n<summary><strong>Full Plan Output</strong></summary>\n\n' +
+              '```\n' + planOutput + '\n```\n\n' +
+              '</details>\n\n' +
+              'Plan file available in workflow artifacts: `tfplan.out`';
 
             github.rest.issues.createComment({
               issue_number: context.issue.number,
