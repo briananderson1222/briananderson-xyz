@@ -11,7 +11,7 @@ on:
 permissions:
   id-token: write
   contents: read
-  pull_requests: write
+  pull-requests: write
 
 concurrency:
   group: terraform-pr
