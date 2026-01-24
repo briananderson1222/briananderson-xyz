@@ -40,7 +40,7 @@ jobs:
         working-directory: infra/terraform
         run: |
           terraform init \
-            -backend-config="bucket=${{ secrets.GCS_BUCKET }}" \
+            -backend-config="bucket=${{ secrets.TF_STATE_BUCKET }}" \
             -backend-config="prefix=gcp/infra"
 
       - name: Terraform Format
