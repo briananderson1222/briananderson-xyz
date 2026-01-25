@@ -23,11 +23,11 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Find the Run ID for the specific commit merged into main
-          RUN_ID=$(gh run list --commit ${{ github.sha }} --workflow "terraform-pr.yml" --status success --json databaseId --jq '.[0].databaseId')
+          # Find the most recent successful terraform-pr workflow run
+          RUN_ID=$(gh run list --workflow "terraform-pr.yml" --status success --json databaseId,createdAt --jq 'sort_by(.createdAt) | reverse | .[0].databaseId')
           
           if [ -z "$RUN_ID" ]; then
-            echo "❌ No successful plan artifact found for this commit."
+            echo "❌ No successful plan artifact found."
             exit 1
           fi
           
