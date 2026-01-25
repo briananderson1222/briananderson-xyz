@@ -6,7 +6,9 @@
   import { browser } from '$app/environment';
   import { beforeNavigate, afterNavigate } from '$app/navigation';
   import posthog from 'posthog-js';
-  import { PUBLIC_POSTHOG_KEY, PUBLIC_POSTHOG_HOST } from '$env/static/public';
+  
+  const PUBLIC_POSTHOG_KEY = import.meta.env.PUBLIC_POSTHOG_KEY;
+  const PUBLIC_POSTHOG_HOST = import.meta.env.PUBLIC_POSTHOG_HOST;
 
   if (browser) {
     onMount(() => {

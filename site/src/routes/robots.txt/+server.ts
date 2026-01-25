@@ -1,11 +1,10 @@
-import { PUBLIC_SITE_URL } from '$env/static/public';
-
 export const prerender = true;
+const site = import.meta.env.PUBLIC_SITE_URL || 'https://briananderson.xyz';
 
 export const GET = async () => {
   const robots = `User-agent: *
 Allow: /
-Sitemap: ${PUBLIC_SITE_URL}/sitemap.xml`;
+Sitemap: ${site}/sitemap.xml`;
   
   return new Response(robots, {
     headers: {
