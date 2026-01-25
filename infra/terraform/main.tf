@@ -29,7 +29,7 @@ resource "google_storage_bucket_iam_binding" "public_read" {
 # GCS site bucket (dev)
 resource "google_storage_bucket" "site_dev" {
   name          = "dev.briananderson.xyz"
-  location      = "US-WEST4"
+  location      = "US"
   force_destroy = false
 
   website {
