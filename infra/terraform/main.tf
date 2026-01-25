@@ -73,7 +73,7 @@ resource "google_iam_workload_identity_pool_provider" "provider" {
   }
 
   # Limit which GitHub repo/branch can assume this identity
-  attribute_condition = "attribute.repository_owner_id in ${jsonencode(var.allowed_repository_owner_ids)} && attribute.ref == \"refs/heads/main\""
+  attribute_condition = "attribute.repository_owner_id in ${jsonencode(var.allowed_repository_owner_ids)} && (startsWith(attribute.ref, 'refs/heads/main') || startsWith(attribute.ref, 'refs/pull/'))"
 
   oidc { issuer_uri = "https://token.actions.githubusercontent.com" }
 }
