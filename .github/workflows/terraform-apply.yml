@@ -7,6 +7,8 @@ on:
 permissions:
   id-token: write
   contents: read
+  actions: read
+  pull-requests: read
 
 jobs:
   apply:
@@ -16,11 +18,22 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Download Plan Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: terraform-plan
-          path: infra/terraform/
+      - name: Fetch PR Plan Artifact
+        id: fetch-plan
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Find the Run ID for the specific commit merged into main
+          RUN_ID=$(gh run list --commit ${{ github.sha }} --workflow "terraform-pr.yml" --status success --json databaseId --jq '.[0].databaseId')
+          
+          if [ -z "$RUN_ID" ]; then
+            echo "❌ No successful plan artifact found for this commit."
+            exit 1
+          fi
+          
+          gh run download $RUN_ID --name terraform-plan --dir infra/terraform/
+          echo "run_id=$RUN_ID" >> $GITHUB_OUTPUT
+          echo "✅ Downloaded plan from run $RUN_ID"
 
       - name: Authenticate to Google Cloud (WIF)
         uses: google-github-actions/auth@v2
