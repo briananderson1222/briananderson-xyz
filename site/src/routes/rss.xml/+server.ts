@@ -1,5 +1,7 @@
+import { PUBLIC_SITE_URL } from '$env/static/public';
+
 export const prerender = true;
-const site = import.meta.env.PUBLIC_SITE_URL || 'https://briananderson.xyz';
+const site = PUBLIC_SITE_URL;
 export const GET = async () => {
   const modules = import.meta.glob('/content/blog/**/*.md', { eager: true });
   const items = Object.entries(modules).map(([path, mod]: any) => ({
