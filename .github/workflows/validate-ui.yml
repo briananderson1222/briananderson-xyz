@@ -36,6 +36,10 @@ jobs:
         working-directory: site
         run: pnpm i --frozen-lockfile || pnpm i
 
+      - name: Install Playwright browsers
+        working-directory: site
+        run: npx playwright install chromium
+
       - name: Set up environment variables
         working-directory: site
         run: |
@@ -50,6 +54,12 @@ jobs:
       - name: Build site
         working-directory: site
         run: pnpm run build
+
+      - name: Run E2E tests (Local)
+        working-directory: site
+        env:
+          CI_USE_LOCAL_SERVER: true
+        run: pnpm run test:e2e
 
       - name: Run UI validation tests
         working-directory: site
