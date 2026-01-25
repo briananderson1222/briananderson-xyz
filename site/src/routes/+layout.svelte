@@ -6,28 +6,48 @@
   import { browser } from '$app/environment';
   import { beforeNavigate, afterNavigate } from '$app/navigation';
   import posthog from 'posthog-js';
-
-  if (browser && import.meta.env.PUBLIC_POSTHOG_KEY) {
-    posthog.init(
-      import.meta.env.PUBLIC_POSTHOG_KEY,
-      {
-        api_host: import.meta.env.PUBLIC_POSTHOG_HOST || 'https://app.posthog.com',
-        capture_pageview: false,
-        capture_pageleave: false,
-        capture_exceptions: true,
-        loaded: (ph) => {
-          const deploymentEnv = typeof window !== 'undefined' && window.location.hostname.includes('dev.') ? 'dev' : 'production';
-          ph.register({
-            deployment_environment: deploymentEnv
-          });
-        }
-      }
-    );
-  }
+  
+  const PUBLIC_POSTHOG_KEY = import.meta.env.PUBLIC_POSTHOG_KEY;
+  const PUBLIC_POSTHOG_HOST = import.meta.env.PUBLIC_POSTHOG_HOST;
 
   if (browser) {
+    onMount(() => {
+      if (PUBLIC_POSTHOG_KEY) {
+        console.log('Initializing PostHog with key starting:', PUBLIC_POSTHOG_KEY.substring(0, 4));
+        posthog.init(
+          PUBLIC_POSTHOG_KEY,
+          {
+            api_host: PUBLIC_POSTHOG_HOST || 'https://app.posthog.com',
+            capture_pageview: false,
+            capture_pageleave: false,
+            capture_exceptions: true,
+            loaded: (ph) => {
+              const deploymentEnv = typeof window !== 'undefined' && window.location.hostname.includes('dev.') ? 'dev' : 'production';
+              ph.register({
+                deployment_environment: deploymentEnv
+              });
+              console.log('PostHog loaded, env:', deploymentEnv);
+            }
+          }
+        );
+        // Force capture initial pageview on mount to be sure
+        posthog.capture('$pageview');
+      } else {
+        console.warn('PostHog key not found');
+      }
+    });
+
     beforeNavigate(() => posthog.capture('$pageleave'));
-    afterNavigate(() => posthog.capture('$pageview'));
+    
+    // Track subsequent navigations
+    let isInitial = true;
+    afterNavigate(() => {
+      if (isInitial) {
+        isInitial = false;
+        return; // Handled by onMount
+      }
+      posthog.capture('$pageview');
+    });
   }
 </script>
 
