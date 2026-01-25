@@ -6,9 +6,7 @@
   import { browser } from '$app/environment';
   import { beforeNavigate, afterNavigate } from '$app/navigation';
   import posthog from 'posthog-js';
-  
-  const PUBLIC_POSTHOG_KEY = import.meta.env.PUBLIC_POSTHOG_KEY;
-  const PUBLIC_POSTHOG_HOST = import.meta.env.PUBLIC_POSTHOG_HOST;
+  import { PUBLIC_POSTHOG_KEY, PUBLIC_POSTHOG_HOST } from '$env/static/public';
 
   if (browser) {
     onMount(() => {
@@ -50,6 +48,10 @@
     });
   }
 </script>
+
+<svelte:head>
+  <title>Brian Anderson</title>
+</svelte:head>
 
 <div class="pointer-events-none fixed inset-0 z-30 overflow-hidden">
   <div class="scanlines pointer-events-none"></div>

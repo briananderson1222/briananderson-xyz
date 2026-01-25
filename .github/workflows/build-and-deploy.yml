@@ -29,10 +29,8 @@ on:
           - prod
 
 jobs:
-  build:
+  validate:
     runs-on: ubuntu-latest
-    outputs:
-      artifact_name: build-artifact-${{ github.sha }}
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -46,54 +44,19 @@ jobs:
       - name: Install deps
         working-directory: site
         run: pnpm i --frozen-lockfile || pnpm i
-      - name: Install Playwright browsers
-        working-directory: site
-        run: npx playwright install chromium
-      - name: Create .env file
+      - name: Create .env file (Prod for validation)
         working-directory: site
         run: |
           echo "PUBLIC_SITE_URL=https://briananderson.xyz" > .env
           echo "PUBLIC_POSTHOG_KEY=${{ secrets.PUBLIC_POSTHOG_KEY }}" >> .env
           echo "PUBLIC_POSTHOG_HOST=${{ secrets.PUBLIC_POSTHOG_HOST }}" >> .env
-      - name: Debug .env creation
-        working-directory: site
-        run: |
-          ls -la .env
-          echo "Content of .env (sanitized):"
-          grep "PUBLIC_SITE_URL" .env || echo "PUBLIC_SITE_URL not found in .env"
       - name: Run validation
         working-directory: site
-        env:
-          PUBLIC_POSTHOG_KEY: ${{ secrets.PUBLIC_POSTHOG_KEY }}
-          PUBLIC_POSTHOG_HOST: ${{ secrets.PUBLIC_POSTHOG_HOST }}
-          PUBLIC_SITE_URL: https://briananderson.xyz
         run: pnpm run validate
-      - name: Debug Build Output
-        working-directory: site
-        run: |
-          echo "Checking sitemap.xml..."
-          if [ -f "build/sitemap.xml" ]; then
-            head -n 5 build/sitemap.xml
-          else
-            echo "sitemap.xml not found!"
-          fi
-          
-          echo "Checking robots.txt..."
-          if [ -f "build/robots.txt" ]; then
-            cat build/robots.txt
-          else
-            echo "robots.txt not found!"
-          fi
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-artifact-${{ github.sha }}
-          path: site/build/
-          retention-days: 30
 
   deploy-dev:
     runs-on: ubuntu-latest
-    needs: build
+    needs: validate
     environment: dev
     if: github.event.inputs.rollback != 'true'
     steps:
@@ -112,27 +75,62 @@ jobs:
       - name: Install Playwright browsers
         working-directory: site
         run: npx playwright install chromium
-      - name: Download build artifact
-        env:
-          GH_TOKEN: ${{ github.token }}
+      - name: Create .env file (Dev)
+        working-directory: site
         run: |
-          gh run download ${{ github.run_id }} --name build-artifact-${{ github.sha }} --dir site/build/
-          echo "Downloaded $(find site/build -type f | wc -l) files"
+          echo "PUBLIC_SITE_URL=https://dev.briananderson.xyz" > .env
+          echo "PUBLIC_POSTHOG_KEY=${{ secrets.PUBLIC_POSTHOG_KEY }}" >> .env
+          echo "PUBLIC_POSTHOG_HOST=${{ secrets.PUBLIC_POSTHOG_HOST }}" >> .env
+      - name: Build for Dev
+        working-directory: site
+        run: pnpm run build
+      - name: Upload dev build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifact-dev
+          path: site/build/
+          retention-days: 14
       - uses: google-github-actions/auth@v2
         with:
           workload_identity_provider: ${{ secrets.GCP_WIF_PROVIDER }}
           service_account: ${{ secrets.GCP_WIF_SA_EMAIL }}
       - uses: google-github-actions/setup-gcloud@v2
+      - name: Get last successful dev deployment
+        id: last_successful
+        run: |
+          LAST_SUCCESSFUL=$(gh run list --workflow=build-and-deploy.yml --branch=main --limit=100 --json conclusion,name,databaseId --jq '[.[] | select(.conclusion == "success" and .name == "deploy-dev")] | .[0].databaseId' || echo "none")
+          if [ "$LAST_SUCCESSFUL" == "none" ] || [ -z "$LAST_SUCCESSFUL" ]; then
+            echo "No previous successful dev deployment found"
+            echo "run_id=none" >> $GITHUB_OUTPUT
+          else
+            echo "run_id=$LAST_SUCCESSFUL" >> $GITHUB_OUTPUT
+          fi
+        env:
+          GH_TOKEN: ${{ github.token }}
       - name: Upload to dev bucket
         run: |
           gcloud storage rsync site/build/ gs://dev.briananderson.xyz/ --delete-unmatched-destination-objects
           gcloud storage buckets update gs://dev.briananderson.xyz --web-main-page-suffix=index.html --web-error-page=index.html
+          # Set caching: Immutable assets (long cache), Mutable files (no cache)
+          gcloud storage objects update "gs://dev.briananderson.xyz/_app/**" --cache-control="public, max-age=31536000"
+          gcloud storage objects update "gs://dev.briananderson.xyz/*.html" "gs://dev.briananderson.xyz/*.xml" "gs://dev.briananderson.xyz/*.json" --cache-control="no-cache, no-store, must-revalidate"
       - name: Run E2E tests
+        id: smoke
         working-directory: site
         env:
           PLAYWRIGHT_TEST_BASE_URL: https://dev.briananderson.xyz
-        continue-on-error: true
-        run: npx playwright test
+        run: pnpm run test:e2e
+      - name: Rollback on failure
+        if: steps.smoke.outcome == 'failure' && steps.last_successful.outputs.run_id != 'none'
+        env:
+          LAST_RUN_ID: ${{ steps.last_successful.outputs.run_id }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          echo "❌ Smoke tests failed, rolling back dev to run $LAST_RUN_ID..."
+          gh run download $LAST_RUN_ID -n build-artifact-dev
+          gcloud storage rsync site/build/ gs://dev.briananderson.xyz/ --delete-unmatched-destination-objects
+          echo "Rollback complete."
+          exit 1
 
   deploy-prod:
     runs-on: ubuntu-latest
@@ -141,12 +139,35 @@ jobs:
     if: github.event_name == 'workflow_dispatch' && github.event.inputs.deploy_prod == 'true'
     steps:
       - uses: actions/checkout@v4
-      - name: Download build artifact
-        env:
-          GH_TOKEN: ${{ github.token }}
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+          cache-dependency-path: site/pnpm-lock.yaml
+      - name: Install deps
+        working-directory: site
+        run: pnpm i --frozen-lockfile || pnpm i
+      - name: Install Playwright browsers
+        working-directory: site
+        run: npx playwright install chromium
+      - name: Create .env file (Prod)
+        working-directory: site
         run: |
-          gh run download ${{ github.run_id }} --name build-artifact-${{ github.sha }} --dir site/build/
-          echo "Downloaded $(find site/build -type f | wc -l) files"
+          echo "PUBLIC_SITE_URL=https://briananderson.xyz" > .env
+          echo "PUBLIC_POSTHOG_KEY=${{ secrets.PUBLIC_POSTHOG_KEY }}" >> .env
+          echo "PUBLIC_POSTHOG_HOST=${{ secrets.PUBLIC_POSTHOG_HOST }}" >> .env
+      - name: Build for Prod
+        working-directory: site
+        run: pnpm run build
+      - name: Upload prod build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifact-prod
+          path: site/build/
+          retention-days: 30
       - uses: google-github-actions/auth@v2
         with:
           workload_identity_provider: ${{ secrets.GCP_WIF_PROVIDER }}
@@ -169,23 +190,25 @@ jobs:
         run: |
           gcloud storage rsync site/build/ gs://briananderson.xyz/ --delete-unmatched-destination-objects
           gcloud storage buckets update gs://briananderson.xyz --web-main-page-suffix=index.html --web-error-page=index.html
+          # Set caching: Immutable assets (long cache), Mutable files (no cache)
+          gcloud storage objects update "gs://briananderson.xyz/_app/**" --cache-control="public, max-age=31536000"
+          gcloud storage objects update "gs://briananderson.xyz/*.html" "gs://briananderson.xyz/*.xml" "gs://briananderson.xyz/*.json" --cache-control="no-cache, no-store, must-revalidate"
       - name: Run smoke tests
         id: smoke
         working-directory: site
         env:
           PLAYWRIGHT_TEST_BASE_URL: https://briananderson.xyz
-        continue-on-error: true
-        run: npx playwright test
+        run: pnpm run test:e2e
       - name: Rollback on failure
         if: steps.smoke.outcome == 'failure' && steps.last_successful.outputs.run_id != 'none'
         env:
           LAST_RUN_ID: ${{ steps.last_successful.outputs.run_id }}
           GH_TOKEN: ${{ github.token }}
         run: |
-          echo "❌ Smoke tests failed, rolling back to run $LAST_RUN_ID..."
-          gh run download $LAST_RUN_ID -n build-artifact-*
+          echo "❌ Smoke tests failed, rolling back prod to run $LAST_RUN_ID..."
+          gh run download $LAST_RUN_ID -n build-artifact-prod
           gcloud storage rsync site/build/ gs://briananderson.xyz/ --delete-unmatched-destination-objects
-          echo "Rollback complete. Previous successful deployment restored."
+          echo "Rollback complete."
           exit 1
       - name: Warn if no rollback target
         if: steps.smoke.outcome == 'failure' && steps.last_successful.outputs.run_id == 'none'
@@ -218,16 +241,19 @@ jobs:
         run: |
           echo "❌ No previous successful deployment found for rollback."
           exit 1
-      - uses: actions/download-artifact@v4
-        with:
-          name: build-artifact-${{ github.sha }}
-          path: site/build/
+      - name: Download artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TARGET_ENV: ${{ github.event.inputs.target_env }}
+        run: |
+          RUN_ID=${{ steps.last_successful.outputs.run_id }}
+          ARTIFACT_NAME="build-artifact-$TARGET_ENV"
+          echo "Downloading $ARTIFACT_NAME from run $RUN_ID..."
+          gh run download $RUN_ID -n $ARTIFACT_NAME --dir site/build/
       - name: Verify artifact download
         run: |
           echo "Files in site/build/:"
           find site/build -type f | wc -l
-          ls -la site/build/_app/immutable/assets/ 2>&1 || echo "No _app directory found"
-          run-id: ${{ steps.last_successful.outputs.run_id }}
       - uses: google-github-actions/auth@v2
         with:
           workload_identity_provider: ${{ secrets.GCP_WIF_PROVIDER }}

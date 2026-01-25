@@ -8,12 +8,15 @@ test.describe('Smoke Tests', () => {
 
   test('homepage has name and title', async ({ page }) => {
     await page.goto('/');
-    await expect(page.locator('h1')).toContainText('Brian Anderson');
+    // Check for the name in the terminal-style header or navbar
+    await expect(page.locator('header')).toContainText('briananderson');
+    // Check for the title in the H1
+    await expect(page.locator('h1')).toContainText('Solutions Architect');
   });
 
   test('navigation to resume works', async ({ page }) => {
     await page.goto('/');
-    await page.click('text=Resume');
+    await page.click('text=./view_resume.pdf');
     await expect(page).toHaveURL(/\/resume/);
   });
 

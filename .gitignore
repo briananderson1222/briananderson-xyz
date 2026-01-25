@@ -6,6 +6,8 @@ build
 .envrc
 .terraform
 .terraform.lock.hcl
+playwright-report
+test-results
 
 # Environment variables
 site/.env

@@ -36,9 +36,14 @@ jobs:
         working-directory: site
         run: pnpm i --frozen-lockfile || pnpm i
 
-      - name: Set up PostHog environment variables
+      - name: Install Playwright browsers
+        working-directory: site
+        run: npx playwright install chromium
+
+      - name: Set up environment variables
         working-directory: site
         run: |
+          echo "PUBLIC_SITE_URL=https://briananderson.xyz" > .env
           echo "PUBLIC_POSTHOG_KEY=${{ secrets.PUBLIC_POSTHOG_KEY }}" >> .env
           echo "PUBLIC_POSTHOG_HOST=${{ secrets.PUBLIC_POSTHOG_HOST }}" >> .env
 
@@ -49,6 +54,12 @@ jobs:
       - name: Build site
         working-directory: site
         run: pnpm run build
+
+      - name: Run E2E tests (Local)
+        working-directory: site
+        env:
+          CI_USE_LOCAL_SERVER: true
+        run: pnpm run test:e2e
 
       - name: Run UI validation tests
         working-directory: site
