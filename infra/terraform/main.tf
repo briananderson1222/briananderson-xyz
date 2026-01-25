@@ -30,7 +30,7 @@ resource "google_storage_bucket_iam_binding" "public_read" {
 resource "google_storage_bucket" "site_dev" {
   name          = "dev.briananderson.xyz"
   location      = "US"
-  force_destroy = false
+  force_destroy = true
 
   website {
     main_page_suffix = "index.html"
@@ -73,7 +73,7 @@ resource "google_iam_workload_identity_pool_provider" "provider" {
   }
 
   # Limit which GitHub repo/branch can assume this identity
-  attribute_condition = "attribute.repository_owner_id in ${jsonencode(var.allowed_repository_owner_ids)} && (startsWith(attribute.ref, 'refs/heads/main') || startsWith(attribute.ref, 'refs/pull/'))"
+  attribute_condition = "attribute.repository_owner_id in ${jsonencode(var.allowed_repository_owner_ids)} && (attribute.ref == 'refs/heads/main' || matches(attribute.ref, '^refs/pull/.*$'))"
 
   oidc { issuer_uri = "https://token.actions.githubusercontent.com" }
 }
@@ -94,6 +94,12 @@ resource "google_service_account_iam_member" "wif_bind" {
 resource "google_project_iam_member" "ci_storage_admin" {
   project = var.project_id
   role    = "roles/storage.admin"
+  member  = "serviceAccount:${google_service_account.github_ci.email}"
+}
+
+resource "google_project_iam_member" "ci_serviceusage_viewer" {
+  project = var.project_id
+  role    = "roles/serviceusage.serviceUsageViewer"
   member  = "serviceAccount:${google_service_account.github_ci.email}"
 }
 
