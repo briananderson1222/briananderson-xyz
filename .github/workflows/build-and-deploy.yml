@@ -55,6 +55,12 @@ jobs:
           echo "PUBLIC_SITE_URL=https://briananderson.xyz" > .env
           echo "PUBLIC_POSTHOG_KEY=${{ secrets.PUBLIC_POSTHOG_KEY }}" >> .env
           echo "PUBLIC_POSTHOG_HOST=${{ secrets.PUBLIC_POSTHOG_HOST }}" >> .env
+      - name: Debug .env creation
+        working-directory: site
+        run: |
+          ls -la .env
+          echo "Content of .env (sanitized):"
+          grep "PUBLIC_SITE_URL" .env || echo "PUBLIC_SITE_URL not found in .env"
       - name: Run validation
         working-directory: site
         env:
@@ -62,6 +68,22 @@ jobs:
           PUBLIC_POSTHOG_HOST: ${{ secrets.PUBLIC_POSTHOG_HOST }}
           PUBLIC_SITE_URL: https://briananderson.xyz
         run: pnpm run validate
+      - name: Debug Build Output
+        working-directory: site
+        run: |
+          echo "Checking sitemap.xml..."
+          if [ -f "build/sitemap.xml" ]; then
+            head -n 5 build/sitemap.xml
+          else
+            echo "sitemap.xml not found!"
+          fi
+          
+          echo "Checking robots.txt..."
+          if [ -f "build/robots.txt" ]; then
+            cat build/robots.txt
+          else
+            echo "robots.txt not found!"
+          fi
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
@@ -104,7 +126,7 @@ jobs:
       - name: Upload to dev bucket
         run: |
           gcloud storage rsync site/build/ gs://dev.briananderson.xyz/ --delete-unmatched-destination-objects
-          gcloud storage buckets update gs://dev.briananderson.xyz --web-main-page-suffix=index.html --web-error-page=404.html
+          gcloud storage buckets update gs://dev.briananderson.xyz --web-main-page-suffix=index.html --web-error-page=index.html
       - name: Run E2E tests
         working-directory: site
         env:
@@ -146,7 +168,7 @@ jobs:
         id: deploy
         run: |
           gcloud storage rsync site/build/ gs://briananderson.xyz/ --delete-unmatched-destination-objects
-          gcloud storage buckets update gs://briananderson.xyz --web-main-page-suffix=index.html --web-error-page=404.html
+          gcloud storage buckets update gs://briananderson.xyz --web-main-page-suffix=index.html --web-error-page=index.html
       - name: Run smoke tests
         id: smoke
         working-directory: site
