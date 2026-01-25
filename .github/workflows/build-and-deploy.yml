@@ -74,7 +74,7 @@ jobs:
         run: pnpm i --frozen-lockfile || pnpm i
       - name: Install Playwright browsers
         working-directory: site
-        run: npx playwright install chromium
+        run: pnpm exec playwright install chromium
       - name: Create .env file (Dev)
         working-directory: site
         run: |
@@ -152,7 +152,7 @@ jobs:
         run: pnpm i --frozen-lockfile || pnpm i
       - name: Install Playwright browsers
         working-directory: site
-        run: npx playwright install chromium
+        run: pnpm exec playwright install chromium
       - name: Create .env file (Prod)
         working-directory: site
         run: |
