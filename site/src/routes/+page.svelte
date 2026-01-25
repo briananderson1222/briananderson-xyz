@@ -104,17 +104,17 @@
             <span class="text-skin-muted transition-transform {openCategories[category] ? 'rotate-180' : ''}">▼</span>
           </button>
 
-          {#if openCategories[category]}
-            <div transition:slide={{ duration: 300 }} class="border-t border-skin-border">
-              <div class="p-3 grid grid-cols-1 gap-2">
-                {#each items as skill}
-                  <div class="flex items-center gap-2 text-skin-muted">
-                    <span class="text-skin-accent">[OK]</span> {typeof skill === 'string' ? skill : (skill.altName || skill.name)}
-                  </div>
-                {/each}
-              </div>
-            </div>
-          {/if}
+           {#if openCategories[category]}
+             <div transition:slide|local class="border-t border-skin-border">
+               <div class="p-3 grid grid-cols-1 gap-2">
+                 {#each items as skill}
+                   <div class="flex items-center gap-2 text-skin-muted">
+                     <span class="text-skin-accent">[OK]</span> {typeof skill === 'string' ? skill : (skill.altName || skill.name)}
+                   </div>
+                 {/each}
+               </div>
+             </div>
+           {/if}
         </div>
       {/each}
     </div>
