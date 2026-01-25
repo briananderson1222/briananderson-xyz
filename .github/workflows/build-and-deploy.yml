@@ -52,9 +52,9 @@ jobs:
       - name: Create .env file
         working-directory: site
         run: |
-          echo "PUBLIC_POSTHOG_KEY=${{ secrets.PUBLIC_POSTHOG_KEY }}" > .env
+          echo "PUBLIC_SITE_URL=https://briananderson.xyz" > .env
+          echo "PUBLIC_POSTHOG_KEY=${{ secrets.PUBLIC_POSTHOG_KEY }}" >> .env
           echo "PUBLIC_POSTHOG_HOST=${{ secrets.PUBLIC_POSTHOG_HOST }}" >> .env
-          echo "PUBLIC_SITE_URL=https://briananderson.xyz" >> .env
       - name: Run validation
         working-directory: site
         env:
