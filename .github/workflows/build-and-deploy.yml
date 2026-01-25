@@ -187,8 +187,13 @@ jobs:
           exit 1
       - uses: actions/download-artifact@v4
         with:
-          pattern: build-artifact-*
+          name: build-artifact-${{ github.sha }}
           path: site/build/
+      - name: Verify artifact download
+        run: |
+          echo "Files in site/build/:"
+          find site/build -type f | wc -l
+          ls -la site/build/_app/immutable/assets/ 2>&1 || echo "No _app directory found"
           run-id: ${{ steps.last_successful.outputs.run_id }}
       - uses: google-github-actions/auth@v2
         with:
