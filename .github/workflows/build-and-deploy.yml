@@ -57,6 +57,10 @@ jobs:
           echo "PUBLIC_SITE_URL=https://briananderson.xyz" >> .env
       - name: Run validation
         working-directory: site
+        env:
+          PUBLIC_POSTHOG_KEY: ${{ secrets.PUBLIC_POSTHOG_KEY }}
+          PUBLIC_POSTHOG_HOST: ${{ secrets.PUBLIC_POSTHOG_HOST }}
+          PUBLIC_SITE_URL: https://briananderson.xyz
         run: pnpm run validate
       - name: Upload artifact
         uses: actions/upload-artifact@v4
