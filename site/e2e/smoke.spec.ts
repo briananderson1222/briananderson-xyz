@@ -13,7 +13,7 @@ test.describe('Smoke Tests', () => {
 
   test('navigation to resume works', async ({ page }) => {
     await page.goto('/');
-    await page.click('text=Resume');
+    await page.click('text=./view_resume.pdf');
     await expect(page).toHaveURL(/\/resume/);
   });
 

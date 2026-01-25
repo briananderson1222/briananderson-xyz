@@ -110,14 +110,13 @@ jobs:
       - name: Upload to dev bucket
         run: |
           gcloud storage rsync site/build/ gs://dev.briananderson.xyz/ --delete-unmatched-destination-objects
-          gcloud storage buckets update gs://dev.briananderson.xyz --web-main-page-suffix=index.html --web-error-page=404.html
+          gcloud storage buckets update gs://dev.briananderson.xyz --web-main-page-suffix=index.html --web-error-page=index.html
       - name: Run E2E tests
         id: smoke
         working-directory: site
         env:
           PLAYWRIGHT_TEST_BASE_URL: https://dev.briananderson.xyz
-        continue-on-error: true
-        run: npx playwright test
+        run: pnpm run test:e2e
       - name: Rollback on failure
         if: steps.smoke.outcome == 'failure' && steps.last_successful.outputs.run_id != 'none'
         env:
@@ -187,14 +186,13 @@ jobs:
         id: deploy
         run: |
           gcloud storage rsync site/build/ gs://briananderson.xyz/ --delete-unmatched-destination-objects
-          gcloud storage buckets update gs://briananderson.xyz --web-main-page-suffix=index.html --web-error-page=404.html
+          gcloud storage buckets update gs://briananderson.xyz --web-main-page-suffix=index.html --web-error-page=index.html
       - name: Run smoke tests
         id: smoke
         working-directory: site
         env:
           PLAYWRIGHT_TEST_BASE_URL: https://briananderson.xyz
-        continue-on-error: true
-        run: npx playwright test
+        run: pnpm run test:e2e
       - name: Rollback on failure
         if: steps.smoke.outcome == 'failure' && steps.last_successful.outputs.run_id != 'none'
         env:

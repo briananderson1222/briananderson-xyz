@@ -9,32 +9,6 @@
   import { PUBLIC_POSTHOG_KEY, PUBLIC_POSTHOG_HOST } from '$env/static/public';
 
   if (browser) {
-    onMount(() => {
-      if (PUBLIC_POSTHOG_KEY) {
-        console.log('Initializing PostHog with key starting:', PUBLIC_POSTHOG_KEY.substring(0, 4));
-        posthog.init(
-          PUBLIC_POSTHOG_KEY,
-          {
-            api_host: PUBLIC_POSTHOG_HOST || 'https://app.posthog.com',
-            capture_pageview: false,
-            capture_pageleave: false,
-            capture_exceptions: true,
-            loaded: (ph) => {
-              const deploymentEnv = typeof window !== 'undefined' && window.location.hostname.includes('dev.') ? 'dev' : 'production';
-              ph.register({
-                deployment_environment: deploymentEnv
-              });
-              console.log('PostHog loaded, env:', deploymentEnv);
-            }
-          }
-        );
-        // Force capture initial pageview on mount to be sure
-        posthog.capture('$pageview');
-      } else {
-        console.warn('PostHog key not found');
-      }
-    });
-
     beforeNavigate(() => posthog.capture('$pageleave'));
     
     // Track subsequent navigations
@@ -48,6 +22,10 @@
     });
   }
 </script>
+
+<svelte:head>
+  <title>Brian Anderson</title>
+</svelte:head>
 
 <div class="pointer-events-none fixed inset-0 z-30 overflow-hidden">
   <div class="scanlines pointer-events-none"></div>

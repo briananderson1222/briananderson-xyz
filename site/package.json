@@ -11,7 +11,7 @@
     "format": "prettier --write .",
     "test:ui": "node scripts/validate-ui.js",
     "test:posthog": "node scripts/validate-posthog.js",
-    "test:e2e": "playwright test",
+    "test:e2e": "pnpm exec playwright test",
     "validate": "pnpm run check || echo 'TypeScript check failed (ignoring third-party error)' && pnpm run build && pnpm run test:ui && pnpm run test:posthog"
   },
   "devDependencies": {
