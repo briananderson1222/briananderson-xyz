@@ -83,10 +83,12 @@ jobs:
       - name: Install Playwright browsers
         working-directory: site
         run: npx playwright install chromium
-      - uses: actions/download-artifact@v4
-        with:
-          name: build-artifact-${{ github.sha }}
-          path: site/build/
+      - name: Download build artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh run download ${{ github.run_id }} --name build-artifact-${{ github.sha }} --dir site/build/
+          echo "Downloaded $(find site/build -type f | wc -l) files"
       - uses: google-github-actions/auth@v2
         with:
           workload_identity_provider: ${{ secrets.GCP_WIF_PROVIDER }}
@@ -110,10 +112,12 @@ jobs:
     if: github.event_name == 'workflow_dispatch' && github.event.inputs.deploy_prod == 'true'
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/download-artifact@v4
-        with:
-          name: build-artifact-${{ github.sha }}
-          path: site/build/
+      - name: Download build artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh run download ${{ github.run_id }} --name build-artifact-${{ github.sha }} --dir site/build/
+          echo "Downloaded $(find site/build -type f | wc -l) files"
       - uses: google-github-actions/auth@v2
         with:
           workload_identity_provider: ${{ secrets.GCP_WIF_PROVIDER }}
