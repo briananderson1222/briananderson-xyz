@@ -49,12 +49,14 @@ jobs:
       - name: Install Playwright browsers
         working-directory: site
         run: npx playwright install chromium
+      - name: Create .env file
+        working-directory: site
+        run: |
+          echo "PUBLIC_POSTHOG_KEY=${{ secrets.PUBLIC_POSTHOG_KEY }}" > .env
+          echo "PUBLIC_POSTHOG_HOST=${{ secrets.PUBLIC_POSTHOG_HOST }}" >> .env
+          echo "PUBLIC_SITE_URL=https://briananderson.xyz" >> .env
       - name: Run validation
         working-directory: site
-        env:
-          PUBLIC_POSTHOG_KEY: ${{ secrets.PUBLIC_POSTHOG_KEY }}
-          PUBLIC_POSTHOG_HOST: ${{ secrets.PUBLIC_POSTHOG_HOST }}
-          PUBLIC_SITE_URL: https://briananderson.xyz
         run: pnpm run validate
       - name: Upload artifact
         uses: actions/upload-artifact@v4
