@@ -1,11 +1,11 @@
-import { env } from '$env/dynamic/public';
+import { PUBLIC_SITE_URL } from '$env/static/public';
 
 export const prerender = true;
 
 export const GET = async () => {
   const robots = `User-agent: *
 Allow: /
-Sitemap: ${env.PUBLIC_SITE_URL}/sitemap.xml`;
+Sitemap: ${PUBLIC_SITE_URL}/sitemap.xml`;
   
   return new Response(robots, {
     headers: {

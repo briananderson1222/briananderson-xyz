@@ -1,7 +1,7 @@
-import { env } from '$env/dynamic/public';
+import { PUBLIC_SITE_URL } from '$env/static/public';
 
 export const prerender = true;
-const site = env.PUBLIC_SITE_URL;
+const site = PUBLIC_SITE_URL;
 export const GET = async () => {
   const staticPages = ['/', '/blog', '/projects', '/resume'];
   const mBlog = import.meta.glob('/content/blog/**/*.md', { eager: true });
