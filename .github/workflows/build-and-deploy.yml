@@ -50,9 +50,35 @@ jobs:
           echo "PUBLIC_SITE_URL=https://briananderson.xyz" > .env
           echo "PUBLIC_POSTHOG_KEY=${{ secrets.PUBLIC_POSTHOG_KEY }}" >> .env
           echo "PUBLIC_POSTHOG_HOST=${{ secrets.PUBLIC_POSTHOG_HOST }}" >> .env
+      - name: Debug .env creation
+        working-directory: site
+        run: |
+          ls -la .env
+          echo "Content of .env (sanitized):"
+          grep "PUBLIC_SITE_URL" .env || echo "PUBLIC_SITE_URL not found in .env"
       - name: Run validation
         working-directory: site
+        env:
+          PUBLIC_POSTHOG_KEY: ${{ secrets.PUBLIC_POSTHOG_KEY }}
+          PUBLIC_POSTHOG_HOST: ${{ secrets.PUBLIC_POSTHOG_HOST }}
+          PUBLIC_SITE_URL: https://briananderson.xyz
         run: pnpm run validate
+      - name: Debug Build Output
+        working-directory: site
+        run: |
+          echo "Checking sitemap.xml..."
+          if [ -f "build/sitemap.xml" ]; then
+            head -n 5 build/sitemap.xml
+          else
+            echo "sitemap.xml not found!"
+          fi
+          
+          echo "Checking robots.txt..."
+          if [ -f "build/robots.txt" ]; then
+            cat build/robots.txt
+          else
+            echo "robots.txt not found!"
+          fi
 
   deploy-dev:
     runs-on: ubuntu-latest
@@ -84,12 +110,6 @@ jobs:
       - name: Build for Dev
         working-directory: site
         run: pnpm run build
-      - name: Upload dev build artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-artifact-dev
-          path: site/build/
-          retention-days: 14
       - uses: google-github-actions/auth@v2
         with:
           workload_identity_provider: ${{ secrets.GCP_WIF_PROVIDER }}
@@ -124,7 +144,15 @@ jobs:
         working-directory: site
         env:
           PLAYWRIGHT_TEST_BASE_URL: https://dev.briananderson.xyz
+        continue-on-error: true
         run: pnpm run test:e2e
+      - name: Upload dev build artifact (Verified)
+        if: steps.smoke.outcome == 'success'
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifact-dev
+          path: site/build/
+          retention-days: 14
       - name: Rollback on failure
         if: steps.smoke.outcome == 'failure' && steps.last_successful.outputs.run_id != 'none'
         env:
@@ -133,9 +161,14 @@ jobs:
         run: |
           echo "❌ Smoke tests failed, rolling back dev to run $LAST_RUN_ID..."
           gh run download $LAST_RUN_ID -n build-artifact-dev
+          # Atomic rollback upload
+          gcloud storage rsync site/build/_app gs://dev.briananderson.xyz/_app --recursive
           gcloud storage rsync site/build/ gs://dev.briananderson.xyz/ --delete-unmatched-destination-objects
           echo "Rollback complete."
           exit 1
+      - name: Fail if smoke tests failed
+        if: steps.smoke.outcome == 'failure'
+        run: exit 1
 
   deploy-prod:
     runs-on: ubuntu-latest
@@ -167,12 +200,6 @@ jobs:
       - name: Build for Prod
         working-directory: site
         run: pnpm run build
-      - name: Upload prod build artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-artifact-prod
-          path: site/build/
-          retention-days: 30
       - uses: google-github-actions/auth@v2
         with:
           workload_identity_provider: ${{ secrets.GCP_WIF_PROVIDER }}
@@ -208,7 +235,15 @@ jobs:
         working-directory: site
         env:
           PLAYWRIGHT_TEST_BASE_URL: https://briananderson.xyz
+        continue-on-error: true
         run: pnpm run test:e2e
+      - name: Upload prod build artifact (Verified)
+        if: steps.smoke.outcome == 'success'
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifact-prod
+          path: site/build/
+          retention-days: 30
       - name: Rollback on failure
         if: steps.smoke.outcome == 'failure' && steps.last_successful.outputs.run_id != 'none'
         env:
@@ -217,9 +252,14 @@ jobs:
         run: |
           echo "❌ Smoke tests failed, rolling back prod to run $LAST_RUN_ID..."
           gh run download $LAST_RUN_ID -n build-artifact-prod
+          # Atomic rollback upload
+          gcloud storage rsync site/build/_app gs://briananderson.xyz/_app --recursive
           gcloud storage rsync site/build/ gs://briananderson.xyz/ --delete-unmatched-destination-objects
           echo "Rollback complete."
           exit 1
+      - name: Fail if smoke tests failed
+        if: steps.smoke.outcome == 'failure'
+        run: exit 1
       - name: Warn if no rollback target
         if: steps.smoke.outcome == 'failure' && steps.last_successful.outputs.run_id == 'none'
         run: |
@@ -275,5 +315,7 @@ jobs:
           if [ "${{ github.event.inputs.target_env }}" == "prod" ]; then
             BUCKET="briananderson.xyz"
           fi
+          # Atomic rollback upload
+          gcloud storage rsync site/build/_app gs://$BUCKET/_app --recursive
           gcloud storage rsync site/build/ gs://$BUCKET/ --delete-unmatched-destination-objects
           echo "✅ Rollback to ${{ github.event.inputs.target_env }} complete"
