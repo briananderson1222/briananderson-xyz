@@ -12,7 +12,7 @@ I wanted a personal site that felt like *me*—technical, minimal, and functiona
 - **Framework:** SvelteKit (`adapter-static`)
 - **Styling:** Tailwind CSS + Typography
 - **Content:** Markdown (mdsvex) + YAML (resume)
-- **Hosting:** Google Cloud Storage (Bucket) + Cloud CDN
+- **Hosting:** Google Cloud Storage (Bucket) + Cloudflare CDN
 - **AI Assistants:** Gemini 3 & OpenCode (Implementation & Refactoring)
 
 ### Theming & UX
@@ -29,7 +29,7 @@ This isn't just a static bucket upload. The site uses a robust **GitHub Actions*
 
 1. **Build:** Compiles the SvelteKit app into static HTML/JS.
 2. **Deploy:** Syncs the `build/` directory to a Google Cloud Storage bucket.
-3. **Cache:** Optimizes delivery via Cloud CDN (with manual cache invalidation triggers).
+3. **Cache:** Optimizes delivery via Cloudflare CDN with automatic cache control headers.
 4. **Terraform:** Infrastructure as code provisions GCS buckets, WIF provider, and CI service account via Workload Identity Federation.
 
 ### Built with AI Agents

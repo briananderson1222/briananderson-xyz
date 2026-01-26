@@ -20,4 +20,4 @@ pnpm build
 ```
 
 ## Deploy
-Upload `build/` to a GCS bucket (public or behind a CDN).
+Upload `build/` to a GCS bucket (Cloudflare CDN fronts the bucket for caching and DNS).

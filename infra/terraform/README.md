@@ -1,7 +1,7 @@
 # GCP Infra (Terraform + GCS backend + WIF)
 
 Creates:
-- GCS bucket (public objects) for static site hosting via CDN
+- GCS bucket (public objects) for static site hosting (Cloudflare CDN used in front)
 - Artifact Registry (Docker) for container images
 - Workload Identity Federation (GitHub OIDC) + CI service account + IAM
 
