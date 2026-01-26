@@ -10,9 +10,10 @@ pnpm dev
 ```
 
 ## Deploy
-Add GitHub repo secrets:
+Add GitHub repo secrets for WIF authentication:
 - `GCP_PROJECT_ID`
-- `GCP_SA_KEY` (Storage Admin + Cloud Build Service Account User)
+- `GCP_WIF_PROVIDER`
+- `GCP_WIF_SA_EMAIL`
 - `GCS_BUCKET`
 - `GCP_REGION` (e.g., `us-central1`)
 
@@ -21,7 +22,7 @@ Add GitHub repo secrets:
 This bundle gives you:
 - Terraform **GCS backend**
 - **WIF/OIDC** from GitHub to Google (no long-lived keys)
-- GCP infra: **GCS site bucket**, **Artifact Registry**, **WIF pool/provider**, **CI service account**
+- GCP infra: **GCS site bucket**, **WIF pool/provider**, **CI service account**
 - GitHub Actions for **plan/apply** and site deployment
 
 ## Required GitHub Secrets
