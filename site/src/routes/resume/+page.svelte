@@ -10,7 +10,12 @@
 
 </script>
 
-<div class="max-w-4xl mx-auto px-4 py-12 md:py-16 font-mono print:font-serif print:p-0 print:max-w-none print:leading-tight">
+<div class="max-w-4xl mx-auto px-4 py-12 md:py-16 font-mono print:font-serif print:p-0 print:max-w-none print:leading-tight relative">
+  
+  <!-- Print Button -->
+  <button class="absolute top-4 right-4 print:hidden px-4 py-2 bg-skin-accent text-skin-accent-contrast text-sm font-bold uppercase tracking-wider hover:opacity-90 transition-opacity" on:click={() => window.print()}>
+    Print
+  </button>
   
   <!-- Header -->
   <header class="border-b-2 border-skin-border pb-8 mb-10 print:mb-4 print:pb-4 print:border-black">

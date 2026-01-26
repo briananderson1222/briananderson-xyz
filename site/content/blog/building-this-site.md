@@ -11,9 +11,8 @@ I wanted a personal site that felt like *me*—technical, minimal, and functiona
 
 - **Framework:** SvelteKit (`adapter-static`)
 - **Styling:** Tailwind CSS + Typography
-- **Content:** Markdown (mdsvex) + YAML (resume) + Decap CMS
+- **Content:** Markdown (mdsvex) + YAML (resume)
 - **Hosting:** Google Cloud Storage (Bucket) + Cloud CDN
-- **Auth Proxy:** Google Cloud Run (for Decap CMS GitHub OAuth)
 - **AI Assistants:** Gemini 3 & OpenCode (Implementation & Refactoring)
 
 ### Theming & UX
@@ -31,18 +30,18 @@ This isn't just a static bucket upload. The site uses a robust **GitHub Actions*
 1. **Build:** Compiles the SvelteKit app into static HTML/JS.
 2. **Deploy:** Syncs the `build/` directory to a Google Cloud Storage bucket.
 3. **Cache:** Optimizes delivery via Cloud CDN (with manual cache invalidation triggers).
-4. **CMS:** A separate pipeline builds and deploys a Go-based authentication proxy to **Cloud Run**, allowing me to manage content via **Decap CMS** without needing a dedicated backend server.
+4. **Terraform:** Infrastructure as code provisions GCS buckets, WIF provider, and CI service account via Workload Identity Federation.
 
 ### Built with AI Agents
 
-What makes this project unique is the workflow. I utilized a CLI-based AI agent to handle the heavy lifting of scaffolding, refactoring, and infrastructure configuration.
+What makes this project unique is the workflow. I utilized a CLI-based AI agent to handle the heavy lifting across testing, infrastructure, and UX optimization.
 
 Instead of writing every CSS class or Terraform resource by hand, I acted as the **Architect**, directing the agent with structured, intent-based instructions:
 
-> "Implement a theme initialization script in `app.html` that detects system preference. Default to 'Catppuccin' if `prefers-color-scheme: dark` is true and no local storage override exists; otherwise fall back to standard light/dark logic."
+> "Implement E2E smoke tests using Playwright. Verify homepage loads with correct title, navigation to resume works, and resume page renders properly. Run tests after each deploy with automatic rollback on failure."
 
-> "Refactor the `deploy-static.yml` workflow. Add a boolean input `invalidate_cache` that conditionally executes a `gcloud compute url-maps invalidate-cdn-cache` command for the GCS backend."
+> "Set up Workload Identity Federation for GitHub Actions. Configure OIDC provider with attribute mapping, restrict access to specific repo/branch, and create CI service account with Storage Admin role for secure deployments without long-lived keys."
 
-> "Diagnose the 404 error on page refresh. If this is due to S3/GCS lacking extensionless file mapping, modify `svelte.config.js` or `+layout.ts` to enforce `trailingSlash = 'always'` so directory indices are generated."
+> "Optimize the resume page for print-to-PDF. Hide navigation and scanlines with `@media print`, switch to Lato serif font family, adjust margins to 0.5in, and restructure layout for single-page A4 output with smaller text sizes."
 
 This approach allowed me to focus on the *design and content strategy* while the AI handled the implementation details. It’s a glimpse into the future of development—where we curate and direct rather than just type.

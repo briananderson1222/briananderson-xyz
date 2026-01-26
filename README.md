@@ -1,7 +1,6 @@
 # briananderson.xyz
 
-- `site/` — SvelteKit static site with blog + projects, Markdown via mdsvex, dark mode, RSS, sitemap, Decap CMS.
-- `auth-proxy/` — Minimal GitHub OAuth proxy for Decap CMS (Cloud Run).
+- `site/` — SvelteKit static site with blog + projects, Markdown via mdsvex, dark mode, RSS, sitemap.
 
 ## Quick start
 ```bash
@@ -13,20 +12,17 @@ pnpm dev
 ## Deploy
 Add GitHub repo secrets:
 - `GCP_PROJECT_ID`
-- `GCP_SA_KEY` (Storage Admin + Cloud Run Admin + Cloud Build Service Account User)
+- `GCP_SA_KEY` (Storage Admin + Cloud Build Service Account User)
 - `GCS_BUCKET`
 - `GCP_REGION` (e.g., `us-central1`)
-- `GITHUB_CLIENT_ID`
-- `GITHUB_CLIENT_SECRET`
-- `AUTH_PROXY_BASE_URL` (e.g., `https://decap-auth.yourdomain.tld`)
 
 # Infra + CI
 
 This bundle gives you:
 - Terraform **GCS backend**
 - **WIF/OIDC** from GitHub to Google (no long-lived keys)
-- GCP infra: **GCS site bucket**, **Artifact Registry**, **Cloud Run** (Decap OAuth proxy), **WIF pool/provider**, **CI service account**
-- GitHub Actions for **plan/apply**; (add your SvelteKit site later and use a separate site deploy workflow or keep it here)
+- GCP infra: **GCS site bucket**, **Artifact Registry**, **WIF pool/provider**, **CI service account**
+- GitHub Actions for **plan/apply** and site deployment
 
 ## Required GitHub Secrets
 - `GCP_PROJECT_ID`, `GCP_REGION`
@@ -34,14 +30,13 @@ This bundle gives you:
 - `GCP_WIF_SA_EMAIL` (CI SA email created by TF; paste after first apply)
 - `TF_STATE_BUCKET` (pre-created GCS bucket for Terraform state)
 - `SITE_BUCKET_NAME` (e.g., briananderson-xyz-site)
-- `AUTH_PROXY_DOMAIN` (e.g., auth.briananderson.xyz)
 - `GH_ORG`, `GH_REPO`
 
 ## Flow
 1) Create the GCS bucket for Terraform state.
 2) Set repo secrets above.
 3) Open a PR → **plan** runs (WIF, no keys).
-4) Merge to main → **apply** builds & pushes the Cloud Run image, then applies infra.
+4) Merge to main → **apply** provisions infra and **build-and-deploy** deploys the site.
 5) Point Cloudflare at GCS as origin with host header `<bucket>.storage.googleapis.com` and set cache rules.
 
 ## Terraform deploy (two-phase)
@@ -111,9 +106,7 @@ terraform apply
 ### Outputs of interest
 - `wif_pool_name`, `wif_provider_name`
 - `ci_service_account` (email for GitHub Actions WIF)
-- `auth_proxy_url` (Cloud Run service URL)
 - `site_bucket` (GCS Website bucket URL)
 
 ### Notes
 - WIF provider is restricted to `${var.github_org}/${var.github_repo}` on branch `${var.github_branch}` via `attribute_condition` in `main.tf`.
-- Cloud Run container image defaults to a placeholder unless `var.auth_proxy_image` is provided.
