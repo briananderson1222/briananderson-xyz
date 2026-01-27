@@ -129,16 +129,8 @@ jobs:
           GH_TOKEN: ${{ github.token }}
       - name: Upload to dev bucket
         run: |
-          # 1. Upload immutable assets first (ensure they exist before index.html)
-          gcloud storage rsync site/build/_app gs://dev.briananderson.xyz/_app --recursive
-          
-          # 2. Sync everything (updates index.html and deletes old files)
-          gcloud storage rsync site/build/ gs://dev.briananderson.xyz/ --delete-unmatched-destination-objects
-          gcloud storage buckets update gs://dev.briananderson.xyz --web-main-page-suffix=index.html --web-error-page=index.html
-          
-          # Set caching
-          gcloud storage objects update "gs://dev.briananderson.xyz/_app/**" --cache-control="public, max-age=31536000, no-vary"
-          gcloud storage objects update "gs://dev.briananderson.xyz/*.html" "gs://dev.briananderson.xyz/*.xml" "gs://dev.briananderson.xyz/*.json" --cache-control="public, max-age=3600, no-vary"
+          gcloud storage rsync site/build/_app gs://dev.briananderson.xyz/_app --recursive --header="Cache-Control:public, max-age=31536000, immutable"
+          gcloud storage rsync site/build/ gs://dev.briananderson.xyz/ --recursive --delete-unmatched-destination-objects --header="Cache-Control:public, max-age=3600, must-revalidate"
       - name: Run E2E tests
         id: smoke
         working-directory: site
@@ -161,9 +153,8 @@ jobs:
         run: |
           echo "❌ Smoke tests failed, rolling back dev to run $LAST_RUN_ID..."
           gh run download $LAST_RUN_ID -n build-artifact-dev
-          # Atomic rollback upload
-          gcloud storage rsync site/build/_app gs://dev.briananderson.xyz/_app --recursive
-          gcloud storage rsync site/build/ gs://dev.briananderson.xyz/ --delete-unmatched-destination-objects
+          gcloud storage rsync site/build/_app gs://dev.briananderson.xyz/_app --recursive --header="Cache-Control:public, max-age=31536000, immutable"
+          gcloud storage rsync site/build/ gs://dev.briananderson.xyz/ --recursive --delete-unmatched-destination-objects --header="Cache-Control:public, max-age=3600, must-revalidate"
           echo "Rollback complete."
           exit 1
       - name: Fail if smoke tests failed
@@ -223,16 +214,8 @@ jobs:
       - name: Upload to prod bucket
         id: deploy
         run: |
-          # 1. Upload immutable assets first
-          gcloud storage rsync site/build/_app gs://briananderson.xyz/_app --recursive
-          
-          # 2. Sync everything
-          gcloud storage rsync site/build/ gs://briananderson.xyz/ --delete-unmatched-destination-objects
-          gcloud storage buckets update gs://briananderson.xyz --web-main-page-suffix=index.html --web-error-page=index.html
-          
-          # Set caching
-          gcloud storage objects update "gs://briananderson.xyz/_app/**" --cache-control="public, max-age=31536000, no-vary"
-          gcloud storage objects update "gs://briananderson.xyz/*.html" "gs://briananderson.xyz/*.xml" "gs://briananderson.xyz/*.json" --cache-control="public, max-age=3600, no-vary"
+          gcloud storage rsync site/build/_app gs://briananderson.xyz/_app --recursive --header="Cache-Control:public, max-age=31536000, immutable"
+          gcloud storage rsync site/build/ gs://briananderson.xyz/ --recursive --delete-unmatched-destination-objects --header="Cache-Control:public, max-age=3600, must-revalidate"
       - name: Run smoke tests
         id: smoke
         working-directory: site
@@ -255,9 +238,8 @@ jobs:
         run: |
           echo "❌ Smoke tests failed, rolling back prod to run $LAST_RUN_ID..."
           gh run download $LAST_RUN_ID -n build-artifact-prod
-          # Atomic rollback upload
-          gcloud storage rsync site/build/_app gs://briananderson.xyz/_app --recursive
-          gcloud storage rsync site/build/ gs://briananderson.xyz/ --delete-unmatched-destination-objects
+          gcloud storage rsync site/build/_app gs://briananderson.xyz/_app --recursive --header="Cache-Control:public, max-age=31536000, immutable"
+          gcloud storage rsync site/build/ gs://briananderson.xyz/ --recursive --delete-unmatched-destination-objects --header="Cache-Control:public, max-age=3600, must-revalidate"
           echo "Rollback complete."
           exit 1
       - name: Fail if smoke tests failed
@@ -318,7 +300,6 @@ jobs:
           if [ "${{ github.event.inputs.target_env }}" == "prod" ]; then
             BUCKET="briananderson.xyz"
           fi
-          # Atomic rollback upload
-          gcloud storage rsync site/build/_app gs://$BUCKET/_app --recursive
-          gcloud storage rsync site/build/ gs://$BUCKET/ --delete-unmatched-destination-objects
+          gcloud storage rsync site/build/_app gs://$BUCKET/_app --recursive --header="Cache-Control:public, max-age=31536000, immutable"
+          gcloud storage rsync site/build/ gs://$BUCKET/ --recursive --delete-unmatched-destination-objects --header="Cache-Control:public, max-age=3600, must-revalidate"
           echo "✅ Rollback to ${{ github.event.inputs.target_env }} complete"
