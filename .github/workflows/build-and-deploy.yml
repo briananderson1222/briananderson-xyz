@@ -201,6 +201,7 @@ jobs:
         working-directory: site
         run: |
           rm -rf .svelte-kit .vite
+          touch src/routes/+layout.svelte
           pnpm run build
       - uses: google-github-actions/auth@v2
         with:
