@@ -199,7 +199,9 @@ jobs:
           echo "PUBLIC_POSTHOG_HOST=${{ secrets.PUBLIC_POSTHOG_HOST }}" >> .env
       - name: Build for Prod
         working-directory: site
-        run: pnpm run build
+        run: |
+          rm -rf .svelte-kit
+          pnpm run build
       - uses: google-github-actions/auth@v2
         with:
           workload_identity_provider: ${{ secrets.GCP_WIF_PROVIDER }}
