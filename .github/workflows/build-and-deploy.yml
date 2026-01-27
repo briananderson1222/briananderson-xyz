@@ -200,7 +200,7 @@ jobs:
       - name: Build for Prod
         working-directory: site
         run: |
-          rm -rf .svelte-kit
+          rm -rf .svelte-kit .vite
           pnpm run build
       - uses: google-github-actions/auth@v2
         with:
