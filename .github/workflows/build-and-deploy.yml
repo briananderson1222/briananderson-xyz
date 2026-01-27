@@ -138,7 +138,7 @@ jobs:
           
           # Set caching
           gcloud storage objects update "gs://dev.briananderson.xyz/_app/**" --cache-control="public, max-age=31536000"
-          gcloud storage objects update "gs://dev.briananderson.xyz/*.html" "gs://dev.briananderson.xyz/*.xml" "gs://dev.briananderson.xyz/*.json" --cache-control="no-cache, no-store, must-revalidate"
+          gcloud storage objects update "gs://dev.briananderson.xyz/*.html" "gs://dev.briananderson.xyz/*.xml" "gs://dev.briananderson.xyz/*.json" --cache-control="public, max-age=3600"
       - name: Run E2E tests
         id: smoke
         working-directory: site
@@ -229,7 +229,7 @@ jobs:
           
           # Set caching
           gcloud storage objects update "gs://briananderson.xyz/_app/**" --cache-control="public, max-age=31536000"
-          gcloud storage objects update "gs://briananderson.xyz/*.html" "gs://briananderson.xyz/*.xml" "gs://briananderson.xyz/*.json" --cache-control="no-cache, no-store, must-revalidate"
+          gcloud storage objects update "gs://briananderson.xyz/*.html" "gs://briananderson.xyz/*.xml" "gs://briananderson.xyz/*.json" --cache-control="public, max-age=3600"
       - name: Run smoke tests
         id: smoke
         working-directory: site
