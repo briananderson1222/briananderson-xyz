@@ -5,8 +5,8 @@ test.describe('Resume Resume Functionality', () => {
   test('default resume loads leadership content', async ({ page }) => {
     await page.goto('/resume');
     
-    // Check URL
-    await expect(page).toHaveURL(/\/resume\/?$/);
+    // Check URL (allow for index.html in static hosting)
+    await expect(page).toHaveURL(/\/resume(\/|\/index\.html)?$/);
     
     // Check for specific "Leader" content
     await expect(page.locator('h1')).toContainText('Brian Anderson');
@@ -25,8 +25,8 @@ test.describe('Resume Resume Functionality', () => {
     // Click the platform toggle
     await page.click('a:has-text("./platform")');
     
-    // Verify URL
-    await expect(page).toHaveURL(/\/resume\/platform/);
+    // Verify URL (allow for index.html in static hosting)
+    await expect(page).toHaveURL(/\/resume\/platform(\/|\/index\.html)?$/);
     
     // Verify Platform specific content
     await expect(page.locator('body')).toContainText('Platform Engineering');
@@ -39,8 +39,8 @@ test.describe('Resume Resume Functionality', () => {
     // Click the builder toggle
     await page.click('a:has-text("./builder")');
     
-    // Verify URL
-    await expect(page).toHaveURL(/\/resume\/builder/);
+    // Verify URL (allow for index.html in static hosting)
+    await expect(page).toHaveURL(/\/resume\/builder(\/|\/index\.html)?$/);
     
     // Verify Builder specific content
     await expect(page.locator('body')).toContainText('Product-focused engineering leader');
@@ -60,11 +60,14 @@ test.describe('Resume Resume Functionality', () => {
   test('variant switcher highlights active state', async ({ page }) => {
     await page.goto('/resume/platform');
     
+    // Wait for page to be stable
+    await page.waitForLoadState('networkidle');
+    
     // Check that platform link has active state via aria-current
-    const platformLink = page.locator('a:has-text("./platform")');
+    const platformLink = page.locator('a[href="/resume/platform/"]');
     await expect(platformLink).toHaveAttribute('aria-current', 'page');
     
-    const leaderLink = page.locator('a:has-text("./leader")');
+    const leaderLink = page.locator('a[href="/resume/"]');
     await expect(leaderLink).not.toHaveAttribute('aria-current', 'page');
   });
 
@@ -72,7 +75,7 @@ test.describe('Resume Resume Functionality', () => {
     // Test default resume
     await page.goto('/resume/');
     await page.waitForLoadState('networkidle');
-    await expect(page).toHaveURL(/\/resume\/?$/);
+    await expect(page).toHaveURL(/\/resume(\/|\/index\.html)?$/);
     await expect(page.locator('body')).toContainText('Strategic technology leader');
     
     // Test platform variant
