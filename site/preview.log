@@ -1,0 +1,7 @@
+npm warn Unknown cli config "--port". This will stop working in the next major version of npm.
+
+> briananderson-xyz@1.0.0 preview
+> vite preview 4140
+
+  ➜  Local:   http://localhost:4173/
+  ➜  Network: use --host to expose

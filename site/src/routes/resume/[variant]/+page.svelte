@@ -5,6 +5,8 @@
 
   export let data: PageData;
   const { resume, variants } = data;
+
+  $: currentVariant = $page.params.variant;
 </script>
 
-<ResumeView {resume} {variants} currentVariant={$page.params.variant} />
+<ResumeView {resume} {variants} {currentVariant} />

@@ -16,8 +16,9 @@
       <div class="flex items-center bg-skin-base/5 rounded p-0.5 border border-skin-border gap-0.5 w-fit">
         {#each variants as v}
           <a 
-            href={v === 'default' ? '/resume' : `/resume/${v}`}
+            href={v === 'default' ? '/resume/' : `/resume/${v}/`}
             class="px-1.5 py-0.5 text-[10px] font-bold rounded transition-colors {currentVariant === v ? 'bg-skin-accent text-skin-accent-contrast' : 'text-skin-muted hover:text-skin-accent'}"
+            aria-current={currentVariant === v ? 'page' : undefined}
           >
             ./{v === 'default' ? 'leader' : v}
           </a>

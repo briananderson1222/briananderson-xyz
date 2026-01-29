@@ -60,31 +60,51 @@ test.describe('Resume Resume Functionality', () => {
   test('variant switcher highlights active state', async ({ page }) => {
     await page.goto('/resume/platform');
     
-    // Check that platform link has the active class (bg-skin-accent)
-    // We can check for the class presence. Note: Playwright class assertions can be tricky if strict.
-    // Using CSS locator for the active style.
+    // Check that platform link has active state via aria-current
     const platformLink = page.locator('a:has-text("./platform")');
-    await expect(platformLink).toHaveClass(/bg-skin-accent/);
+    await expect(platformLink).toHaveAttribute('aria-current', 'page');
     
     const leaderLink = page.locator('a:has-text("./leader")');
-    await expect(leaderLink).not.toHaveClass(/bg-skin-accent/);
+    await expect(leaderLink).not.toHaveAttribute('aria-current', 'page');
+  });
+
+  test('direct navigation to each variant loads correct content', async ({ page }) => {
+    // Test default resume
+    await page.goto('/resume/');
+    await page.waitForLoadState('networkidle');
+    await expect(page).toHaveURL(/\/resume\/?$/);
+    await expect(page.locator('body')).toContainText('Strategic technology leader');
+    
+    // Test platform variant
+    await page.goto('/resume/platform/');
+    await page.waitForLoadState('networkidle');
+    await expect(page.locator('body')).toContainText('Reliability & Observability');
+    await expect(page.locator('body')).not.toContainText('Strategic technology leader');
+    
+    // Test builder variant
+    await page.goto('/resume/builder/');
+    await page.waitForLoadState('networkidle');
+    await expect(page.locator('body')).toContainText('Product-focused engineering leader');
+    await expect(page.locator('body')).not.toContainText('Platform Engineering');
   });
 
   test('print button triggers window.print', async ({ page }) => {
     await page.goto('/resume');
     
-    // Mock window.print to log to console
-    await page.evaluate(() => {
-      window.print = () => console.log('PRINT_CALLED');
+    // Set up a promise in the browser context that resolves when print is called
+    const printCalledPromise = page.evaluate(() => {
+      return new Promise((resolve) => {
+        window.print = () => {
+          resolve(true);
+        };
+      });
     });
-    
-    // Set up a listener for the console message
-    const consolePromise = page.waitForEvent('console', msg => msg.text() === 'PRINT_CALLED');
-    
+
     // Click the print button (the one in the header)
-    await page.locator('button:has-text("Print")').first().click();
+    await page.getByRole('button', { name: /Print/i }).first().click();
     
-    // Wait for the message to appear
-    await consolePromise;
+    // Wait for the promise to resolve, indicating print was called
+    const result = await printCalledPromise;
+    expect(result).toBe(true);
   });
 });
