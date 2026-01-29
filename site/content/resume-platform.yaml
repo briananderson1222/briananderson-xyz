@@ -1,0 +1,139 @@
+name: Brian Anderson
+title: Technical Director & Enterprise Solutions Architect
+tagline: >
+  Specializing in Cloud Native Transformation, DevOps, and Platform Engineering. 
+  Expert in designing 'Paved Road' automation and high-availability architectures 
+  that ensure resilient production environments at scale.
+mission: Driving measurable business automation and reliability through Agentic AI and Cloud Native strategies.
+email: brian@briananderson.xyz
+location: Denver, CO
+summary: >
+  Engineering leader with a track record of driving cloud modernization for 
+  Fortune 500 companies. Expert in AWS/GCP architecture, standardizing CI/CD, 
+  and bridging the gap between platform reliability and executive strategy. 
+  Proven success in managing high-concurrency GKE environments and leading 
+  technical discovery for large-scale, resilient distributed systems.
+skills:
+  Cloud & Orchestration:
+    - name: AWS
+    - name: Google Cloud
+    - name: Kubernetes (EKS/GKE/OCP)
+    - name: OpenShift
+  Infrastructure & Automation:
+    - name: Terraform / AWS CDK
+    - name: GitHub Actions / Spinnaker / Helm
+    - name: Networking (VPC/TGW/Mesh)
+  Reliability & Observability:
+    - name: Datadog / Instana / Prometheus
+    - name: SLO/SLI Implementation
+    - name: Automated Incident Response
+    - name: TDD & CI/CD Guardrails
+  Data & Messaging:
+    - name: PostgreSQL
+    - name: DynamoDB
+    - name: Redis
+    - name: Kafka / Pub/Sub
+    - name: EventBridge
+  Generative AI:
+    - name: Amazon Bedrock
+    - name: RAG / Prompt Engineering
+    - name: Agentcore / LangGraph
+  Languages:
+    - name: Java (Spring Boot)
+    - name: Go
+    - name: Python
+    - name: Node.js / TypeScript
+experience:
+  - role: Enterprise Solutions Architect
+    company: Amazon Web Services
+    location: Denver, CO
+    description: Specializing in GenAI integration, Cloud Native transformation, and Logistics Control Towers.
+    highlights:
+      - "Led architectural discovery and solution design for Greenfield enterprise customers, identifying high-impact opportunities for cloud-native modernization and systemic observability."
+      - "Engineered a custom GenAI agent platform using Amazon Bedrock and Agentcore, automating complex administrative workflows and reducing engineering overhead by ~4 hours/week."
+      - "Championed AI-driven developer tools (Amazon Q / Kiro) and integrated API standardization frameworks (SpecKit/OpenSpec) to improve engineering velocity and code reliability."
+    start_date: September 2024
+  - role: Technical Director
+    company: Valtech | Kin + Carta
+    location: Denver, CO
+    description: Led cloud modernization for a mission-critical credit card portfolio to OpenShift.
+    highlights:
+      - "Orchestrated the migration of a mission-critical credit card portfolio to OpenShift (OCP), maintaining 100% availability for revenue-generating services during the transition of 6 core applications."
+      - "Standardized enterprise-wide integration patterns and Helm-based deployments, enabling seamless adoption of observability tools (Datadog/Instana) across multiple delivery teams."
+      - "Established automated CI/CD guardrails and 'Quality First' mandates, increasing deployment frequency from monthly to on-demand daily releases."
+    start_date: March 2024
+    end_date: September 2024
+  - role: Senior Technical Principal
+    company: Kin + Carta
+    location: Denver, CO
+    description: Designed 'Golden Path' for cloud adoption and standardized CI/CD templates.
+    highlights:
+      - "Designed and evangelized an enterprise 'Golden Path' for a major Food Distributor, centralizing product provisioning and CI/CD templates to enable rapid, secure deployment cycles."
+      - "Developed a comprehensive library of shared Terraform modules, ensuring infrastructure consistency and automated security compliance across the enterprise."
+    start_date: November 2021
+    end_date: March 2024
+  - role: Technical Principal
+    company: Solstice | Kin + Carta
+    location: Denver, CO
+    description: Architected high-concurrency ordering platforms on GKE and mobile architecture for agriculture.
+    highlights:
+      - "Architected a high-concurrency ordering platform on GKE handling massive traffic spikes; integrated Firestore, Pub/Sub, and Memorystore (Redis) to ensure low-latency performance."
+      - "Scaled engineering teams while maintaining 8–9 production deployments per day via Spinnaker, reducing release overhead for 6 production apps from 4 weeks to 1 week through pipeline automation."
+      - "Mobile Architecture (Agriculture): Led Android architecture for a global satellite/drone data solution. Built a dual-platform CD pipeline using Fastlane, Jenkins, and Docker, integrating AWS Device Farm for automated testing."
+    start_date: January 2017
+    end_date: November 2021
+  - role: Senior Technical Consultant
+    company: Solstice | Kin + Carta
+    location: Chicago, IL
+    description: Led technical sales and architecture for enterprise mobile and modernization roadmaps.
+    highlights:
+      - "Served as Solution Architect for native iOS and Android applications for a Global Fast Food enterprise, overseeing complex integrations with the ServiceNow platform."
+      - "Led technical sales engagements for large-scale fleet management clients, providing strategic roadmaps to modernize legacy platforms and UI/UX."
+      - "Innovation Leadership: Spearheaded R&D projects involving Raspberry Pi (Flask) and Amazon Echo to demonstrate experiential commerce at industry conferences."
+    start_date: July 2015
+    end_date: January 2017
+  - role: Technical Consultant
+    company: Solstice
+    location: Chicago, IL
+    description: Developed native mobile and hybrid web applications for high-profile clients.
+    highlights:
+      - "Architected an AngularJS web application for a specialty food distributor, implementing automated deployment pipelines using Octopus and TFS."
+      - "Integrated Chart.js via custom WebViews into native mobile apps for a wealth management company using Bower and Gulp for streamlined package management."
+    start_date: April 2014
+    end_date: July 2015
+  - role: Technical Analyst
+    company: Solstice Mobile
+    location: Chicago, IL
+    description: Delivered core mobile features for financial services clients.
+    highlights:
+      - "Delivered core mobile features for a large financial services client in 4-week sprints, including Photo Check Deposit, Scheduled Payments and a complete home screen refactor using Auto Layout."
+    start_date: June 2013
+    end_date: April 2014
+early-career:
+  - role: Web Developer and Database Management
+    company: Space Science and Engineering Center
+    location: Madison, WI
+    start_date: June 2010
+    end_date: May 2013
+education:
+  - school: University of Wisconsin - Madison
+    degree: B.S - Computer Science
+    start_date: August 2009
+    end_date: May 2013
+certificates:
+  - name: AWS Certified Solutions Architect - Professional
+    url: https://www.credly.com/badges/431f98a5-11c2-435f-9aef-3db6acd264d3
+    start_date: July 2025
+    end_date: July 2028
+  - name: AWS Certified SysOps Administrator - Associate
+    url: https://www.credly.com/badges/631c9e56-5a27-40eb-a3fd-490685cf19ea
+    start_date: February 2025
+    end_date: February 2028
+  - name: AWS Certified Developer - Associate
+    url: https://www.credly.com/badges/2c2f5a84-069f-4586-80cd-a469e710ddb0
+    start_date: January 2025
+    end_date: January 2028
+  - name: Google Cloud Professional Architect
+    url: https://www.credly.com/badges/94d91931-c3cf-42d8-8cbf-48689dba91db
+    start_date: May 2018
+    end_date: May 2020

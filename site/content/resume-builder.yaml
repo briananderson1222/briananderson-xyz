@@ -1,0 +1,135 @@
+name: Brian Anderson
+title: Technical Director & Product Architect
+tagline: >
+  Specializing in Full-Stack Product Delivery, GenAI Integration, and Mobile/Web Architecture. 
+  Passionate about building intuitive, high-performance user experiences backed by 
+  scalable, autonomous cloud systems.
+mission: Delivering elegant, high-value digital products by bridging the gap between complex engineering and user-centric design.
+email: brian@briananderson.xyz
+location: Denver, CO
+summary: >
+  Product-focused engineering leader with over a decade of experience shipping 
+  high-impact web and mobile applications for Fortune 500 brands. Expert in 
+  full-stack architecture, from designing responsive front-ends to architecting 
+  resilient microservices. Proven track record of leading cross-functional teams 
+  to deliver complex features like mobile banking, e-commerce platforms, and GenAI agents.
+skills:
+  Web & Mobile Frameworks:
+    - name: React / Next.js
+    - name: SvelteKit
+    - name: Angular
+    - name: Vue
+    - name: iOS (Swift)
+    - name: Android (Kotlin)
+  Languages:
+    - name: TypeScript / Node.js
+    - name: Python
+    - name: Java (Spring Boot)
+    - name: Go
+    - name: SQL
+  Generative AI:
+    - name: Amazon Bedrock
+    - name: RAG / Prompt Engineering
+    - name: Agentcore / LangGraph
+    - name: AI Agents
+  Cloud Native Architecture:
+    - name: AWS / Google Cloud
+    - name: Kubernetes (GKE/EKS)
+    - name: Serverless / Lambda
+    - name: Microservices Patterns
+  Data & Persistence:
+    - name: PostgreSQL
+    - name: DynamoDB
+    - name: Firestore / Redis
+    - name: Kafka / Pub/Sub
+experience:
+  - role: Enterprise Solutions Architect
+    company: Amazon Web Services
+    location: Denver, CO
+    description: Specializing in GenAI integration and customer-facing solution design.
+    highlights:
+      - "Engineered a custom GenAI agent platform using Amazon Bedrock and Agentcore, automating complex administrative workflows and reducing engineering overhead by ~4 hours/week."
+      - "Directed an Amazon Connect pilot for a global manufacturer to automate customer support via SMS, directly expanding business support hours and improving user satisfaction."
+      - "Architected a Document Management System integrated with SAP ERP, delivering a modern interface for accessing critical business data."
+    start_date: September 2024
+  - role: Technical Director
+    company: Valtech | Kin + Carta
+    location: Denver, CO
+    description: Led modernization of mission-critical credit card applications.
+    highlights:
+      - "Orchestrated the zero-downtime migration of 6 core credit card applications to OpenShift, ensuring uninterrupted service for millions of users."
+      - "Pioneered a 'Quality First' mandate by implementing TDD (Test Driven Development) and automated testing, significantly reducing production bugs and improving code confidence."
+      - "Standardized enterprise integration patterns to enable seamless adoption of modern observability tools, giving developers better insights into application performance."
+    start_date: March 2024
+    end_date: September 2024
+  - role: Senior Technical Principal
+    company: Kin + Carta
+    location: Denver, CO
+    description: Designed developer platforms to accelerate product delivery.
+    highlights:
+      - "Designed the enterprise 'Golden Path' for a major Food Distributor, a self-service developer platform that automated project scaffolding to let teams focus on shipping features."
+      - "Developed a library of shared application modules and templates, ensuring consistent security and UI patterns across the enterprise portfolio."
+    start_date: November 2021
+    end_date: March 2024
+  - role: Technical Principal
+    company: Solstice | Kin + Carta
+    location: Denver, CO
+    description: Architected high-scale e-commerce and mobile solutions.
+    highlights:
+      - "Architected a high-concurrency e-commerce ordering platform on GKE using Angular and Spring Boot, capable of handling massive traffic spikes with low latency."
+      - "Led Android architecture for a global satellite data solution, implementing complex geospatial map visualizations using Mapbox."
+      - "Optimized mobile release pipelines (Fastlane/Jenkins), reducing the release cycle for 6 production apps from 4 weeks to 1 week, enabling faster feature feedback loops."
+    start_date: January 2017
+    end_date: November 2021
+  - role: Senior Technical Consultant
+    company: Solstice | Kin + Carta
+    location: Chicago, IL
+    description: Led architecture for enterprise mobile apps and innovation prototypes.
+    highlights:
+      - "Served as Solution Architect for native iOS and Android applications for a Global Fast Food enterprise, overseeing complex user flows and backend integrations."
+      - "Spearheaded R&D projects building experiential commerce prototypes using Amazon Echo (Voice UI) and IoT devices, demonstrating future retail experiences."
+      - "Architected a high-traffic healthcare conference application utilizing iBeacons for proximity-based user notifications."
+    start_date: July 2015
+    end_date: January 2017
+  - role: Technical Consultant
+    company: Solstice
+    location: Chicago, IL
+    description: Developed hybrid web and native mobile applications.
+    highlights:
+      - "Architected an AngularJS web application for a specialty food distributor, focusing on responsive design and intuitive order management workflows."
+      - "Built hybrid mobile features by integrating Chart.js via custom WebViews into native apps, delivering rich data visualization for a wealth management client."
+    start_date: April 2014
+    end_date: July 2015
+  - role: Technical Analyst
+    company: Solstice Mobile
+    location: Chicago, IL
+    description: Delivered core mobile banking features.
+    highlights:
+      - "Shipped core mobile features for a large financial services client, including the Photo Check Deposit workflow and Scheduled Payments."
+      - "Executed a complete home screen refactor using Auto Layout, ensuring a consistent and adaptive UI across all device sizes."
+    start_date: June 2013
+    end_date: April 2014
+early-career:
+  - role: Web Developer
+    company: Space Science and Engineering Center
+    location: Madison, WI
+    start_date: June 2010
+    end_date: May 2013
+education:
+  - school: University of Wisconsin - Madison
+    degree: B.S - Computer Science
+    start_date: August 2009
+    end_date: May 2013
+certificates:
+  - name: AWS Certified Solutions Architect - Professional
+    url: https://www.credly.com/badges/431f98a5-11c2-435f-9aef-3db6acd264d3
+    start_date: July 2025
+    end_date: July 2028
+  - name: AWS Certified Developer - Associate
+    url: https://www.credly.com/badges/2c2f5a84-069f-4586-80cd-a469e710ddb0
+    start_date: January 2025
+    end_date: January 2028
+  - name: Google Cloud Professional Architect
+    url: https://www.credly.com/badges/94d91931-c3cf-42d8-8cbf-48689dba91db
+    start_date: May 2018
+    end_date: May 2020

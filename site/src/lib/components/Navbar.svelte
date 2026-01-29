@@ -25,6 +25,17 @@
 
     <nav class="hidden md:flex gap-6 text-sm items-center">
       <a
+        class="hover:text-skin-accent transition-colors text-skin-muted"
+        href="/#about">./about</a
+      >
+      <a
+        class="hover:text-skin-accent transition-colors {activeRoute ===
+        '/resume'
+          ? 'text-skin-accent'
+          : 'text-skin-muted'}"
+        href="/resume/">./resume</a
+      >
+      <a
         class="hover:text-skin-accent transition-colors {activeRoute ===
         '/projects'
           ? 'text-skin-accent'
@@ -38,17 +49,6 @@
           ? 'text-skin-accent'
           : 'text-skin-muted'}"
         href="/blog/">./blog</a
-      >
-      <a
-        class="hover:text-skin-accent transition-colors {activeRoute ===
-        '/resume'
-          ? 'text-skin-accent'
-          : 'text-skin-muted'}"
-        href="/resume/">./resume</a
-      >
-      <a
-        class="hover:text-skin-accent transition-colors text-skin-muted"
-        href="/#about">./about</a
       >
       <a
         class="hover:text-skin-accent transition-colors text-skin-muted"
@@ -74,22 +74,22 @@
         <a
           class="text-skin-muted hover:text-skin-accent"
           on:click={() => (open = false)}
-          href="/projects">./projects</a
-        >
-        <a
-          class="text-skin-muted hover:text-skin-accent"
-          on:click={() => (open = false)}
-          href="/blog">./blog</a
-        >
-        <a
-          class="text-skin-muted hover:text-skin-accent"
-          on:click={() => (open = false)}
-          href="/resume">./resume</a
-        >
-        <a
-          class="text-skin-muted hover:text-skin-accent"
-          on:click={() => (open = false)}
           href="/#about">./about</a
+        >
+        <a
+          class="text-skin-muted hover:text-skin-accent"
+          on:click={() => (open = false)}
+          href="/resume/">./resume</a
+        >
+        <a
+          class="text-skin-muted hover:text-skin-accent"
+          on:click={() => (open = false)}
+          href="/projects/">./projects</a
+        >
+        <a
+          class="text-skin-muted hover:text-skin-accent"
+          on:click={() => (open = false)}
+          href="/blog/">./blog</a
         >
         <a
           class="text-skin-muted hover:text-skin-accent"
