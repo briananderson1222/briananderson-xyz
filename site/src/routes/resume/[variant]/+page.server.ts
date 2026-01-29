@@ -29,7 +29,7 @@ export const load = async ({ params }) => {
     const fileContents = fs.readFileSync(filePath, 'utf-8');
     const resume = yaml.load(fileContents) as Resume;
     const variants = ['default', ...getResumeVariants()];
-    return { resume, variants };
+    return { resume, variants, currentVariant: variant };
   } catch (e) {
     console.error(`Error loading ${filename}:`, e);
     throw error(500, 'Error loading resume');
