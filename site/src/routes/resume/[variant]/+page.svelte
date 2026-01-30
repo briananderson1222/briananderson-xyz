@@ -2,8 +2,7 @@
   import type { PageData } from './$types';
   import ResumeView from '$lib/components/ResumeView.svelte';
 
-  export let data: PageData & { currentVariant: string };
-  const { resume, variants, currentVariant } = data;
+  export let data: PageData;
 </script>
 
-<ResumeView {resume} {variants} {currentVariant} />
+<ResumeView resume={data.resume} variants={data.variants} currentVariant={data.currentVariant} />

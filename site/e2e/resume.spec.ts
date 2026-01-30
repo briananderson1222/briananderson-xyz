@@ -64,10 +64,10 @@ test.describe('Resume Resume Functionality', () => {
     await page.waitForLoadState('networkidle');
     
     // Check that platform link has active state via aria-current
-    const platformLink = page.locator('a[href="/resume/platform/"]');
+    const platformLink = page.locator('a[href="/resume/platform/"]').filter({ hasText: './platform' });
     await expect(platformLink).toHaveAttribute('aria-current', 'page');
     
-    const leaderLink = page.locator('a[href="/resume/"]');
+    const leaderLink = page.locator('a[href="/resume/"]').filter({ hasText: './leader' });
     await expect(leaderLink).not.toHaveAttribute('aria-current', 'page');
   });
 
