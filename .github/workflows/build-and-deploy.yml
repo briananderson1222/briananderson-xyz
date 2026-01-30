@@ -118,7 +118,12 @@ jobs:
       - name: Get last successful dev deployment
         id: last_successful
         run: |
-          LAST_SUCCESSFUL=$(gh run list --workflow=build-and-deploy.yml --branch=main --limit=100 --json conclusion,name,databaseId --jq '[.[] | select(.conclusion == "success" and .name == "deploy-dev")] | .[0].databaseId' || echo "none")
+          LAST_SUCCESSFUL=$(gh run list --workflow=build-and-deploy.yml --branch=main --limit=100 --json databaseId --jq '.[].databaseId' | while read run_id; do
+            if gh run view $run_id --json jobs --jq '.jobs[] | select(.name == "deploy-dev" and .conclusion == "success")' | grep -q .; then
+              echo $run_id
+              break
+            fi
+          done || echo "none")
           if [ "$LAST_SUCCESSFUL" == "none" ] || [ -z "$LAST_SUCCESSFUL" ]; then
             echo "No previous successful dev deployment found"
             echo "run_id=none" >> $GITHUB_OUTPUT
@@ -202,7 +207,12 @@ jobs:
       - name: Get last successful prod deployment
         id: last_successful
         run: |
-          LAST_SUCCESSFUL=$(gh run list --workflow=build-and-deploy.yml --branch=main --limit=100 --json conclusion,name,databaseId --jq '[.[] | select(.conclusion == "success" and .name == "deploy-prod")] | .[0].databaseId' || echo "none")
+          LAST_SUCCESSFUL=$(gh run list --workflow=build-and-deploy.yml --branch=main --limit=100 --json databaseId --jq '.[].databaseId' | while read run_id; do
+            if gh run view $run_id --json jobs --jq '.jobs[] | select(.name == "deploy-prod" and .conclusion == "success")' | grep -q .; then
+              echo $run_id
+              break
+            fi
+          done || echo "none")
           if [ "$LAST_SUCCESSFUL" == "none" ] || [ -z "$LAST_SUCCESSFUL" ]; then
             echo "No previous successful prod deployment found"
             echo "run_id=none" >> $GITHUB_OUTPUT
@@ -262,7 +272,12 @@ jobs:
         id: last_successful
         run: |
           TARGET_ENV="${{ github.event.inputs.target_env }}"
-          LAST_SUCCESSFUL=$(gh run list --workflow=build-and-deploy.yml --branch=main --limit=100 --json conclusion,name,databaseId --jq '[.[] | select(.conclusion == "success" and .name == "deploy-'$TARGET_ENV'")] | .[0].databaseId' || echo "none")
+          LAST_SUCCESSFUL=$(gh run list --workflow=build-and-deploy.yml --branch=main --limit=100 --json databaseId --jq '.[].databaseId' | while read run_id; do
+            if gh run view $run_id --json jobs --jq '.jobs[] | select(.name == "deploy-'$TARGET_ENV'" and .conclusion == "success")' | grep -q .; then
+              echo $run_id
+              break
+            fi
+          done || echo "none")
           if [ "$LAST_SUCCESSFUL" == "none" ] || [ -z "$LAST_SUCCESSFUL" ]; then
             echo "No previous successful deployment found for $TARGET_ENV"
             echo "run_id=none" >> $GITHUB_OUTPUT
