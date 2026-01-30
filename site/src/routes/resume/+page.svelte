@@ -3,9 +3,7 @@
   import ResumeView from '$lib/components/ResumeView.svelte';
 
   export let data: PageData;
-  const { resume, variants } = data;
-
 </script>
 
-<ResumeView {resume} {variants} currentVariant="default" />
+<ResumeView resume={data.resume} variants={data.variants} currentVariant="default" />
 
