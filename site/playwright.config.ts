@@ -20,9 +20,8 @@ export default defineConfig({
   ],
 
   webServer: (process.env.CI && !process.env.CI_USE_LOCAL_SERVER) ? undefined : {
-    command: 'pnpm exec vite preview --host',
+    command: 'pnpm exec vite preview',
     port: 4173,
-    reuseExistingServer: true,
     timeout: 120000,
   },
 });
