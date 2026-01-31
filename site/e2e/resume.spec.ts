@@ -23,12 +23,12 @@ test.describe('Resume Resume Functionality', () => {
     await expect(buttons).toHaveCount(3);
   });
 
-  test('switching to platform variant works', async ({ page }) => {
-    const expected = getExpectedContent('platform');
+  test('switching to ops variant works', async ({ page }) => {
+    const expected = getExpectedContent('ops');
 
     await page.goto('/resume');
 
-    // Click the platform toggle button (index 1, second button)
+    // Click ops toggle button (index 1, second button)
     const buttons = page.locator('.variant-button');
     await buttons.nth(1).click();
 
@@ -36,9 +36,9 @@ test.describe('Resume Resume Functionality', () => {
     await page.waitForTimeout(500);
 
     // Verify URL (allow for index.html in static hosting)
-    await expect(page).toHaveURL(/\/resume\/platform(\/|\/index\.html)?$/);
+    await expect(page).toHaveURL(/\/resume\/ops(\/|\/index\.html)?$/);
 
-    // Verify Platform specific content from YAML
+    // Verify Ops specific content from YAML
     await expect(page.locator('.resume-slide.current')).toContainText(expected.title);
     await expect(page.locator('.resume-slide.current')).toContainText(expected.skillCategory);
   });
@@ -64,11 +64,11 @@ test.describe('Resume Resume Functionality', () => {
   });
 
   test('direct navigation to variants works', async ({ page }) => {
-    // Navigate directly to platform
-    const platformExpected = getExpectedContent('platform');
-    await page.goto('/resume/platform');
+    // Navigate directly to ops
+    const opsExpected = getExpectedContent('ops');
+    await page.goto('/resume/ops');
     await page.waitForTimeout(500);
-    await expect(page.locator('.resume-slide.current')).toContainText(platformExpected.title);
+    await expect(page.locator('.resume-slide.current')).toContainText(opsExpected.title);
 
     // Navigate directly to builder
     const builderExpected = getExpectedContent('builder');
@@ -78,12 +78,12 @@ test.describe('Resume Resume Functionality', () => {
   });
 
   test('variant switcher highlights active state', async ({ page }) => {
-    await page.goto('/resume/platform');
+    await page.goto('/resume/ops');
 
     // Wait for page to be stable
     await page.waitForTimeout(500);
 
-    // Check that second button (platform) has active state
+    // Check that second button (ops) has active state
     const buttons = page.locator('.variant-button');
     await expect(buttons.nth(1)).toHaveAttribute('aria-current', 'page');
 
@@ -99,11 +99,11 @@ test.describe('Resume Resume Functionality', () => {
     await expect(page).toHaveURL(/\/resume(\/|\/index\.html)?$/);
     await expect(page.locator('.resume-slide.current')).toContainText(defaultExpected.title);
 
-    // Test platform variant
-    const platformExpected = getExpectedContent('platform');
-    await page.goto('/resume/platform/');
+    // Test ops variant
+    const opsExpected = getExpectedContent('ops');
+    await page.goto('/resume/ops/');
     await page.waitForTimeout(500);
-    await expect(page.locator('.resume-slide.current')).toContainText(platformExpected.skillCategory);
+    await expect(page.locator('.resume-slide.current')).toContainText(opsExpected.skillCategory);
 
     // Test builder variant
     const builderExpected = getExpectedContent('builder');

@@ -1,4 +1,6 @@
 name: Brian Anderson
+meta:
+  order: 2
 title: Staff Software Engineer & Full-Stack Architect
 tagline: >
   Hands-on engineer specializing in Full-Stack Product Development, GenAI Integration, 

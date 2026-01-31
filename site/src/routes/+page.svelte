@@ -3,7 +3,7 @@
   import { onMount } from "svelte";
   import { slide } from "svelte/transition";
   import type { PageData } from "./$types";
-  import ExperienceItem from "$lib/components/experience-item.svelte";
+  import ExperienceItem from "$lib/components/ExperienceItem.svelte";
 
   export let data: PageData;
   const { resume } = data;
