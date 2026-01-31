@@ -8,7 +8,7 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   reporter: process.env.CI ? 'github' : [['html', { open: 'never' }]],
   use: {
-    baseURL: process.env.PLAYWRIGHT_TEST_BASE_URL || 'http://localhost:4173',
+    baseURL: process.env.PLAYWRIGHT_TEST_BASE_URL || 'http://localhost:4137',
     trace: 'on-first-retry',
   },
 
@@ -20,8 +20,8 @@ export default defineConfig({
   ],
 
   webServer: (process.env.CI && !process.env.CI_USE_LOCAL_SERVER) ? undefined : {
-    command: 'npx serve build -l 4173',
-    port: 4173,
-    timeout: 30000,
+    command: 'pnpm exec vite preview',
+    port: 4137,
+    timeout: 60000,
   },
 });
