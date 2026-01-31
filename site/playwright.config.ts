@@ -20,8 +20,8 @@ export default defineConfig({
   ],
 
   webServer: (process.env.CI && !process.env.CI_USE_LOCAL_SERVER) ? undefined : {
-    command: 'pnpm exec vite preview',
+    command: 'npx serve build -l 4173',
     port: 4173,
-    timeout: 120000,
+    timeout: 30000,
   },
 });
