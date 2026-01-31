@@ -4,10 +4,10 @@ import type { UserConfig } from "vite";
 const config: UserConfig = {
   plugins: [sveltekit()],
   server: {
-    allowedHosts: ["brian-media.python-smelt.ts.net"],
+    allowedHosts: ['.python-smelt.ts.net'],
   },
   preview: {
-    allowedHosts: ["brian-media.python-smelt.ts.net"],
+    allowedHosts: ['.python-smelt.ts.net'],
     host: true,
     port: 4137,
   },

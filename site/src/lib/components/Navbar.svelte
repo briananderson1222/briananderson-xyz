@@ -1,5 +1,6 @@
 <script lang="ts">
   import { Menu, Terminal } from "lucide-svelte";
+  import { slide } from "svelte/transition";
   import ThemeToggle from "$lib/components/ThemeToggle.svelte";
   import { page } from "$app/stores";
   let open = false;
@@ -67,7 +68,10 @@
   </div>
 
   {#if open}
-    <div class="md:hidden border-t border-skin-border bg-skin-page">
+    <div
+      transition:slide
+      class="md:hidden border-t border-skin-border bg-skin-page"
+    >
       <div
         class="mx-auto max-w-6xl px-4 py-3 flex flex-col gap-3 font-mono text-sm"
       >
