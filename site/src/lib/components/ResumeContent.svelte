@@ -97,7 +97,7 @@
     >
       {#each Object.entries(resume.skills) as [category, items]}
         <div
-          class="bg-skin-base/5 p-3 border border-skin-border print:bg-transparent print:p-0 print:border-0 rounded-lg print:grid print:grid-cols-[140px_1fr] print:gap-4 print:items-baseline"
+          class="bg-skin-base/5 p-3 border border-skin-border print:bg-transparent print:p-0 print:border-0 rounded-lg print:grid print:grid-cols-[140px_1fr] print:gap-4 print:items-baseline hover:border-skin-accent/50 hover:shadow-md transition-all duration-300 print:shadow-none print:transition-none"
         >
           <h3
             class="text-xs font-bold uppercase text-skin-muted mb-2 print:text-black print:mb-0 print:no-underline print:text-[10px] print:font-bold print:font-serif"
@@ -115,7 +115,7 @@
             <div class="print:hidden">
               {#each items as skill}
                 <span
-                  class="inline-block px-2 py-0.5 text-xs font-semibold rounded-md border border-skin-border text-skin-base bg-skin-page shadow-sm mr-1 mb-1"
+                  class="inline-block px-2 py-0.5 text-xs font-semibold rounded-md border border-skin-border text-skin-base bg-skin-page shadow-sm mr-1 mb-1 hover:scale-105 hover:border-skin-accent hover:text-skin-accent transition-all duration-200"
                 >
                   {typeof skill === "string" ? skill : skill.name}
                 </span>
@@ -348,6 +348,11 @@
     }
     ul {
       break-after: auto !important;
+    }
+    * {
+      transition: none !important;
+      box-shadow: none !important;
+      transform: none !important;
     }
   }
 </style>
