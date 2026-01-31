@@ -1,59 +1,118 @@
 name: Brian Anderson
 title: Technical Director & Enterprise Solutions Architect
-tagline: >
-  Engineering Leader & Strategic Architect driving digital transformation. 
-  Specializing in building high-performing teams, defining enterprise cloud strategy, 
-  and bridging the gap between executive vision and technical execution.
-mission: Empowering engineering organizations to deliver measurable business value through culture, automation, and strategic innovation.
+tagline: Specializing in GenAI integration, Cloud Native transformation, and DevOps. Passion for designing autonomous systems and scalable architectures that empower teams to deliver high-quality solutions by fostering a culture of collaboration, focusing on developer experience, and enabling rapid innovation with continuous delivery.
+mission: Driving measurable business automation and customer outcomes through Agentic AI and Cloud Native strategies.
 email: brian@briananderson.xyz
 location: Denver, CO
-summary: >
-  Strategic technology leader with over a decade of experience guiding Fortune 500 
-  companies through complex cloud modernizations. Proven track record of scaling 
-  engineering teams, managing stakeholder relationships, and delivering multi-million 
-  dollar initiatives. Expert in aligning technical roadmaps with business goals to 
-  drive operational efficiency and market differentiation.
+summary: Proven track record of leading multi-team deliveries for Fortune 500 companies, specializing in migrating monolithic systems to Kubernetes-based microservices and implementing end-to-end automation. Expert in AWS/GCP architecture, CI/CD standardization, and bridging the gap between executive strategy and technical execution.
 skills:
   Leadership & Strategy:
-    - name: Organizational Leadership
-    - name: Strategic Roadmapping
-    - name: Stakeholder Management
-    - name: Team Building & Mentorship
-    - name: Budget & Resource Planning
-    - name: Vendor Management
-  Cloud & Architecture:
-    - name: Enterprise Architecture
-    - name: Cloud Strategy (AWS/GCP)
-    - name: Platform Engineering
-    - name: Microservices Patterns
-  Process & Delivery:
-    - name: Agile / Scrum / SAFE
-    - name: CI/CD Standardization
-    - name: Technical Governance
-    - name: DORA Metrics
-  Innovation:
-    - name: GenAI Strategy
-    - name: Digital Transformation
+    - name: Executive Stakeholder Management
     - name: Solution Discovery
-    - name: R&D Initiatives
+    - name: Strategic Roadmapping
+    - name: Cross-Functional Leadership
+  Cloud Platforms:
+    - name: AWS
+    - name: Google Cloud
+    - name: OpenShift
+  Infrastructure & IaC:
+    - name: Terraform
+      url: https://www.terraform.io
+    - name: AWS CDK
+    - name: Kubernetes (EKS/GKE)
+    - name: Networking (VPC/TGW)
+  DevOps & CI/CD:
+    - name: GitHub Actions
+      url: https://github.com/actions
+    - name: GitLab CI
+      url: https://docs.gitlab.com/ci/
+    - name: Helm
+      url: https://helm.sh/
+    - name: Jenkins
+    - name: Spinnaker
+      url: https://spinnaker.io/
+  Languages:
+    - name: Java (Spring Boot)
+      url: https://spring.io/projects/spring-boot
+    - name: Python
+      url: https://www.python.org/
+    - name: Node.js
+      url: https://nodejs.org/
+    - name: TypeScript
+      url: https://www.typescriptlang.org/
+  Web Frameworks:
+    - name: React
+      url: https://react.dev/
+    - name: Angular
+      url: https://angular.dev/
+    - name: SvelteKit
+      url: https://kit.svelte.dev/
+    - name: Next.js
+      url: https://nextjs.org/
+    - name: Vue
+      url: https://vuejs.org/
+  Data & Messaging:
+    - name: PostgreSQL
+      url: https://www.postgresql.org/
+    - name: DynamoDB
+      url: https://docs.aws.amazon.com/dynamodb/
+    - name: Redis
+      url: https://redis.io/
+    - name: Firestore
+      url: https://cloud.google.com/products/firestore/
+    - name: Pub/Sub
+      url: https://cloud.google.com/products/pubsub/
+    - name: Apache Kafka
+      url: https://kafka.apache.org/
+    - name: EventBridge
+      url: https://docs.aws.amazon.com/eventbridge/
+  Generative AI:
+    - name: Amazon Bedrock
+      url: https://docs.aws.amazon.com/bedrock/
+    - name: RAG
+    - name: Prompt Engineering
+    - name: Model Context Protocol (MCP)
+  AI Agent Frameworks:
+    - name: LangGraph
+      url: https://langchain-ai.github.io/langgraph
+    - name: Agentcore
+    - name: Strands SDK
+      url: https://strandsagents.com/
+    - name: VoltAgent SDK
+      url: https://voltagent.dev/
+  AI Development Tools:
+    - name: Kiro
+      altName: Amazon Q Developer
+      url: https://kiro.dev/
+    - name: Claude Code
+      url: https://www.anthropic.com/
+    - name: Cursor
+      url: https://cursor.com/
+    - name: Codex
+      url: https://openai.com/codex/
+    - name: SpecKit
+      url: https://github.com/github/spec-kit
+    - name: OpenSpec
+      url: https://openspec.dev/
 experience:
   - role: Enterprise Solutions Architect
     company: Amazon Web Services
     location: Denver, CO
     description: Specializing in GenAI integration, Cloud Native transformation, and Logistics Control Towers.
     highlights:
-      - "Strategic Advisor to C-Suite: Partnered with executive leadership at Greenfield enterprise customers to define long-term cloud strategies, identifying high-impact opportunities for modernization and AI adoption."
-      - "Cross-Functional Leadership: Led discovery sessions and technical workshops, serving as the primary catalyst to mobilize AWS Professional Services, partners, and internal engineering teams for successful delivery."
-      - "GenAI Innovation: Championed the adoption of GenAI and developer productivity tools (Amazon Q), directly influencing the customer's engineering culture and operational efficiency, while enabling internal Solution Architects to streamline their day-to-day workflows."
+      - "Strategic Technical Advisory (Auto/Manufacturing): Partnered with Greenfield enterprise customers to identify high-impact business opportunities for Logistics Control Towers and AI-driven quality analysis. Led discovery sessions, serving as technical catalyst to mobilize AWS Professional Services and industry-specific specialists for delivery."
+      - "Customer Trust & Modernization: Directed an Amazon Connect pilot for a global manufacturer to automate customer support via SMS, enabling expansion of business support hours. Architected a Document Management System integrated with SAP ERP, successfully leveraging this high-visibility win to earn executive trust and establish a long-term roadmap for comprehensive cloud migration."
+      - "GenAI Innovation & Automation: Engineered a custom GenAI agent platform using Amazon Bedrock and Agentcore, reducing team administrative overhead by ~4 hours/week. Focused on improving CRM data hygiene and automated note-taking to provide leadership with enhanced visibility into customer engagement trends."
+      - "Product Influence & Ecosystem Integration: Championed Amazon Q Developer (Kiro) by driving prioritization of bi-directional AI collaboration, enabling agentic features to capture and synchronize with manual user updates during pair-programming sessions. Engineered integrations for GitHub's SpecKit and FissionAI's OpenSpec, earning a public commendation from SpecKit team and driving high demand for internal customer-facing consultations."
     start_date: September 2024
   - role: Technical Director
     company: Valtech | Kin + Carta
     location: Denver, CO
     description: Led cloud modernization for a mission-critical credit card portfolio to OpenShift.
     highlights:
-      - "Program Leadership: Orchestrated a mission-critical migration of a credit card portfolio to OpenShift (OCP), managing communication across C-suite stakeholders and ensuring 100% availability."
-      - "Organizational Change: Pioneered a 'Quality First' culture shift, implementing new engineering standards (TDD, CI/CD) that reduced deployment cycles from monthly to on-demand daily releases."
-      - "Team Enablement: Standardized enterprise-wide integration patterns, enabling multiple delivery teams to autonomously adopt observability tools and cloud services without friction."
+      - "Cloud Modernization Strategy: Partnered with C-suite stakeholders to lead migration of a mission-critical Credit Card portfolio from legacy Websphere and PCF environments to OpenShift (OCP). Orchestrated transition of 6 core applications with zero downtime."
+      - 'Engineering Excellence: Pioneered a "Quality First" mandate by implementing TDD and automated CI/CD guardrails. Reduced deployment cycles from monthly releases to multiple on-demand daily deployments while maintaining strict financial sector change management compliance.'
+      - 'Scalable Architecture & Enablement: Standardized enterprise-wide integration patterns using Helm Charts and Kubernetes Operators. This enabled seamless, "first-class" adoption of observability tools (Datadog/Instana) and AWS services (e.g., RDS for PostgreSQL) across multiple delivery teams.'
     start_date: March 2024
     end_date: September 2024
   - role: Senior Technical Principal
@@ -61,8 +120,8 @@ experience:
     location: Denver, CO
     description: Designed 'Golden Path' for cloud adoption and standardized CI/CD templates.
     highlights:
-      - "Platform Strategy & Governance: Designed and evangelized an enterprise 'Golden Path' for a major Food Distributor, centralizing product provisioning and CI/CD templates to enable rapid, secure deployment cycles."
-      - "Infrastructure Governance: Developed a comprehensive library of shared Terraform Modules, ensuring infrastructure consistency and security compliance across all enterprise product teams."
+      - 'Enterprise Platform Engineering: Designed and evangelized a "Golden Path" for cloud adoption for a major Food Distributor, standardizing product provisioning and CI/CD templates across GitLab, SonarCloud, NexusIQ and Apigee to enable rapid, secure deployment cycles.'
+      - "Infrastructure as Code (IaC) & Governance: Developed a comprehensive library of shared Terraform Modules and Liquibase patterns, ensuring infrastructure consistency, security compliance and automated budgetary guardrails across all enterprise product teams."
     start_date: November 2021
     end_date: March 2024
   - role: Technical Principal
@@ -70,9 +129,9 @@ experience:
     location: Denver, CO
     description: Architected high-concurrency ordering platforms on GKE and mobile architecture for agriculture.
     highlights:
-      - "Scaling Engineering Teams: Scaled the engineering organization for a key account to 60+ developers, establishing best practices and mentorship programs to maintain quality during rapid growth."
-      - "Architectural Direction: Architected high-concurrency platforms on GKE, defining the technical vision and guiding multiple squads through complex implementation challenges."
-      - "Process Transformation: Reduced release overhead for 6 production apps from 4 weeks to 1 week by championing pipeline automation and DevOps best practices."
+      - "Google Cloud Ecommerce Transformation: Architected a high-concurrency ordering platform using Angular and Java Spring Boot microservices on Google Kubernetes Engine (GKE). Integrated Firestore, Pub/Sub and Memorystore, scaling team to 60+ developers and achieving 8–9 production deployments per day via Spinnaker."
+      - "Mobile Architecture (Agriculture): Led Android architecture for a global satellite/drone data solution, ensuring implementation parity with iOS. Built a dual-platform CD pipeline using Fastlane, Jenkins, and Docker, integrating AWS Device Farm for automated testing and Mapbox for complex geospatial data visualization."
+      - "Innovation Leadership: Engineered an internal DevOps framework for standardized cross-platform mobile distribution, reducing release overhead from 4 weeks to 1 week for 6 production-supported applications."
     start_date: January 2017
     end_date: November 2021
   - role: Senior Technical Consultant
@@ -80,8 +139,10 @@ experience:
     location: Chicago, IL
     description: Led technical sales and architecture for enterprise mobile and modernization roadmaps.
     highlights:
-      - "Technical Sales Leadership: Led pre-sales engagements for large-scale fleet management clients, performing architectural audits and presenting strategic modernization roadmaps to client executives."
-      - "Enterprise Mobile Strategy: Served as Solution Architect and Tech Lead for native iOS and Android applications, overseeing complex integrations and stakeholder communication."
+      - "Enterprise Mobile Strategy: Served as Solution Architect and Tech Lead for native iOS and Android applications for a Global Fast Food enterprise, overseeing complex integration with ServiceNow platform."
+      - "Modernization Roadmaps: Led technical sales engagements for large-scale fleet management clients, performing architectural audits and providing strategic roadmaps to modernize legacy platforms and UI/UX."
+      - "Innovation & R&D Leadership: Spearheaded R&D projects involving Raspberry Pi (Flask), Oculus Rift (Unity 3D), and Amazon Echo to demonstrate experiential commerce at industry conference (Solstice FWD)."
+      - "Location-Based Services: Architected a high-traffic healthcare conference application utilizing iBeacons (BLE) for proximity-based notifications and Parse for real-time messaging."
     start_date: July 2015
     end_date: January 2017
   - role: Technical Consultant
@@ -89,8 +150,8 @@ experience:
     location: Chicago, IL
     description: Developed native mobile and hybrid web applications for high-profile clients.
     highlights:
-      - "Technical Delivery Lead: Architected and delivered a B2B e-commerce application, managing technical requirements and coordinating with client stakeholders for successful rollout."
-      - "iOS Product Delivery: Acted as lead developer and architect for a premium Swift-based iOS application, transitioning a legacy subscription model into a user-centric experience."
+      - "iOS Product Delivery: Acted as sole developer and architect for a premium Swift-based iOS application for a high-profile executive society, transitioning a legacy subscription model into a user-centric mobile experience."
+      - "Web & Hybrid Development: Architected an AngularJS web application for a specialty food distributor, implementing automated deployment pipelines using Octopus and TFS. Integrated Chart.js via custom WebViews into native mobile apps for a wealth management company using Bower and Gulp for streamlined package management and integration."
     start_date: April 2014
     end_date: July 2015
   - role: Technical Analyst
@@ -98,7 +159,7 @@ experience:
     location: Chicago, IL
     description: Delivered core mobile features for financial services clients.
     highlights:
-      - "Feature Delivery: Delivered critical mobile banking features within strict timelines, collaborating closely with product owners and QA teams to ensure high-quality releases."
+      - "Financial Services Engineering: Delivered core mobile features for a large financial services client in 4-week sprints, including Photo Check Deposit, Scheduled Payments and a complete home screen refactor using Auto Layout."
     start_date: June 2013
     end_date: April 2014
 early-career:
@@ -114,23 +175,23 @@ education:
     start_date: August 2009
     end_date: May 2013
 certificates:
-   - name: AWS Certified Advanced Networking – Specialty
-     url: https://www.credly.com/badges/03e0f406-6962-49b3-9c05-d3ffb271a31d
-     start_date: August 2013
-     end_date: August 2016
-   - name: Google Cloud Professional Architect
-     url: https://www.credly.com/badges/94d91931-c3cf-42d8-8cbf-48689dba91db
-     start_date: May 2018
-     end_date: May 2020
-   - name: AWS Certified Developer - Associate
-     url: https://www.credly.com/badges/2c2f5a84-069f-4586-80cd-a469e710ddb0
-     start_date: January 2025
-     end_date: January 2028
-   - name: AWS Certified SysOps Administrator - Associate
-     url: https://www.credly.com/badges/631c9e56-5a27-40eb-a3fd-490685cf19ea
-     start_date: February 2025
-     end_date: February 2028
-   - name: AWS Certified Solutions Architect - Professional
-     url: https://www.credly.com/badges/431f98a5-11c2-435f-9aef-3db6acd264d3
-     start_date: July 2025
-     end_date: July 2028
+  - name: AWS Certified Advanced Networking – Specialty
+    url: https://www.credly.com/badges/03e0f406-6962-49b3-9c05-d3ffb271a31d
+    start_date: January 2026
+    end_date: January 2029
+  - name: AWS Certified Solutions Architect - Professional
+    url: https://www.credly.com/badges/431f98a5-11c2-435f-9aef-3db6acd264d3
+    start_date: July 2025
+    end_date: July 2028
+  - name: AWS Certified SysOps Administrator - Associate
+    url: https://www.credly.com/badges/631c9e56-5a27-40eb-a3fd-490685cf19ea
+    start_date: February 2025
+    end_date: February 2028
+  - name: AWS Certified Developer - Associate
+    url: https://www.credly.com/badges/2c2f5a84-069f-4586-80cd-a469e710ddb0
+    start_date: January 2025
+    end_date: January 2028
+  - name: Google Cloud Professional Architect
+    url: https://www.credly.com/badges/94d91931-c3cf-42d8-8cbf-48689dba91db
+    start_date: May 2018
+    end_date: May 2020

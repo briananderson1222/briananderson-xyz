@@ -1,11 +1,12 @@
 <script lang="ts">
-  import ResumeViewSwiper from '$lib/components/ResumeViewSwiper.svelte';
+  import ResumeViewSwiper from "$lib/components/ResumeViewSwiper.svelte";
 
-  export let data: { resume: any; variants: string[]; allResumes: { variant: string; resume: any }[] };
-
-  console.log('Resume page data:', data);
-  console.log('All resumes:', data.allResumes);
+  export let data: {
+    resume: any;
+    variants: string[];
+    allResumes: { variant: string; resume: any }[];
+    currentIndex: number;
+  };
 </script>
 
-<ResumeViewSwiper resumes={data.allResumes} />
-
+<ResumeViewSwiper resumes={data.allResumes} currentIndex={data.currentIndex} />
