@@ -121,15 +121,19 @@ education:
     start_date: August 2009
     end_date: May 2013
 certificates:
-  - name: AWS Certified Solutions Architect - Professional
-    url: https://www.credly.com/badges/431f98a5-11c2-435f-9aef-3db6acd264d3
-    start_date: July 2025
-    end_date: July 2028
-  - name: AWS Certified Developer - Associate
-    url: https://www.credly.com/badges/2c2f5a84-069f-4586-80cd-a469e710ddb0
-    start_date: January 2025
-    end_date: January 2028
-  - name: Google Cloud Professional Architect
-    url: https://www.credly.com/badges/94d91931-c3cf-42d8-8cbf-48689dba91db
-    start_date: May 2018
-    end_date: May 2020
+   - name: AWS Certified Advanced Networking – Specialty
+     url: https://www.credly.com/badges/03e0f406-6962-49b3-9c05-d3ffb271a31d
+     start_date: August 2013
+     end_date: August 2016
+   - name: Google Cloud Professional Architect
+     url: https://www.credly.com/badges/94d91931-c3cf-42d8-8cbf-48689dba91db
+     start_date: May 2018
+     end_date: May 2020
+   - name: AWS Certified Developer - Associate
+     url: https://www.credly.com/badges/2c2f5a84-069f-4586-80cd-a469e710ddb0
+     start_date: January 2025
+     end_date: January 2028
+   - name: AWS Certified Solutions Architect - Professional
+     url: https://www.credly.com/badges/431f98a5-11c2-435f-9aef-3db6acd264d3
+     start_date: July 2025
+     end_date: July 2028

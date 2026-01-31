@@ -41,6 +41,7 @@
     "dayjs": "^1.11.13",
     "gray-matter": "^4.0.3",
     "lucide-svelte": "^0.462.0",
-    "posthog-js": "^1.319.0"
+    "posthog-js": "^1.319.0",
+    "swiper": "^12.1.0"
   }
 }
