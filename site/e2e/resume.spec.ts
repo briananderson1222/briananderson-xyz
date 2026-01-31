@@ -1,16 +1,22 @@
 import { test, expect } from '@playwright/test';
+import { getExpectedContent } from './helpers/resumeHelper';
 
 test.describe('Resume Resume Functionality', () => {
 
   test('default resume loads leadership content', async ({ page }) => {
+    const expected = getExpectedContent('default');
+
     await page.goto('/resume');
 
     // Check URL (allow for index.html in static hosting)
     await expect(page).toHaveURL(/\/resume(\/|\/index\.html)?$/);
 
-    // Check for specific "Leader" content in the first (visible) slide
+    // Check for name and title from YAML
     await expect(page.locator('.resume-slide.current h1').first()).toContainText('Brian Anderson');
-    await expect(page.locator('.resume-slide.current').first()).toContainText('Technical Director');
+    await expect(page.locator('.resume-slide.current').first()).toContainText(expected.title);
+
+    // Check first skill category from YAML
+    await expect(page.locator('.resume-slide.current')).toContainText(expected.skillCategory);
 
     // Check switcher buttons are present - there should be 3 variant buttons
     const buttons = page.locator('.variant-button');
@@ -18,6 +24,8 @@ test.describe('Resume Resume Functionality', () => {
   });
 
   test('switching to platform variant works', async ({ page }) => {
+    const expected = getExpectedContent('platform');
+
     await page.goto('/resume');
 
     // Click the platform toggle button (index 1, second button)
@@ -30,12 +38,14 @@ test.describe('Resume Resume Functionality', () => {
     // Verify URL (allow for index.html in static hosting)
     await expect(page).toHaveURL(/\/resume\/platform(\/|\/index\.html)?$/);
 
-    // Verify Platform specific content in the current slide
-    await expect(page.locator('.resume-slide.current')).toContainText('Platform Engineer');
-    await expect(page.locator('.resume-slide.current')).toContainText('Reliability & Observability');
+    // Verify Platform specific content from YAML
+    await expect(page.locator('.resume-slide.current')).toContainText(expected.title);
+    await expect(page.locator('.resume-slide.current')).toContainText(expected.skillCategory);
   });
 
   test('switching to builder variant works', async ({ page }) => {
+    const expected = getExpectedContent('builder');
+
     await page.goto('/resume');
 
     // Click the builder toggle button (index 2, third button)
@@ -48,21 +58,23 @@ test.describe('Resume Resume Functionality', () => {
     // Verify URL (allow for index.html in static hosting)
     await expect(page).toHaveURL(/\/resume\/builder(\/|\/index\.html)?$/);
 
-    // Verify Builder specific content in the current slide
-    await expect(page.locator('.resume-slide.current')).toContainText('Full-Stack Architect');
-    await expect(page.locator('.resume-slide.current')).toContainText('Frontend Frameworks');
+    // Verify Builder specific content from YAML
+    await expect(page.locator('.resume-slide.current')).toContainText(expected.title);
+    await expect(page.locator('.resume-slide.current')).toContainText(expected.skillCategory);
   });
 
   test('direct navigation to variants works', async ({ page }) => {
     // Navigate directly to platform
+    const platformExpected = getExpectedContent('platform');
     await page.goto('/resume/platform');
     await page.waitForTimeout(500);
-    await expect(page.locator('.resume-slide.current')).toContainText('Platform Engineer');
+    await expect(page.locator('.resume-slide.current')).toContainText(platformExpected.title);
 
     // Navigate directly to builder
+    const builderExpected = getExpectedContent('builder');
     await page.goto('/resume/builder');
     await page.waitForTimeout(500);
-    await expect(page.locator('.resume-slide.current')).toContainText('Full-Stack Architect');
+    await expect(page.locator('.resume-slide.current')).toContainText(builderExpected.title);
   });
 
   test('variant switcher highlights active state', async ({ page }) => {
@@ -81,20 +93,23 @@ test.describe('Resume Resume Functionality', () => {
 
   test('direct navigation to each variant loads correct content', async ({ page }) => {
     // Test default resume
+    const defaultExpected = getExpectedContent('default');
     await page.goto('/resume/');
     await page.waitForTimeout(500);
     await expect(page).toHaveURL(/\/resume(\/|\/index\.html)?$/);
-    await expect(page.locator('.resume-slide.current')).toContainText('Technical Director');
+    await expect(page.locator('.resume-slide.current')).toContainText(defaultExpected.title);
 
     // Test platform variant
+    const platformExpected = getExpectedContent('platform');
     await page.goto('/resume/platform/');
     await page.waitForTimeout(500);
-    await expect(page.locator('.resume-slide.current')).toContainText('Reliability & Observability');
+    await expect(page.locator('.resume-slide.current')).toContainText(platformExpected.skillCategory);
 
     // Test builder variant
+    const builderExpected = getExpectedContent('builder');
     await page.goto('/resume/builder/');
     await page.waitForTimeout(500);
-    await expect(page.locator('.resume-slide.current')).toContainText('Full-Stack Architect');
+    await expect(page.locator('.resume-slide.current')).toContainText(builderExpected.title);
   });
 
   test('print button triggers window.print', async ({ page }) => {
