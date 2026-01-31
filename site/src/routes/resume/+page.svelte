@@ -1,9 +1,12 @@
 <script lang="ts">
-  import type { PageData } from './$types';
-  import ResumeView from '$lib/components/ResumeView.svelte';
+  import ResumeViewSwiper from "$lib/components/ResumeViewSwiper.svelte";
 
-  export let data: PageData;
+  export let data: {
+    resume: any;
+    variants: string[];
+    allResumes: { variant: string; resume: any }[];
+    currentIndex: number;
+  };
 </script>
 
-<ResumeView resume={data.resume} variants={data.variants} currentVariant="default" />
-
+<ResumeViewSwiper resumes={data.allResumes} currentIndex={data.currentIndex} />

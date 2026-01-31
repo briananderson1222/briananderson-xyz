@@ -11,10 +11,38 @@ export const load = async () => {
     const filePath = path.resolve('content/resume.yaml');
     const fileContents = fs.readFileSync(filePath, 'utf-8');
     const resume = yaml.load(fileContents) as Resume;
-    const variants = ['default', ...getResumeVariants()];
-    return { resume, variants };
+    const allResumeVariants = ['default', ...getResumeVariants()];
+
+    // Load all resumes for swiper
+    const allResumes: { variant: string; resume: Resume }[] = [];
+
+    for (const v of allResumeVariants) {
+      const resumeFileName = v === 'default' ? 'resume.yaml' : `resume-${v}.yaml`;
+      const resumeFilePath = path.resolve('content', resumeFileName);
+
+      try {
+        const contents = fs.readFileSync(resumeFilePath, 'utf-8');
+        allResumes.push({ variant: v, resume: yaml.load(contents) as Resume });
+      } catch (e) {
+        console.error(`Error loading ${resumeFileName}:`, e);
+      }
+    }
+
+    return {
+      resume,
+      variants: allResumeVariants,
+      allResumes,
+      currentVariant: 'default',
+      currentIndex: 0  // default/leader is always index 0
+    };
   } catch (e) {
     console.error('Error loading resume.yaml:', e);
-    return { resume: {} as Resume, variants: ['default'] };
+    return {
+      resume: {} as Resume,
+      variants: ['default'],
+      allResumes: [],
+      currentVariant: 'default',
+      currentIndex: 0
+    };
   }
 };

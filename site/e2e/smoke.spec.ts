@@ -16,12 +16,12 @@ test.describe('Smoke Tests', () => {
 
   test('navigation to resume works', async ({ page }) => {
     await page.goto('/');
-    await page.click('text=./view_resume.pdf');
+    await page.click('a[href="/resume/"]');
     await expect(page).toHaveURL(/\/resume/);
   });
 
   test('resume page loads', async ({ page }) => {
     await page.goto('/resume');
-    await expect(page.locator('h1')).toContainText('Brian Anderson');
+    await expect(page.locator('h1').first()).toContainText('Brian Anderson');
   });
 });
