@@ -23,6 +23,7 @@
   let animationFrom = 0;
   let animationTo = 0;
   let slideHeights: number[] = [];
+  let initialUrl = "";
 
   let buttonElements: HTMLElement[] = [];
   let indicatorX = 0;
@@ -96,7 +97,7 @@
   }
 
   // Update URL when currentIndex changes
-  $: if (mounted && resumes.length > 0) {
+  $: if (mounted && resumes.length > 0 && initialUrl) {
     const variant = resumes[currentIndex]?.variant;
     const newUrl = variant === "default" ? "/resume/" : `/resume/${variant}/`;
     if (typeof window !== "undefined" && window.location.pathname !== newUrl) {
@@ -243,6 +244,7 @@
   }
 
   onMount(() => {
+    initialUrl = typeof window !== "undefined" ? window.location.pathname : "";
     mounted = true;
 
     if (swiperContainer) {
