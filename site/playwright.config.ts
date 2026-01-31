@@ -23,5 +23,6 @@ export default defineConfig({
     command: 'pnpm exec vite preview --host',
     port: 4173,
     reuseExistingServer: true,
+    timeout: 120000,
   },
 });
