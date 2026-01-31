@@ -9,32 +9,86 @@
   export let currentIndex: number = 0;
 
   // Fixed button width in pixels (matches w-[105px] class)
-  const BUTTON_WIDTH = 105;
+  // Fixed button width in pixels
+  const BUTTON_WIDTH = 140;
 
   let swiperContainer: HTMLElement;
   let swipeProgress = 0;
   let slideElements: HTMLElement[] = [];
-  let wrapperHeight = "2000px";
+  let wrapperHeight = "3800px";
   let resizeObserver: ResizeObserver;
   let mounted = false;
   let isAnimating = false;
   let animationProgress = 0;
   let animationFrom = 0;
   let animationTo = 0;
+  let slideHeights: number[] = [];
 
-  // Simple indicator position: just index * button width
-  $: indicatorX = isAnimating
-    ? animationFrom * BUTTON_WIDTH +
-      (animationTo - animationFrom) * BUTTON_WIDTH * animationProgress
-    : swipeProgress !== 0
-      ? currentIndex * BUTTON_WIDTH + getSwipeOffset()
-      : currentIndex * BUTTON_WIDTH;
+  let buttonElements: HTMLElement[] = [];
+  let indicatorX = 0;
+  let indicatorWidth = 0;
+  let indicatorY = 0;
+  let indicatorHeight = 0;
 
-  function getSwipeOffset() {
-    const targetIndex = swipeProgress < 0 ? currentIndex + 1 : currentIndex - 1;
-    if (targetIndex < 0 || targetIndex >= resumes.length) return 0;
-    const direction = swipeProgress < 0 ? 1 : -1;
-    return direction * Math.abs(swipeProgress) * BUTTON_WIDTH * 0.5;
+  $: if (mounted && (currentIndex >= 0 || swipeProgress !== 0 || isAnimating)) {
+    updateIndicator();
+  }
+
+  function getDisplayName(variant: string) {
+    return variant === "default"
+      ? "leader"
+      : variant === "platform"
+        ? "ops"
+        : variant;
+  }
+
+  $: if (mounted && (currentIndex >= 0 || swipeProgress !== 0 || isAnimating)) {
+    updateIndicator();
+  }
+
+  function updateIndicator() {
+    if (!mounted || buttonElements.length === 0) return;
+
+    // Determine "From" and "To" states for interpolation
+    let fromIndex = currentIndex;
+    let toIndex = currentIndex;
+    let progress = 0;
+
+    if (isAnimating) {
+      fromIndex = animationFrom;
+      toIndex = animationTo;
+      progress = animationProgress;
+    } else if (swipeProgress !== 0) {
+      fromIndex = currentIndex;
+      // Determine target based on swipe direction
+      if (swipeProgress < 0 && currentIndex < resumes.length - 1) {
+        toIndex = currentIndex + 1;
+        progress = Math.abs(swipeProgress);
+      } else if (swipeProgress > 0 && currentIndex > 0) {
+        toIndex = currentIndex - 1;
+        progress = Math.abs(swipeProgress);
+      }
+    }
+
+    const fromEl = buttonElements[fromIndex];
+    const toEl = buttonElements[toIndex];
+
+    if (fromEl && toEl) {
+      const fromLeft = fromEl.offsetLeft;
+      const fromWidth = fromEl.offsetWidth;
+      const fromTop = fromEl.offsetTop;
+      const fromHeight = fromEl.offsetHeight;
+
+      const toLeft = toEl.offsetLeft;
+      const toWidth = toEl.offsetWidth;
+      const toTop = toEl.offsetTop;
+      const toHeight = toEl.offsetHeight;
+
+      indicatorX = fromLeft + (toLeft - fromLeft) * progress;
+      indicatorWidth = fromWidth + (toWidth - fromWidth) * progress;
+      indicatorY = fromTop + (toTop - fromTop) * progress;
+      indicatorHeight = fromHeight + (toHeight - fromHeight) * progress;
+    }
   }
 
   $: if (currentIndex >= 0 && typeof window !== "undefined") {
@@ -52,6 +106,7 @@
 
   function handleSwipeMove(event: CustomEvent) {
     if (isAnimating) return;
+    if (typeof window !== "undefined" && window.innerWidth >= 768) return;
     let progress = event.detail.progress;
 
     // Prevent swiping right when at first index
@@ -68,24 +123,56 @@
 
   function handleSwipeEnd(event: CustomEvent) {
     if (isAnimating) return;
-    swipeProgress = 0;
+    if (typeof window !== "undefined" && window.innerWidth >= 768) return;
+
+    if (Math.abs(swipeProgress) < 0.001) {
+      swipeProgress = 0;
+      return;
+    }
+
     const direction = event.detail.direction;
     const shouldNavigate = event.detail.shouldNavigate;
 
+    let targetIndex = currentIndex;
+
     if (shouldNavigate) {
       if (direction === "left" && currentIndex < resumes.length - 1) {
-        currentIndex++;
+        targetIndex = currentIndex + 1;
       } else if (direction === "right" && currentIndex > 0) {
-        currentIndex--;
+        targetIndex = currentIndex - 1;
       }
     }
+
+    // Calculate where we are currently visually to start animation from
+    // dragX is swipeProgress * 50%
+    // each slide is 100% width
+    // so visual offset in "slide units" is swipeProgress * 0.5
+    // But check sign:
+    // Left swipe (negative progress) moves content left (negative transform)
+    // Formula: transform% = (index - currentIndex) * 100 + swipeProgress * 50
+    // We want animationFrom such that at progress 0:
+    // (index - animationFrom) * 100 = (index - currentIndex) * 100 + swipeProgress * 50
+    // -animationFrom * 100 = -currentIndex * 100 + swipeProgress * 50
+    // animationFrom = currentIndex - swipeProgress * 0.5
+
+    const startFrom = currentIndex - swipeProgress * 0.5;
+
+    // Reset swipe progress before starting animation so they don't compound
+    swipeProgress = 0;
+
+    animateToIndex(targetIndex, startFrom);
   }
 
-  function animateToIndex(targetIndex: number) {
-    if (targetIndex === currentIndex || isAnimating) return;
+  function animateToIndex(targetIndex: number, startFrom?: number) {
+    if (targetIndex === currentIndex && !startFrom && isAnimating) return;
+
+    // Capture start and target heights
+    const startHeight =
+      slideHeights[currentIndex] || parseFloat(wrapperHeight) || 0;
+    const targetHeight = slideHeights[targetIndex] || startHeight;
 
     isAnimating = true;
-    animationFrom = currentIndex;
+    animationFrom = startFrom !== undefined ? startFrom : currentIndex;
     animationTo = targetIndex;
     animationProgress = 0;
 
@@ -99,12 +186,20 @@
       // Ease out cubic
       animationProgress = 1 - Math.pow(1 - progress, 3);
 
+      // Animate height
+      updateIndicator();
+      const currentHeight =
+        startHeight + (targetHeight - startHeight) * animationProgress;
+      wrapperHeight = `${currentHeight}px`;
+
       if (progress < 1) {
         requestAnimationFrame(animate);
       } else {
         currentIndex = targetIndex;
         isAnimating = false;
         animationProgress = 0;
+        // Ensure final height is exact
+        wrapperHeight = `${targetHeight}px`;
       }
     }
 
@@ -112,6 +207,8 @@
   }
 
   function updateWrapperHeight() {
+    if (isAnimating) return;
+
     if (slideElements[currentIndex]) {
       const slide = slideElements[currentIndex];
       const height = slide.scrollHeight || slide.offsetHeight || 0;
@@ -129,8 +226,11 @@
     resizeObserver = new ResizeObserver((entries) => {
       for (const entry of entries) {
         const index = slideElements.indexOf(entry.target as HTMLElement);
-        if (index === currentIndex) {
-          wrapperHeight = `${entry.contentRect.height}px`;
+        if (index !== -1) {
+          slideHeights[index] = entry.contentRect.height;
+          if (index === currentIndex && !isAnimating) {
+            wrapperHeight = `${slideHeights[index]}px`;
+          }
         }
       }
     });
@@ -151,9 +251,17 @@
     }
 
     tick().then(() => {
+      // Force immediate height calculation
+      slideElements.forEach((el, i) => {
+        if (el) slideHeights[i] = el.scrollHeight || el.offsetHeight;
+      });
       updateWrapperHeight();
       setupResizeObserver();
+      // Force indicator update
+      updateIndicator();
     });
+
+    window.addEventListener("resize", updateIndicator);
 
     return () => {
       if (swiperContainer) {
@@ -163,6 +271,7 @@
       if (resizeObserver) {
         resizeObserver.disconnect();
       }
+      window.removeEventListener("resize", updateIndicator);
     };
   });
 
@@ -170,6 +279,7 @@
     tick().then(() => {
       updateWrapperHeight();
       setupResizeObserver();
+      updateIndicator();
     });
   });
 </script>
@@ -178,35 +288,44 @@
   class="max-w-4xl mx-auto pt-4 pb-12 md:pt-6 md:pb-16 font-mono print:font-serif print:p-0 print:m-0 print:max-w-none print:leading-tight relative"
 >
   <!-- Actions (Print & Switcher) -->
-  <div class="flex items-center justify-between mb-8 pl-5 print:hidden">
+  <!-- Actions (Print & Switcher) -->
+  <div
+    class="flex flex-wrap-reverse items-center justify-between w-full mb-8 print:hidden gap-4 pl-5"
+  >
     <div
-      class="flex items-center relative border border-skin-border/50 rounded-lg p-1"
+      class="flex flex-wrap items-center relative border border-skin-border/50 rounded-lg w-auto justify-start"
     >
       {#each resumes as item, index}
         {@const isCurrent = index === currentIndex && !isAnimating}
         {@const isAnimatingTo = isAnimating && index === animationTo}
+        {@const displayName = getDisplayName(item.variant)}
         <button
-          onclick={() => animateToIndex(index)}
-          class="variant-button w-[105px] px-2 py-2 text-xs md:text-sm font-bold rounded-md transition-colors relative z-10 text-center {isCurrent ||
+          type="button"
+          on:click={() => animateToIndex(index)}
+          class="variant-button px-2 py-2 text-xs md:text-sm rounded-md transition-colors relative z-10 flex items-center justify-center {isCurrent ||
           isAnimatingTo
-            ? 'text-skin-accent-contrast'
+            ? 'text-skin-base'
             : 'text-skin-muted hover:text-skin-base'}"
+          bind:this={buttonElements[index]}
           aria-current={isCurrent ? "page" : undefined}
           data-index={index}
         >
-          ./{item.variant === "default" ? "leader" : item.variant}
+          <span class="opacity-50 font-normal mr-2">cat</span><span
+            class="font-bold">{displayName}.md</span
+          >
         </button>
       {/each}
       <div
-        class="active-indicator absolute h-full w-[105px] rounded-md bg-skin-accent pointer-events-none"
-        style:transform="translateX({indicatorX}px)"
-        style:opacity={swipeProgress !== 0 ? 0.5 : 1}
+        class="active-indicator active-indicator-custom absolute left-0 top-0 rounded-lg bg-skin-base/10 pointer-events-none"
+        style:width="{indicatorWidth}px"
+        style:height="{indicatorHeight}px"
+        style:transform="translate({indicatorX}px, {indicatorY}px)"
       ></div>
     </div>
 
     <button
-      class="px-4 py-2 bg-skin-accent text-skin-accent-contrast text-sm font-bold uppercase tracking-wider hover:opacity-90 transition-opacity"
-      onclick={() => window.print()}
+      class="px-4 py-2 bg-skin-accent text-skin-accent-contrast text-sm font-bold uppercase tracking-wider hover:opacity-90 transition-opacity rounded-md ml-auto"
+      on:click={() => window.print()}
     >
       Print
     </button>
@@ -217,10 +336,16 @@
     <div class="swipe-indicators">
       {#if swipeProgress < 0 && currentIndex < resumes.length - 1}
         {@const nextResume = resumes[currentIndex + 1]}
+        {@const displayName = getDisplayName(nextResume.variant)}
         <div
           class="swipe-indicator swipe-indicator-left"
           style="opacity: {Math.abs(swipeProgress)};"
         >
+          <span class="text-xs font-bold mr-1 flex items-center"
+            ><span class="opacity-50 font-normal mr-1">cat</span><span
+              >{displayName}.md</span
+            ></span
+          >
           <svg
             width="24"
             height="24"
@@ -228,26 +353,21 @@
             fill="none"
             stroke="currentColor"
             stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="flex-shrink-0 min-w-[24px]"
           >
-            <path d="M5 12h14M12 5l7 7-7-7" />
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
           </svg>
-          <span class="text-xs font-bold ml-1"
-            >./{nextResume.variant === "default"
-              ? "leader"
-              : nextResume.variant}</span
-          >
         </div>
       {:else if swipeProgress > 0 && currentIndex > 0}
         {@const prevResume = resumes[currentIndex - 1]}
+        {@const displayName = getDisplayName(prevResume.variant)}
         <div
           class="swipe-indicator swipe-indicator-right"
           style="opacity: {swipeProgress};"
         >
-          <span class="text-xs font-bold mr-1"
-            >./{prevResume.variant === "default"
-              ? "leader"
-              : prevResume.variant}</span
-          >
           <svg
             width="24"
             height="24"
@@ -255,9 +375,18 @@
             fill="none"
             stroke="currentColor"
             stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="flex-shrink-0 min-w-[24px]"
           >
-            <path d="M19 12H5M12 19l-7-7 7-7" />
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
           </svg>
+          <span class="text-xs font-bold ml-1 flex items-center"
+            ><span class="opacity-50 font-normal mr-1">cat</span><span
+              >{displayName}.md</span
+            ></span
+          >
         </div>
       {/if}
     </div>
@@ -293,23 +422,11 @@
             : currentIndex}
       {@const isSwipeTarget = index === swipeTargetIndex}
 
-      {@const opacity = isAnimating
-        ? isFromSlide
-          ? 1 - animationProgress
-          : isToSlide
-            ? animationProgress
-            : 0
-        : swipeProgress === 0
-          ? isCurrentSlide
-            ? 1
-            : 0
-          : isSwipeTarget
-            ? Math.abs(swipeProgress)
-            : isCurrentSlide
-              ? 1 - Math.abs(swipeProgress)
-              : 0}
+      {@const opacity = Math.max(0, 1 - Math.abs(transformX) / 50)}
       <div
-        class="resume-slide {isCurrentSlide && !isAnimating ? 'current' : ''}"
+        class="resume-slide pl-5 {isCurrentSlide && !isAnimating
+          ? 'current'
+          : ''}"
         bind:this={slideElements[index]}
         style="transform: translateX({transformX}%); transition: none; z-index: {resumes.length -
           index}; opacity: {opacity};"
@@ -326,8 +443,8 @@
     class="mt-16 pt-8 border-t-2 border-dashed border-skin-border text-center print:hidden print:m-0 print:p-0 print:border-0"
   >
     <button
-      class="px-6 py-3 bg-skin-accent text-skin-accent-contrast font-bold uppercase tracking-wider hover:opacity-90 transition-opacity"
-      onclick={() => window.print()}
+      class="px-6 py-3 bg-skin-accent text-skin-accent-contrast font-bold uppercase tracking-wider hover:opacity-90 transition-opacity rounded-md"
+      on:click={() => window.print()}
     >
       Print
     </button>
@@ -338,7 +455,9 @@
   .resume-wrapper {
     position: relative;
     width: 100%;
-    overflow: visible;
+    overflow: hidden;
+    transition: height 0.3s ease;
+    min-height: 100vh;
   }
 
   .resume-slide {
@@ -347,7 +466,7 @@
     left: 0;
     width: 100%;
     will-change: transform;
-    padding-left: 1.25rem;
+    box-sizing: border-box;
   }
 
   .resume-slide.current {
@@ -373,6 +492,8 @@
     z-index: 50;
     width: 100%;
     justify-content: center;
+    padding: 0 1rem;
+    box-sizing: border-box;
   }
 
   .swipe-indicator {
