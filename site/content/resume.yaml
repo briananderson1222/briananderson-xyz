@@ -120,8 +120,7 @@ experience:
     location: Denver, CO
     description: Designed 'Golden Path' for cloud adoption and standardized CI/CD templates.
     highlights:
-      - 'Enterprise Platform Engineering: Designed and evangelized a "Golden Path" for cloud adoption for Gordon Food Service (https://cloud.google.com/customers/gordon-food-service), standardizing product provisioning and CI/CD templates across GitLab, SonarCloud, NexusIQ and Apigee to enable rapid, secure deployment cycles.'
-      - "Deployment Excellence: Achieved 99% deployment speed improvement, enabling 3,000+ deployments per year through standardized CI/CD pipelines and automated infrastructure provisioning."
+      - 'Enterprise Platform Engineering: Designed and evangelized a "Golden Path" for cloud adoption for a major Food Distributor, standardizing product provisioning and CI/CD templates across GitLab, SonarCloud, NexusIQ and Apigee to enable rapid, secure deployment cycles.'
       - "Infrastructure as Code (IaC) & Governance: Developed a comprehensive library of shared Terraform Modules and Liquibase patterns, ensuring infrastructure consistency, security compliance and automated budgetary guardrails across all enterprise product teams."
     start_date: November 2021
     end_date: March 2024
