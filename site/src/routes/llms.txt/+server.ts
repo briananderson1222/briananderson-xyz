@@ -27,7 +27,7 @@ Personal portfolio and professional site for Brian Anderson - Technical Director
 - **Resume Page:** ${PUBLIC_SITE_URL}/resume/ - Human-readable resume with JSON-LD schema markup
 - **JSON Resume:** ${PUBLIC_SITE_URL}/resume.json - JSONResume 1.0.0 schema for programmatic parsing
 - **Resume Variants:**
-  - Leader: ${PUBLIC_SITE_URL}/resume/leader/ - Focus on leadership and architecture
+  - Leader: ${PUBLIC_SITE_URL}/resume/ - Focus on leadership and architecture
   - Ops: ${PUBLIC_SITE_URL}/resume/ops/ - Focus on DevOps/SRE
   - Builder: ${PUBLIC_SITE_URL}/resume/builder/ - Focus on hands-on technical work
 
@@ -68,14 +68,6 @@ ${resume.certificates.slice(0, 3).map((cert: any) => `- ${cert.name}`).join('\n'
 - **Styling:** Tailwind CSS
 - **Deployment:** Static site generation
 - **Analytics:** PostHog
-
-## Conventions
-
-- All blog posts are in Markdown: \`/content/blog/**/*.md\`
-- All project pages are in Markdown: \`/content/projects/**/*.md\`
-- Resume data is YAML: \`/content/resume*.yaml\`
-- Site uses adapter-static for static site generation
-- All pages have trailing slashes (${PUBLIC_SITE_URL}/page/)
 `;
 
 	return new Response(content, {

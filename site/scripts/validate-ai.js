@@ -103,8 +103,7 @@ async function validateLLMsTxt() {
     'Content',
     'About Brian',
     'Featured Work',
-    'Technical Stack',
-    'Conventions'
+    'Technical Stack'
   ];
 
   for (const section of requiredSections) {
